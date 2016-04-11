@@ -1,54 +1,46 @@
 <html>
+
 <head>
-  <title>{% block title %}Talk{% endblock %}</title>
-  <style>
-    body {
-      padding: 80px;
-      font: 16px Helvetica, Arial;
-    }
-    h1 {
-      font-size: 2em;
-    }
-    h2 {
-      font-size: 1.2em;
-    }
-    #posts {
-      margin: 0;
-      padding: 0;
-    }
-    #posts li {
-      margin: 40px 0;
-      padding: 0;
-      padding-bottom: 20px;
-      border-bottom: 1px solid #eee;
-      list-style: none;
-    }
-    #posts li:last-child {
-      border-bottom: none;
-    }
-    textarea {
-      width: 500px;
-      height: 300px;
-    }
-    input[type=text],
-    textarea {
-      border: 1px solid #eee;
-      border-top-color: #ddd;
-      border-left-color: #ddd;
-      border-radius: 2px;
-      padding: 15px;
-      font-size: .8em;
-    }
-    input[type=text] {
-      width: 500px;
-    }
-  </style>
+    <title>{% block title %}Talk{% endblock %}</title>
+    <style>
+        html,
+        body {
+            height: 100%
+        }
+
+        .content {
+            margin: 30px;
+            text-align: center;
+        }
+
+        .posts li {
+            text-align: left;
+            list-style: none;
+        }
+        .emit {
+            position: fixed;
+            bottom: 0;
+        }
+        .emit input {
+            width: 400px;
+        }
+        .emit p {
+            display: inline-block;
+        }
+    </style>
 </head>
+
 <body>
-  <section id="content">
-    {% block content %}
-      <p>Missing content!</p>
-    {% endblock %}
-  </section>
+    <section class="content">
+        {% block content %}
+        <p>Missing content!</p>
+        {% endblock %}
+    </section>
+    <section class="emit">
+        <input type="text">
+        <p>Send</p>
+    </section>
 </body>
+<script src="../src/socket-C.js"></script>
+
 </html>
