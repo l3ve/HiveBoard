@@ -16,7 +16,6 @@ class Io {
     }
     ioListen() {
         this.io.on('connection', (socket) => {
-            console.log(123123123);
             this.assignRoom(socket);
             socket.on('change room', (msg) => {
                 this.changeRoom(socket, msg);
@@ -79,7 +78,7 @@ class Io {
 
     assignRoom(socket) {
         socket.join('RUO', () => {
-            this.currentRoom[socket.id] = 'ROU';
+            this.currentRoom[socket.id] = 'RUO';
             this.assignGuestName(socket);
             socket.emit('room list', this.roomList);
         });
@@ -125,6 +124,9 @@ class Io {
         else {
             socket.emit('sys message', '无法加入房间room！');
         }
+    }
+    successCallback(msg) {
+        // socket.emit('sys message', msg);
     }
 }
 

@@ -29,12 +29,9 @@ if (debug) {
 module.exports = {
     //入口文件
     entry: {
-        base: ['css/reset.css','css/animation.less','css/style.less'],
-        first: [
-            'js/first'
-        ],
-        second: [
-            'js/second'
+        base: ['css/style'],
+        enter: [
+            'js/main'
         ]
     },
     //输出
@@ -48,7 +45,7 @@ module.exports = {
     plugins: plugin,
     resolve: {
         //根目录遍历
-        root: [process.cwd() + '/src', process.cwd() + '/node_modules'],
+        root: [path.join(__dirname,'/src'), path.join(__dirname,'/node_modules')],
         alias: {
             'react' : path.join(__dirname,'/node_modules/react/dist/react.min'),
             'react-dom' : path.join(__dirname,'/node_modules/react-dom/dist/react-dom.min'),
@@ -67,7 +64,6 @@ module.exports = {
             test: /\.(js|jsx)$/,
             loaders: ['babel?optional=runtime'],
             exclude: /(node_modules)/,
-            include: path.join(__dirname, 'src')
         },{
             test: /\.(less|css)$/,
             exclude: /(node_modules)/,
