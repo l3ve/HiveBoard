@@ -71,6 +71,7 @@ input {
     display: flex;
     justify-content: space-around;
     position: fixed;
+    z-index: 1000;
     top: 0;
     width: 100%;
     height: 50px;
@@ -84,9 +85,23 @@ input {
     }
 }
 .msg-box {
+    box-sizing: border-box;
     height: 100%;
     padding: 70px 5px;
-    overflow: hidden;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    li {
+        margin: 0 0 30px 20px;
+        p {
+            display: inline-block;
+            border-radius: 7px;
+            box-shadow: 0 10px 6px -6px #777;
+            padding: 15px 10px;
+            background-color: white;
+            word-wrap: break-word;
+            word-break:break-all;
+        }
+    }
 }
 .footer {
     display: flex;

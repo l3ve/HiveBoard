@@ -8,10 +8,12 @@ class View {
     renderLi(content) {
         let _li = this.createLiElement(content, 'fadeInDown');
         this.talkBox.appendChild(_li);
+        this.talkBox.parentNode.scrollTop = this.talkBox.offsetHeight;
     }
     renderCtxTip(content) {
         let _li = this.createLiElement(content, 'fadeInDown');
         this.talkBox.appendChild(_li);
+        this.talkBox.parentNode.scrollTop = this.talkBox.offsetHeight;
     }
     renderTip(content) {
         let _li = this.createLiElement(content, 'flipInX'),
@@ -28,6 +30,16 @@ class View {
         _li.appendChild(_p);
         this.animationStart(_li, animated);
         return _li;
+    }
+    createElement(tag,cls='',child=flase) {
+        let _tag = document.createElement(tag);
+        _tag.classList.add(cls);
+        if (child) {
+            _tag.appendChild(child);
+        }
+        // return tmp = function(){
+        //     console.log(123);
+        // };
     }
     animationStart(dom, animated) {
         dom.classList.add('animated', animated);

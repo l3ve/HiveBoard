@@ -14,7 +14,7 @@ class Io {
             View.renderTip(msg);
         });
         this.io.on('newUser', (msg) => {
-            View.renderLi(msg);
+            View.renderCtxTip(msg);
         });
     }
     setPara() {

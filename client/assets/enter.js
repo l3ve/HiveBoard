@@ -125,7 +125,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                _view2['default'].renderTip(msg);
 	            });
 	            this.io.on('newUser', function (msg) {
-	                _view2['default'].renderLi(msg);
+	                _view2['default'].renderCtxTip(msg);
 	            });
 	        }
 	    }, {
@@ -273,12 +273,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function renderLi(content) {
 	            var _li = this.createLiElement(content, 'fadeInDown');
 	            this.talkBox.appendChild(_li);
+	            this.talkBox.parentNode.scrollTop = this.talkBox.offsetHeight;
 	        }
 	    }, {
 	        key: 'renderCtxTip',
 	        value: function renderCtxTip(content) {
 	            var _li = this.createLiElement(content, 'fadeInDown');
 	            this.talkBox.appendChild(_li);
+	            this.talkBox.parentNode.scrollTop = this.talkBox.offsetHeight;
 	        }
 	    }, {
 	        key: 'renderTip',
@@ -301,6 +303,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	            _li.appendChild(_p);
 	            this.animationStart(_li, animated);
 	            return _li;
+	        }
+	    }, {
+	        key: 'createElement',
+	        value: function createElement(tag) {
+	            var cls = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
+	            var child = arguments.length <= 2 || arguments[2] === undefined ? flase : arguments[2];
+
+	            var _tag = document.createElement(tag);
+	            _tag.classList.add(cls);
+	            if (child) {
+	                _tag.appendChild(child);
+	            }
+	            // return tmp = function(){
+	            //     console.log(123);
+	            // };
 	        }
 	    }, {
 	        key: 'animationStart',

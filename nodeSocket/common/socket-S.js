@@ -61,7 +61,8 @@ class Io {
     }
     userMsg(socket) {
         socket.on('message', (msg) => {
-            msg = this.userName[socket.id] + ' said: ' + msg;
+            msg = `${this.userName[socket.id]} 曰: ${msg}`;
+            console.log(msg);
             this.io.to(this.currentRoom[socket.id]).emit('message', msg);
         });
     }
