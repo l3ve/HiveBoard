@@ -31,15 +31,17 @@ class View {
         this.animationStart(_li, animated);
         return _li;
     }
-    createElement(tag,cls='',child=flase) {
+    createElement(tag,cls='',child=false) {
         let _tag = document.createElement(tag);
-        _tag.classList.add(cls);
+        cls.split(' ').forEach((_cls,i)=>{
+            _tag.classList.add(_cls);
+        });
         if (child) {
             _tag.appendChild(child);
         }
-        // return tmp = function(){
-        //     console.log(123);
-        // };
+        return function(tag,cls='',child=false){
+            createElement(tag,cls,_tag);
+        };
     }
     animationStart(dom, animated) {
         dom.classList.add('animated', animated);
