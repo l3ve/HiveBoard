@@ -5,7 +5,7 @@ class Io {
     constructor() {
         this.io = false;
         this.userName = {};
-        this.usedName = [];
+        this.usedName = ['不幸的佚名酱'];
         this.userNum = 0;
         this.currentRoom = {};
         this.roomList = ['RUO'];
@@ -16,38 +16,60 @@ class Io {
     }
     ioListen() {
         this.io.on('connection', (socket) => {
-            this.assignRoom(socket);
-            socket.on('change room', (msg) => {
-                this.changeRoom(socket, msg);
-            });
-            this.sysMsg(socket);
-            this.userMsg(socket);
+            this.setPara(socket);
             this.changeName(socket);
+            this.userMsg(socket);
             this.disconnect(socket);
+            this.sysMsg(socket);
         });
     }
-
+    setPara(socket) {
+        socket.on('init', (msg) => {
+            if (this.usedName.indexOf(msg) == -1) {
+                this.userName[socket.id] = msg;
+                this.usedName.push(msg);
+            } else {
+                this.userName[socket.id] = '不幸的佚名酱';
+            }
+            this.assignRoom(socket);
+        })
+    }
+    changeName(socket) {
+        socket.on('changeName', (msg) => {
+            if (this.usedName.indexOf(msg) == -1) {
+                let nameIndex = this.usedName.indexOf(this.userName[socket.id]);
+                this.usedName[nameIndex] = msg;
+                this.userName[socket.id] = msg;
+                socket.emit('sys message', `赐予汝的新称号 : ${msg}酱`);
+            }
+            else {
+                socket.emit('sys message', `叫啥不好叫:${msg},再给你次机会呗~`);
+            }
+        });
+    }
+    assignRoom(socket) {
+        // socket.leave(this.currentRoom[socket.id]
+        socket.join('RUO', () => {
+            this.currentRoom[socket.id] = 'RUO';
+            this.newUserNotice(socket);
+        });
+    }
+    newUserNotice(socket) {
+        this.userNum++;
+        var msg = `野生的${this.userName[socket.id]}酱出现在草丛里!`;
+        this.io.to(this.currentRoom[socket.id]).emit('newUser', msg);
+    }
     userMsg(socket) {
-        socket.on('chat message', (msg) => {
+        socket.on('message', (msg) => {
             msg = this.userName[socket.id] + ' said: ' + msg;
-            this.io.to(this.currentRoom[socket.id]).emit('chat message', msg);
+            this.io.to(this.currentRoom[socket.id]).emit('message', msg);
         });
     }
-
     sysMsg(socket) {
         socket.on('sys message', (msg) => {
             this.io.to(this.currentRoom[socket.id]).emit('sys message', msg);
         });
     }
-
-    assignGuestName(socket) {
-        this.userName[socket.id] = 'Guest' + this.userNum;
-        this.usedName.push('Guest' + this.userNum);
-        this.userNum++;
-        var msg = this.userName[socket.id] + ' enter the room! Welcome!';
-        this.io.to(this.currentRoom[socket.id]).emit('new user', msg);
-    }
-
     disconnect(socket) {
         socket.on('disconnect', () => {
             var msg = this.userName[socket.id] + ' just left';
@@ -61,73 +83,6 @@ class Io {
 
     }
 
-    changeName(socket) {
-        socket.on('change name', (msg) => {
-            if (this.usedName.indexOf(msg) == -1) {
-                var nameIndex = this.usedName.indexOf(this.userName[socket.id]);
-                this.userName[socket.id] = msg;
-                this.usedName[nameIndex] = msg;
-                socket.emit('sys message', 'Your name has been changed as ' + msg);
-            }
-            else {
-                socket.emit('sys message', 'Your name has been used');
-            }
-
-        });
-    }
-
-    assignRoom(socket) {
-        socket.join('RUO', () => {
-            this.currentRoom[socket.id] = 'RUO';
-            this.assignGuestName(socket);
-            socket.emit('room list', this.roomList);
-        });
-    }
-
-    changeRoom(socket, msg) {
-        var sysMsg = this.userName[socket.id] + ' left room ' + this.currentRoom[socket.id];
-        this.io.to(this.currentRoom[socket.id]).emit('sys message', sysMsg);
-        if (msg != 'room') {
-            socket.leave(this.currentRoom[socket.id], () => {
-                var isExist = false;
-                if (this.currentRoom[socket.id] !== 'RUO') {
-                    for (key in this.currentRoom) {
-                        if (key == socket.id) {
-                            continue;
-                        }
-                        if (this.currentRoom[key] === this.currentRoom[socket.id]) {
-                            isExist = true;
-                            break;
-                        }
-                    }
-                }
-                else {
-                    isExist = true;
-                }
-                if (isExist === false) {
-                    var roomIndex = this.roomList.indexOf(this.currentRoom[socket.id]);
-                    console.log(roomIndex);
-                    this.roomList.splice(roomIndex, 1);
-                }
-                console.log(isExist + '-' + this.roomList);
-                socket.join(msg);
-                this.currentRoom[socket.id] = msg;
-                sysMsg = this.userName[socket.id] + ' join room ' + this.currentRoom[socket.id];
-                if (this.roomList.indexOf(msg) == -1) {
-                    this.roomList.push(msg);
-                }
-                socket.emit('sys message', sysMsg);
-                socket.emit('change room name', { 'msg': msg, 'roomList': this.roomList });
-                this.io.emit('room list', this.roomList);
-            });
-        }
-        else {
-            socket.emit('sys message', '无法加入房间room！');
-        }
-    }
-    successCallback(msg) {
-        // socket.emit('sys message', msg);
-    }
 }
 
 

@@ -1,33 +1,33 @@
+import View from './view';
 class Io {
     constructor() {
         this.io = false;
-        this.talkBox = document.querySelector('.msg-box ul');
         this.init();
     }
     init() {
-        this.io = io('http://localhost:3333');
-        this.io.on('room list', (list) => {
-            console.log('room list: ' + list);
-        });
-        this.io.on('chat message', (msg) => {
-            console.log(msg);
-            let _li = document.createElement('li');
-            _li.innerHTML = msg;
-            this.talkBox.appendChild(_li);
+        this.io = io('http://192.168.5.5:3333');
+        this.setPara();
+        this.io.on('message', (msg) => {
+            View.renderLi(msg);
         });
         this.io.on('sys message', (msg) => {
-            this.renderLi(msg);
+            View.renderTip(msg);
         });
-        this.io.on('new user', (msg) => {
-            this.renderLi(msg);
+        this.io.on('newUser', (msg) => {
+            View.renderLi(msg);
         });
     }
-    renderLi(content) {
-        let _li = document.createElement('li');
-        _li.innerHTML = content;
-        this.talkBox.appendChild(_li);
+    setPara() {
+        if (window.localStorage.name) {
+            let _name = window.localStorage.name;
+            document.querySelector('.name').setAttribute('value', _name);
+            this.send('init', _name);
+        }
+    }
+    send(type, msg,) {
+        this.io.emit(type, msg);
     }
 }
 
 
-export default Io;
+export default new Io();

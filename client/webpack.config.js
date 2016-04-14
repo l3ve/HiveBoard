@@ -29,7 +29,7 @@ if (debug) {
 module.exports = {
     //入口文件
     entry: {
-        base: ['css/style'],
+        base: ['css/style','css/animation'],
         enter: [
             'js/main'
         ]

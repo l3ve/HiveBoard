@@ -54,102 +54,110 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(1);
+	module.exports = __webpack_require__(3);
 
 
 /***/ },
-/* 1 */
+/* 1 */,
+/* 2 */,
+/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _interopRequireDefault = __webpack_require__(6)['default'];
+	var _interopRequireDefault = __webpack_require__(8)['default'];
 
-	var _socketC = __webpack_require__(2);
+	var _socketC = __webpack_require__(4);
 
 	var _socketC2 = _interopRequireDefault(_socketC);
 
-	var socket = new _socketC2['default']();
+	var socket = _socketC2['default'];
 
 	document.querySelector('.talk').addEventListener('keydown', function (e) {
 	    if (e.keyCode === 13) {
-	        socket.io.emit('chat message', e.path[0].value);
+	        socket.send('message', e.path[0].value);
 	    }
 	});
 	document.querySelector('.name').addEventListener('keydown', function (e) {
 	    if (e.keyCode === 13) {
-	        socket.io.emit('change name', e.path[0].value);
+	        window.localStorage.name = e.path[0].value;
+	        socket.send('changeName', e.path[0].value);
 	    }
 	});
 
 /***/ },
-/* 2 */
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _createClass = __webpack_require__(5)['default'];
+	var _createClass = __webpack_require__(7)['default'];
 
-	var _classCallCheck = __webpack_require__(4)['default'];
+	var _classCallCheck = __webpack_require__(6)['default'];
+
+	var _interopRequireDefault = __webpack_require__(8)['default'];
 
 	Object.defineProperty(exports, '__esModule', {
 	    value: true
 	});
+
+	var _view = __webpack_require__(15);
+
+	var _view2 = _interopRequireDefault(_view);
 
 	var Io = (function () {
 	    function Io() {
 	        _classCallCheck(this, Io);
 
 	        this.io = false;
-	        this.talkBox = document.querySelector('.msg-box ul');
 	        this.init();
 	    }
 
 	    _createClass(Io, [{
 	        key: 'init',
 	        value: function init() {
-	            var _this = this;
-
-	            this.io = io('http://localhost:3333');
-	            this.io.on('room list', function (list) {
-	                console.log('room list: ' + list);
-	            });
-	            this.io.on('chat message', function (msg) {
-	                console.log(msg);
-	                var _li = document.createElement('li');
-	                _li.innerHTML = msg;
-	                _this.talkBox.appendChild(_li);
+	            this.io = io('http://192.168.5.5:3333');
+	            this.setPara();
+	            this.io.on('message', function (msg) {
+	                _view2['default'].renderLi(msg);
 	            });
 	            this.io.on('sys message', function (msg) {
-	                _this.renderLi(msg);
+	                _view2['default'].renderTip(msg);
 	            });
-	            this.io.on('new user', function (msg) {
-	                _this.renderLi(msg);
+	            this.io.on('newUser', function (msg) {
+	                _view2['default'].renderLi(msg);
 	            });
 	        }
 	    }, {
-	        key: 'renderLi',
-	        value: function renderLi(content) {
-	            var _li = document.createElement('li');
-	            _li.innerHTML = content;
-	            this.talkBox.appendChild(_li);
+	        key: 'setPara',
+	        value: function setPara() {
+	            if (window.localStorage.name) {
+	                var _name = window.localStorage.name;
+	                document.querySelector('.name').setAttribute('value', _name);
+	                this.send('init', _name);
+	            }
+	        }
+	    }, {
+	        key: 'send',
+	        value: function send(type, msg) {
+	            this.io.emit(type, msg);
 	        }
 	    }]);
 
 	    return Io;
 	})();
 
-	exports['default'] = Io;
+	exports['default'] = new Io();
 	module.exports = exports['default'];
 
 /***/ },
-/* 3 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(7), __esModule: true };
+	module.exports = { "default": __webpack_require__(9), __esModule: true };
 
 /***/ },
-/* 4 */
+/* 6 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -163,12 +171,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.__esModule = true;
 
 /***/ },
-/* 5 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var _Object$defineProperty = __webpack_require__(3)["default"];
+	var _Object$defineProperty = __webpack_require__(5)["default"];
 
 	exports["default"] = (function () {
 	  function defineProperties(target, props) {
@@ -192,7 +200,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.__esModule = true;
 
 /***/ },
-/* 6 */
+/* 8 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -206,16 +214,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.__esModule = true;
 
 /***/ },
-/* 7 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $ = __webpack_require__(8);
+	var $ = __webpack_require__(10);
 	module.exports = function defineProperty(it, key, desc){
 	  return $.setDesc(it, key, desc);
 	};
 
 /***/ },
-/* 8 */
+/* 10 */
 /***/ function(module, exports) {
 
 	var $Object = Object;
@@ -231,6 +239,93 @@ return /******/ (function(modules) { // webpackBootstrap
 	  getSymbols: $Object.getOwnPropertySymbols,
 	  each:       [].forEach
 	};
+
+/***/ },
+/* 11 */,
+/* 12 */,
+/* 13 */,
+/* 14 */,
+/* 15 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = __webpack_require__(7)['default'];
+
+	var _classCallCheck = __webpack_require__(6)['default'];
+
+	Object.defineProperty(exports, '__esModule', {
+	    value: true
+	});
+
+	var View = (function () {
+	    function View() {
+	        _classCallCheck(this, View);
+
+	        this.talkBox = document.querySelector('.msg-box ul');
+	        this.tipBox = document.querySelector('.tip-box ul');
+	        this.tips = [];
+	        this._st = false;
+	    }
+
+	    _createClass(View, [{
+	        key: 'renderLi',
+	        value: function renderLi(content) {
+	            var _li = this.createLiElement(content, 'fadeInDown');
+	            this.talkBox.appendChild(_li);
+	        }
+	    }, {
+	        key: 'renderCtxTip',
+	        value: function renderCtxTip(content) {
+	            var _li = this.createLiElement(content, 'fadeInDown');
+	            this.talkBox.appendChild(_li);
+	        }
+	    }, {
+	        key: 'renderTip',
+	        value: function renderTip(content) {
+	            var _this = this;
+
+	            var _li = this.createLiElement(content, 'flipInX'),
+	                _tipBox = this.tipBox;
+	            _tipBox.appendChild(_li);
+	            setTimeout(function () {
+	                _this.animationEnd(_li, 'rotateOutUpRight');
+	            }, 3000);
+	        }
+	    }, {
+	        key: 'createLiElement',
+	        value: function createLiElement(content, animated) {
+	            var _li = document.createElement('li'),
+	                _p = document.createElement('p');
+	            _p.innerHTML = content;
+	            _li.appendChild(_p);
+	            this.animationStart(_li, animated);
+	            return _li;
+	        }
+	    }, {
+	        key: 'animationStart',
+	        value: function animationStart(dom, animated) {
+	            dom.classList.add('animated', animated);
+	        }
+	    }, {
+	        key: 'animationEnd',
+	        value: function animationEnd(dom, animated, callback) {
+	            dom.classList.add('animated', animated);
+	            dom.addEventListener('webkitAnimationEnd', function () {
+	                dom.parentNode.removeChild(dom);
+	                typeof callback === 'function' ? callback() : '';
+	                dom = null;
+	            });
+	        }
+	    }]);
+
+	    return View;
+	})();
+
+	;
+
+	exports['default'] = new View();
+	module.exports = exports['default'];
 
 /***/ }
 /******/ ])
