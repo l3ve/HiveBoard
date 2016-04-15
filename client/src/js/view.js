@@ -4,6 +4,7 @@ class View {
         this.tipBox = document.querySelector('.tip-box ul');
         this.tips = [];
         this._st = false;
+        console.log(this.createElement('ul','ul')('li','li')('a','a')());
     }
     renderLi(content) {
         let _li = this.createLiElement(content, 'fadeInDown');
@@ -31,24 +32,26 @@ class View {
         this.animationStart(_li, animated);
         return _li;
     }
-    createElement(tag,cls='',child=false) {
+    createElement(tag, cls = '', child = false) {
         let _tag = document.createElement(tag);
-        cls.split(' ').forEach((_cls,i)=>{
+        cls.split(' ').forEach((_cls, i) => {
             _tag.classList.add(_cls);
         });
-        if (child) {
+        if (tag || cls || child) {
             _tag.appendChild(child);
+            return function (tag, cls = '', child = false) {
+                createElement(tag, cls, _tag);
+            };
+        } else {
+            return _tag;
         }
-        return function(tag,cls='',child=false){
-            createElement(tag,cls,_tag);
-        };
     }
     animationStart(dom, animated) {
         dom.classList.add('animated', animated);
     }
     animationEnd(dom, animated, callback) {
         dom.classList.add('animated', animated);
-        dom.addEventListener('webkitAnimationEnd', function() {
+        dom.addEventListener('webkitAnimationEnd', function () {
             dom.parentNode.removeChild(dom);
             typeof callback === 'function' ? callback() : '';
             dom = null;
