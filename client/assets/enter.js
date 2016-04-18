@@ -229,7 +229,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.tipBox = document.querySelector('.tip-box ul');
 	        this.tips = [];
 	        this._st = false;
-	        console.log(this.createElement('ul', 'ul')('li', 'li')('a', 'a')());
+	        console.log(this.createElement('ul', 'ul')('li', 'li')());
 	    }
 
 	    _createClass(View, [{
@@ -270,17 +270,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    }, {
 	        key: 'createElement',
-	        value: (function (_createElement) {
-	            function createElement(_x) {
-	                return _createElement.apply(this, arguments);
-	            }
+	        value: function createElement(tag) {
+	            var _this2 = this;
 
-	            createElement.toString = function () {
-	                return _createElement.toString();
-	            };
-
-	            return createElement;
-	        })(function (tag) {
 	            var cls = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
 	            var child = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
 
@@ -288,18 +280,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	            cls.split(' ').forEach(function (_cls, i) {
 	                _tag.classList.add(_cls);
 	            });
-	            if (tag || cls || child) {
+	            if (child) {
 	                _tag.appendChild(child);
+	            }
+	            console.log(tag);
+	            if (tag || child) {
 	                return function (tag) {
 	                    var cls = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
 	                    var child = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
 
-	                    createElement(tag, cls, _tag);
+	                    _this2.createElement(tag, cls, _tag);
 	                };
 	            } else {
 	                return _tag;
 	            }
-	        })
+	        }
 	    }, {
 	        key: 'animationStart',
 	        value: function animationStart(dom, animated) {

@@ -4,7 +4,7 @@ class View {
         this.tipBox = document.querySelector('.tip-box ul');
         this.tips = [];
         this._st = false;
-        console.log(this.createElement('ul','ul')('li','li')('a','a')());
+        console.log(this.createElement('ul', 'ul')('li', 'li')());
     }
     renderLi(content) {
         let _li = this.createLiElement(content, 'fadeInDown');
@@ -37,10 +37,13 @@ class View {
         cls.split(' ').forEach((_cls, i) => {
             _tag.classList.add(_cls);
         });
-        if (tag || cls || child) {
+        if (child) {
             _tag.appendChild(child);
-            return function (tag, cls = '', child = false) {
-                createElement(tag, cls, _tag);
+        }
+        console.log(tag);
+        if (tag || child) {
+            return (tag, cls = '', child = false) => {
+                this.createElement(tag, cls, _tag);
             };
         } else {
             return _tag;
