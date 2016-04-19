@@ -300,15 +300,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	            _child.push(_tag);
 	            return function (para) {
 	                if (!para) {
-	                    var _res = _tag,
-	                        _len = _child.length - 2;
+	                    var _len = _child.length - 2;
 	                    while (_len >= 0) {
-	                        _res = _child[_len].appendChild(_res);
-	                        console.log(_res);
-	                        console.log(_len);
+	                        _child[_len].appendChild(_child[_len + 1]);
 	                        _len--;
 	                    }
-	                    return _res;
+	                    return _child[0];
 	                }
 	                var _para = {
 	                    tag: para.tag || false,

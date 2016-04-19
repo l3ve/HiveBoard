@@ -57,15 +57,12 @@ class View {
         _child.push(_tag);
         return (para) => {
             if (!para) {
-                let _res = _tag,
-                    _len = _child.length-2;
+                let _len = _child.length-2;
                 while(_len >= 0) {
-                    _res = _child[_len].appendChild(_res);
-                    console.log(_res);
-                    console.log(_len);
+                    _child[_len].appendChild(_child[_len+1]);
                     _len --;
                 }
-                return _res;
+                return _child[0];
             }
             let _para = {
                 tag: para.tag || false,
