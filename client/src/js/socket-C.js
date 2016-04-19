@@ -5,7 +5,7 @@ class Io {
         this.init();
     }
     init() {
-        this.io = io('http://192.168.5.5:3333');
+        this.io = io('http://192.168.4.191:3333');
         this.setPara();
         this.io.on('message', (msg) => {
             View.renderLi(msg);

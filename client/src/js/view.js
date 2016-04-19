@@ -4,7 +4,17 @@ class View {
         this.tipBox = document.querySelector('.tip-box ul');
         this.tips = [];
         this._st = false;
-        console.log(this.createElement('ul', 'ul')('li', 'li')());
+        console.log(this.createElement({
+            tag: 'ul',
+            cls: 'li',
+        })({
+            tag: 'li',
+            cls: 'li',
+        })({
+            tag: 'a',
+            cls: 'xis',
+            ctx: '这是消息'
+        })());
     }
     renderLi(content) {
         let _li = this.createLiElement(content, 'fadeInDown');
@@ -32,22 +42,39 @@ class View {
         this.animationStart(_li, animated);
         return _li;
     }
-    createElement(tag, cls = '', child = false) {
-        let _tag = document.createElement(tag);
-        cls.split(' ').forEach((_cls, i) => {
-            _tag.classList.add(_cls);
-        });
-        if (child) {
-            _tag.appendChild(child);
+    createElement(para) {
+        let {tag, cls, child, ctx} = para,
+            _tag = document.createElement(tag),
+            _child = child || [];
+        if (cls) {
+            cls.split(',').forEach((_cls, i) => {
+                _tag.classList.add(_cls);
+            });
         }
-        console.log(tag);
-        if (tag || child) {
-            return (tag, cls = '', child = false) => {
-                this.createElement(tag, cls, _tag);
+        if (ctx) {
+            _tag.innerHTML = ctx;
+        }
+        _child.push(_tag);
+        return (para) => {
+            if (!para) {
+                let _res = _tag,
+                    _len = _child.length-2;
+                while(_len >= 0) {
+                    _res = _child[_len].appendChild(_res);
+                    console.log(_res);
+                    console.log(_len);
+                    _len --;
+                }
+                return _res;
+            }
+            let _para = {
+                tag: para.tag || false,
+                cls: para.cls || '',
+                child: _child || false,
+                ctx: para.ctx || ''
             };
-        } else {
-            return _tag;
-        }
+            return this.createElement(_para);
+        };
     }
     animationStart(dom, animated) {
         dom.classList.add('animated', animated);

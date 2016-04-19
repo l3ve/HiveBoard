@@ -173,7 +173,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _createClass(Io, [{
 	        key: 'init',
 	        value: function init() {
-	            this.io = io('http://192.168.5.5:3333');
+	            this.io = io('http://192.168.4.191:3333');
 	            this.setPara();
 	            this.io.on('message', function (msg) {
 	                _view2['default'].renderLi(msg);
@@ -229,7 +229,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.tipBox = document.querySelector('.tip-box ul');
 	        this.tips = [];
 	        this._st = false;
-	        console.log(this.createElement('ul', 'ul')('li', 'li')());
+	        console.log(this.createElement({
+	            tag: 'ul',
+	            cls: 'li'
+	        })({
+	            tag: 'li',
+	            cls: 'li'
+	        })({
+	            tag: 'a',
+	            cls: 'xis',
+	            ctx: '这是消息'
+	        })());
 	    }
 
 	    _createClass(View, [{
@@ -270,30 +280,44 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    }, {
 	        key: 'createElement',
-	        value: function createElement(tag) {
+	        value: function createElement(para) {
 	            var _this2 = this;
 
-	            var cls = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
-	            var child = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
-
+	            var tag = para.tag;
+	            var cls = para.cls;
+	            var child = para.child;
+	            var ctx = para.ctx;
 	            var _tag = document.createElement(tag);
-	            cls.split(' ').forEach(function (_cls, i) {
-	                _tag.classList.add(_cls);
-	            });
-	            if (child) {
-	                _tag.appendChild(child);
+	            var _child = child || [];
+	            if (cls) {
+	                cls.split(',').forEach(function (_cls, i) {
+	                    _tag.classList.add(_cls);
+	                });
 	            }
-	            console.log(tag);
-	            if (tag || child) {
-	                return function (tag) {
-	                    var cls = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
-	                    var child = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
-
-	                    _this2.createElement(tag, cls, _tag);
+	            if (ctx) {
+	                _tag.innerHTML = ctx;
+	            }
+	            _child.push(_tag);
+	            return function (para) {
+	                if (!para) {
+	                    var _res = _tag,
+	                        _len = _child.length - 2;
+	                    while (_len >= 0) {
+	                        _res = _child[_len].appendChild(_res);
+	                        console.log(_res);
+	                        console.log(_len);
+	                        _len--;
+	                    }
+	                    return _res;
+	                }
+	                var _para = {
+	                    tag: para.tag || false,
+	                    cls: para.cls || '',
+	                    child: _child || false,
+	                    ctx: para.ctx || ''
 	                };
-	            } else {
-	                return _tag;
-	            }
+	                return _this2.createElement(_para);
+	            };
 	        }
 	    }, {
 	        key: 'animationStart',
