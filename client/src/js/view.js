@@ -4,43 +4,43 @@ class View {
         this.tipBox = document.querySelector('.tip-box ul');
         this.tips = [];
         this._st = false;
-        console.log(this.createElement({
-            tag: 'ul',
-            cls: 'li',
-        })({
-            tag: 'li',
-            cls: 'li',
-        })({
-            tag: 'a',
-            cls: 'xis',
-            ctx: '这是消息'
-        })());
+        console.log();
     }
-    renderLi(content) {
-        let _li = this.createLiElement(content, 'fadeInDown');
+    renderTalk(content) {
+        let _li = this.createElement({
+            tag: 'li',
+            cls: 'msg,animated,bounceInLeft'
+        })({
+            tag: 'p',
+            ctx: content
+        })();
         this.talkBox.appendChild(_li);
         this.talkBox.parentNode.scrollTop = this.talkBox.offsetHeight;
     }
     renderCtxTip(content) {
-        let _li = this.createLiElement(content, 'fadeInDown');
+        let _li = this.createElement({
+            tag: 'li',
+            cls: 'tip,animated,fadeIn'
+        })({
+            tag: 'span',
+            ctx: content
+        })();
         this.talkBox.appendChild(_li);
         this.talkBox.parentNode.scrollTop = this.talkBox.offsetHeight;
     }
-    renderTip(content) {
-        let _li = this.createLiElement(content, 'flipInX'),
-            _tipBox = this.tipBox;
-        _tipBox.appendChild(_li);
+    renderSysTip(content) {
+        let _li = this.createElement({
+            tag: 'li',
+            cls: 'animated,bounceIn'
+        })({
+            tag: 'p',
+            cls: 'msg',
+            ctx: content
+        })();
+        this.tipBox.appendChild(_li);
         setTimeout(() => {
-            this.animationEnd(_li, 'rotateOutUpRight');
+            this.animationEnd(_li, 'bounceOut');
         }, 3000);
-    }
-    createLiElement(content, animated) {
-        let _li = document.createElement('li'),
-            _p = document.createElement('p');
-        _p.innerHTML = content;
-        _li.appendChild(_p);
-        this.animationStart(_li, animated);
-        return _li;
     }
     createElement(para) {
         let {tag, cls, child, ctx} = para,
@@ -57,10 +57,10 @@ class View {
         _child.push(_tag);
         return (para) => {
             if (!para) {
-                let _len = _child.length-2;
-                while(_len >= 0) {
-                    _child[_len].appendChild(_child[_len+1]);
-                    _len --;
+                let _len = _child.length - 2;
+                while (_len >= 0) {
+                    _child[_len].appendChild(_child[_len + 1]);
+                    _len--;
                 }
                 return _child[0];
             }
@@ -72,9 +72,6 @@ class View {
             };
             return this.createElement(_para);
         };
-    }
-    animationStart(dom, animated) {
-        dom.classList.add('animated', animated);
     }
     animationEnd(dom, animated, callback) {
         dom.classList.add('animated', animated);

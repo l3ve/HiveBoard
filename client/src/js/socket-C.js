@@ -8,10 +8,10 @@ class Io {
         this.io = io('http://192.168.4.191:3333');
         this.setPara();
         this.io.on('message', (msg) => {
-            View.renderLi(msg);
+            View.renderTalk(msg);
         });
         this.io.on('sys message', (msg) => {
-            View.renderTip(msg);
+            View.renderSysTip(msg);
         });
         this.io.on('newUser', (msg) => {
             View.renderCtxTip(msg);

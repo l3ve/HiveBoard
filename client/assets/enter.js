@@ -176,10 +176,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	            this.io = io('http://192.168.4.191:3333');
 	            this.setPara();
 	            this.io.on('message', function (msg) {
-	                _view2['default'].renderLi(msg);
+	                _view2['default'].renderTalk(msg);
 	            });
 	            this.io.on('sys message', function (msg) {
-	                _view2['default'].renderTip(msg);
+	                _view2['default'].renderSysTip(msg);
 	            });
 	            this.io.on('newUser', function (msg) {
 	                _view2['default'].renderCtxTip(msg);
@@ -229,54 +229,52 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.tipBox = document.querySelector('.tip-box ul');
 	        this.tips = [];
 	        this._st = false;
-	        console.log(this.createElement({
-	            tag: 'ul',
-	            cls: 'li'
-	        })({
-	            tag: 'li',
-	            cls: 'li'
-	        })({
-	            tag: 'a',
-	            cls: 'xis',
-	            ctx: '这是消息'
-	        })());
+	        console.log();
 	    }
 
 	    _createClass(View, [{
-	        key: 'renderLi',
-	        value: function renderLi(content) {
-	            var _li = this.createLiElement(content, 'fadeInDown');
+	        key: 'renderTalk',
+	        value: function renderTalk(content) {
+	            var _li = this.createElement({
+	                tag: 'li',
+	                cls: 'msg,animated,bounceInLeft'
+	            })({
+	                tag: 'p',
+	                ctx: content
+	            })();
 	            this.talkBox.appendChild(_li);
 	            this.talkBox.parentNode.scrollTop = this.talkBox.offsetHeight;
 	        }
 	    }, {
 	        key: 'renderCtxTip',
 	        value: function renderCtxTip(content) {
-	            var _li = this.createLiElement(content, 'fadeInDown');
+	            var _li = this.createElement({
+	                tag: 'li',
+	                cls: 'tip,animated,fadeIn'
+	            })({
+	                tag: 'span',
+	                ctx: content
+	            })();
 	            this.talkBox.appendChild(_li);
 	            this.talkBox.parentNode.scrollTop = this.talkBox.offsetHeight;
 	        }
 	    }, {
-	        key: 'renderTip',
-	        value: function renderTip(content) {
+	        key: 'renderSysTip',
+	        value: function renderSysTip(content) {
 	            var _this = this;
 
-	            var _li = this.createLiElement(content, 'flipInX'),
-	                _tipBox = this.tipBox;
-	            _tipBox.appendChild(_li);
+	            var _li = this.createElement({
+	                tag: 'li',
+	                cls: 'animated,bounceIn'
+	            })({
+	                tag: 'p',
+	                cls: 'msg',
+	                ctx: content
+	            })();
+	            this.tipBox.appendChild(_li);
 	            setTimeout(function () {
-	                _this.animationEnd(_li, 'rotateOutUpRight');
+	                _this.animationEnd(_li, 'bounceOut');
 	            }, 3000);
-	        }
-	    }, {
-	        key: 'createLiElement',
-	        value: function createLiElement(content, animated) {
-	            var _li = document.createElement('li'),
-	                _p = document.createElement('p');
-	            _p.innerHTML = content;
-	            _li.appendChild(_p);
-	            this.animationStart(_li, animated);
-	            return _li;
 	        }
 	    }, {
 	        key: 'createElement',
@@ -315,11 +313,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	                };
 	                return _this2.createElement(_para);
 	            };
-	        }
-	    }, {
-	        key: 'animationStart',
-	        value: function animationStart(dom, animated) {
-	            dom.classList.add('animated', animated);
 	        }
 	    }, {
 	        key: 'animationEnd',
