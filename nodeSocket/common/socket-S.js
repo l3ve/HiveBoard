@@ -43,7 +43,7 @@ class Io {
                 socket.emit('sys message', `赐予汝的新称号 : ${msg}酱`);
             }
             else {
-                socket.emit('sys message', `叫啥不好叫:${msg},再给你次机会呗~`);
+                socket.emit('sys message', `有个煞笔(${msg})和你同名!`);
             }
         });
     }
@@ -61,8 +61,7 @@ class Io {
     }
     userMsg(socket) {
         socket.on('message', (msg) => {
-            msg = `${this.userName[socket.id]} 曰: ${msg}`;
-            console.log(msg);
+            msg = `${msg},${this.userName[socket.id]}`;
             this.io.to(this.currentRoom[socket.id]).emit('message', msg);
         });
     }

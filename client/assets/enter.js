@@ -176,7 +176,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            this.io = io('http://192.168.4.191:3333');
 	            this.setPara();
 	            this.io.on('message', function (msg) {
-	                _view2['default'].renderTalk(msg);
+	                _view2['default'].renderTalk(msg.split(',')[0]);
 	            });
 	            this.io.on('sys message', function (msg) {
 	                _view2['default'].renderSysTip(msg);
@@ -227,9 +227,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        this.talkBox = document.querySelector('.msg-box ul');
 	        this.tipBox = document.querySelector('.tip-box ul');
+	        this.inPut = document.querySelector('.footer .talk');
 	        this.tips = [];
 	        this._st = false;
-	        console.log();
 	    }
 
 	    _createClass(View, [{
@@ -238,12 +238,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var _li = this.createElement({
 	                tag: 'li',
 	                cls: 'msg,animated,bounceInLeft'
-	            })({
+	            })([{
+	                tag: 'i',
+	                props: [{
+	                    name: 'style',
+	                    value: 'background-image: url(http://7xnt0i.com1.z0.glb.clouddn.com/9)'
+	                }]
+	            }, {
 	                tag: 'p',
 	                ctx: content
-	            })();
+	            }])();
 	            this.talkBox.appendChild(_li);
 	            this.talkBox.parentNode.scrollTop = this.talkBox.offsetHeight;
+	            this.inPut.value = '';
 	        }
 	    }, {
 	        key: 'renderCtxTip',
@@ -281,37 +288,65 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function createElement(para) {
 	            var _this2 = this;
 
-	            var tag = para.tag;
-	            var cls = para.cls;
-	            var child = para.child;
-	            var ctx = para.ctx;
-	            var _tag = document.createElement(tag);
-	            var _child = child || [];
-	            if (cls) {
-	                cls.split(',').forEach(function (_cls, i) {
-	                    _tag.classList.add(_cls);
+	            var child = arguments.length <= 1 || arguments[1] === undefined ? [] : arguments[1];
+
+	            var _tag = [],
+	                _child = [];
+	            if (para[0]) {
+	                para.forEach(function (dom, i) {
+	                    setProps(dom);
 	                });
+	            } else if (typeof para === 'object') {
+	                setProps(para);
 	            }
-	            if (ctx) {
-	                _tag.innerHTML = ctx;
+	            function setProps(para) {
+	                var tag = para.tag;
+	                var cls = para.cls;
+	                var ctx = para.ctx;
+	                var props = para.props;
+	                var _cls = cls || '';
+	                var _props = props || [];
+	                var _dom = '';
+	                var _ctx = ctx || '';
+	                _dom = document.createElement(tag);
+	                _child = child;
+	                _cls.split(',').forEach(function (_cls) {
+	                    if (!_cls) return false;
+	                    _dom.classList.add(_cls);
+	                });
+	                _props.forEach(function (_props) {
+	                    _dom.setAttribute(_props["name"], _props["value"]);
+	                });
+	                _dom.innerHTML = _ctx;
+	                _tag.push(_dom);
 	            }
-	            _child.push(_tag);
+	            if (_tag.length > 1) {
+	                _child.push(_tag);
+	            } else {
+	                _child.push(_tag[0]);
+	            }
 	            return function (para) {
 	                if (!para) {
-	                    var _len = _child.length - 2;
-	                    while (_len >= 0) {
-	                        _child[_len].appendChild(_child[_len + 1]);
-	                        _len--;
-	                    }
-	                    return _child[0];
+	                    var _ret = (function () {
+	                        var _len = _child.length - 2;
+	                        while (_len >= 0) {
+	                            if (_child[_len + 1] instanceof Array) {
+	                                _child[_len + 1].forEach(function (_childs) {
+	                                    _child[_len].appendChild(_childs);
+	                                });
+	                            } else {
+	                                _child[_len].appendChild(_child[_len + 1]);
+	                            }
+	                            _len--;
+	                        }
+	                        return {
+	                            v: _child[0]
+	                        };
+	                    })();
+
+	                    if (typeof _ret === 'object') return _ret.v;
 	                }
-	                var _para = {
-	                    tag: para.tag || false,
-	                    cls: para.cls || '',
-	                    child: _child || false,
-	                    ctx: para.ctx || ''
-	                };
-	                return _this2.createElement(_para);
+	                return _this2.createElement(para, _child);
 	            };
 	        }
 	    }, {

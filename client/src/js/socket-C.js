@@ -8,7 +8,7 @@ class Io {
         this.io = io('http://192.168.4.191:3333');
         this.setPara();
         this.io.on('message', (msg) => {
-            View.renderTalk(msg);
+            View.renderTalk(msg.split(',')[0]);
         });
         this.io.on('sys message', (msg) => {
             View.renderSysTip(msg);
