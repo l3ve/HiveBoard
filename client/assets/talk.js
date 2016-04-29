@@ -54,11 +54,15 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(6);
+	module.exports = __webpack_require__(10);
 
 
 /***/ },
-/* 1 */
+/* 1 */,
+/* 2 */,
+/* 3 */,
+/* 4 */,
+/* 5 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -72,12 +76,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.__esModule = true;
 
 /***/ },
-/* 2 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var _Object$defineProperty = __webpack_require__(9)["default"];
+	var _Object$defineProperty = __webpack_require__(12)["default"];
 
 	exports["default"] = (function () {
 	  function defineProperties(target, props) {
@@ -101,7 +105,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.__esModule = true;
 
 /***/ },
-/* 3 */
+/* 7 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -115,50 +119,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.__esModule = true;
 
 /***/ },
-/* 4 */,
-/* 5 */,
-/* 6 */
+/* 8 */,
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _interopRequireDefault = __webpack_require__(3)['default'];
+	var _createClass = __webpack_require__(6)['default'];
 
-	var _socketC = __webpack_require__(7);
+	var _classCallCheck = __webpack_require__(5)['default'];
 
-	var _socketC2 = _interopRequireDefault(_socketC);
-
-	var socket = _socketC2['default'];
-
-	document.querySelector('.talk').addEventListener('keydown', function (e) {
-	    if (e.keyCode === 13) {
-	        socket.send('message', e.path[0].value);
-	    }
-	});
-	document.querySelector('.name').addEventListener('keydown', function (e) {
-	    if (e.keyCode === 13) {
-	        window.localStorage.name = e.path[0].value;
-	        socket.send('changeName', e.path[0].value);
-	    }
-	});
-
-/***/ },
-/* 7 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _createClass = __webpack_require__(2)['default'];
-
-	var _classCallCheck = __webpack_require__(1)['default'];
-
-	var _interopRequireDefault = __webpack_require__(3)['default'];
+	var _interopRequireDefault = __webpack_require__(7)['default'];
 
 	Object.defineProperty(exports, '__esModule', {
 	    value: true
 	});
 
-	var _view = __webpack_require__(8);
+	var _view = __webpack_require__(11);
 
 	var _view2 = _interopRequireDefault(_view);
 
@@ -208,14 +185,40 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 8 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _createClass = __webpack_require__(2)['default'];
+	var _interopRequireDefault = __webpack_require__(7)['default'];
 
-	var _classCallCheck = __webpack_require__(1)['default'];
+	var _socketC = __webpack_require__(9);
+
+	var _socketC2 = _interopRequireDefault(_socketC);
+
+	var socket = _socketC2['default'];
+
+	document.querySelector('.talk').addEventListener('keydown', function (e) {
+	    if (e.keyCode === 13) {
+	        socket.send('message', e.path[0].value);
+	    }
+	});
+	document.querySelector('.name').addEventListener('keydown', function (e) {
+	    if (e.keyCode === 13) {
+	        window.localStorage.name = e.path[0].value;
+	        socket.send('changeName', e.path[0].value);
+	    }
+	});
+
+/***/ },
+/* 11 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = __webpack_require__(6)['default'];
+
+	var _classCallCheck = __webpack_require__(5)['default'];
 
 	Object.defineProperty(exports, '__esModule', {
 	    value: true
@@ -370,22 +373,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 9 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(10), __esModule: true };
+	module.exports = { "default": __webpack_require__(13), __esModule: true };
 
 /***/ },
-/* 10 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $ = __webpack_require__(11);
+	var $ = __webpack_require__(14);
 	module.exports = function defineProperty(it, key, desc){
 	  return $.setDesc(it, key, desc);
 	};
 
 /***/ },
-/* 11 */
+/* 14 */
 /***/ function(module, exports) {
 
 	var $Object = Object;

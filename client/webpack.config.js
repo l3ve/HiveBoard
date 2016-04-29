@@ -29,9 +29,13 @@ if (debug) {
 module.exports = {
     //入口文件
     entry: {
-        base: ['css/style','css/animation'],
-        enter: [
-            'js/main'
+        'talk.style': ['css/talk','css/animation'],
+        'talk': [
+            'js/talk'
+        ],
+        'actrace.style': ['css/actrace','css/animation'],
+        'actrace': [
+            'js/actrace'
         ]
     },
     //输出
