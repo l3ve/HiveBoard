@@ -29,15 +29,16 @@ if (debug) {
 module.exports = {
     //入口文件
     entry: {
-        'talk.style': ['css/talk','css/animation'],
+        'talk.style': ['css/talk', 'css/animation'],
         'talk': [
             'js/talk'
         ],
-        'actrace.style': ['css/actrace','css/animation'],
+        'actrace.style': ['css/actrace', 'css/animation'],
         'actrace': [
             'js/actrace'
         ]
     },
+    target: 'node',
     //输出
     output: {
         path: 'assets',
@@ -49,34 +50,39 @@ module.exports = {
     plugins: plugin,
     resolve: {
         //根目录遍历
-        root: [path.join(__dirname,'/src'), path.join(__dirname,'/node_modules')],
+        root: [path.join(__dirname, '/src'), path.join(__dirname, '/node_modules')],
         alias: {
-            'react' : path.join(__dirname,'/node_modules/react/dist/react.min'),
-            'react-dom' : path.join(__dirname,'/node_modules/react-dom/dist/react-dom.min'),
-            'react-redux' : path.join(__dirname,'/node_modules/react-redux/dist/react-redux.min')
+            'react': path.join(__dirname, '/node_modules/react/dist/react.min'),
+            'react-dom': path.join(__dirname, '/node_modules/react-dom/dist/react-dom.min'),
+            'react-redux': path.join(__dirname, '/node_modules/react-redux/dist/react-redux.min')
         },
         //自动补全后缀
-        extensions: ['', '.js', '.jsx', '.css', '.less', '.png', '.jpg']
+        extensions: ['', '.js', '.jsx', '.css', '.less', '.png', '.jpg','.json']
     },
     module: {
         //减少依赖的查找
         noParse: [
-            path.join(__dirname,'/node_modules/react/dist/react.min')
+            path.join(__dirname, '/node_modules/react/dist/react.min'),
+            // /\/leveldown\//
         ],
         loaders: [
-        {
-            test: /\.(js|jsx)$/,
-            loaders: ['babel?optional=runtime'],
-            exclude: /(node_modules)/,
-        },{
-            test: /\.(less|css)$/,
-            exclude: /(node_modules)/,
-            loader: 'style!css!autoprefixer!less'
-        },{
-            test: /\.(png|jpg|gif)$/,
-            exclude: /(node_modules)/,
-            loader: 'url?limit=8192'
-        }
-    ]
+            {
+                test: /\.json$/,
+                loader: 'json-loader'
+            },
+            {
+                test: /\.(js|jsx)$/,
+                loaders: ['babel?optional=runtime'],
+                exclude: /(node_modules)/
+            }, {
+                test: /\.(less|css)$/,
+                exclude: /(node_modules)/,
+                loader: 'style!css!autoprefixer!less'
+            }, {
+                test: /\.(png|jpg|gif)$/,
+                exclude: /(node_modules)/,
+                loader: 'url?limit=8192'
+            }
+        ]
     }
 };

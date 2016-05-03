@@ -1,4 +1,5 @@
 var index = require('./controllers/index');
+
 module.exports = function routes(app) {
     app.get('/', index.list);
     app.get('/add', index.add);
