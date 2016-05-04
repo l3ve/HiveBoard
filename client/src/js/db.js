@@ -7,7 +7,6 @@ var db = leveldb('./data/msg', {
     valueEncoding: 'json',
     db: memdown
 });
-
 thunkify(db, ['get', 'put', 'del', 'batch']);
 
 exports.get = function* () {
@@ -24,8 +23,8 @@ exports.get = function* () {
     return items;
 };
 
-exports.insert = function(msg) {
+exports.insert = function* (msg) {
     var id = utility.md5(msg.content + crypto.randomBytes(60).toString('hex'));
-    db.put(id, msg);
+    yield db.put(id, msg);
     return id;
 };
