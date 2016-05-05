@@ -3,7 +3,6 @@ var crypto = require('crypto');
 var leveldb = require('levelup');
 var memdown = require('memdown').clearGlobalStore();
 var co = require('co');
-var thunkify = require('thunkify-wrap');
 var db = leveldb('./data/msg', {
     valueEncoding: 'json',
     db: memdown
@@ -18,15 +17,33 @@ exports.get = function* () {
         value.id = data.key;
         items.push(value);
     });
-    var end = function () {
-        return yield function* () {
-             stream.once('end', function () {
-                console.log('end fuck');
-            })
+    var end = function (stream) {
+        return function(done){
+            let endEvents = ['end'],
+                called = false;
+            function _done(err, data) {
+                if (called) {
+                    return;
+                }
+                called = true;
+                stream.removeListener('error', _done);
+                endEvents.forEach(function (name) {
+                    stream.removeListener(name, end);
+                });
+                console.log(done);
+                done(err, data);
+            }
+            function end(data) {
+                _done(null, data);
+            }
+            stream.once('error', _done);
+            endEvents.forEach(function (name) {
+                stream.once(name, end);
+            });
         }
-    };
-    console.log(stream, thunkify.event.toString());
-    yield end();
+    }
+    var res = end(stream);
+    yield res;
     return items;
 };
 
