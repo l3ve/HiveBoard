@@ -2,12 +2,12 @@ var utility = require('utility');
 var crypto = require('crypto');
 var leveldb = require('levelup');
 var memdown = require('memdown').clearGlobalStore();
+var co = require('co');
 var thunkify = require('thunkify-wrap');
 var db = leveldb('./data/msg', {
     valueEncoding: 'json',
     db: memdown
 });
-thunkify(db, ['get', 'put', 'del', 'batch']);
 
 exports.get = function* () {
     var err = null;
@@ -18,13 +18,20 @@ exports.get = function* () {
         value.id = data.key;
         items.push(value);
     });
-    var end = thunkify.event(stream);
+    var end = function () {
+        return yield function* () {
+             stream.once('end', function () {
+                console.log('end fuck');
+            })
+        }
+    };
+    console.log(stream, thunkify.event.toString());
     yield end();
     return items;
 };
 
 exports.insert = function* (msg) {
     var id = utility.md5(msg.content + crypto.randomBytes(60).toString('hex'));
-    yield db.put(id, msg);
+    yield function* () { db.put(id, msg) };
     return id;
 };
