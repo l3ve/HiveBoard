@@ -1,9 +1,9 @@
 // import React, {Component} from 'react';
 // import ReactDOM from 'react-dom';
 // import tips from './notification';
-// import {get, insert} from './db';
+import {get, insert} from './db';
 var co = require('co');
-var msg = require('./src/js/db');
+// var msg = require('./src/js/db');
 
 co(function* () {
     var a = yield msg.get().then((val)=>{})
