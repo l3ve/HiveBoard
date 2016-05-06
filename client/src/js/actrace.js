@@ -6,15 +6,13 @@ var co = require('co');
 var msg = require('./src/js/db');
 
 co(function* () {
-    var a = yield msg.get()
-    // var b = yield msg.insert({
+    var a = yield msg.get().then((val)=>{})
+    // var b = msg.insert({
     //     'content': 'Just Fun',
     //     'user': 'zwei'
-    // });
-    console.log(a.length);
-    // var c = yield [a,b];
-    // var d = yield msg.get();
-    // console.log(d.length);
+    // }).then((val)=>{});
+    var c = yield [a];
+    var d = yield msg.get();
 })
 
 

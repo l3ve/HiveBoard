@@ -8,7 +8,7 @@ var db = leveldb('./data/msg', {
     db: memdown
 });
 
-exports.get = function* () {
+exports.get = co.wrap(function* () {
     var err = null;
     var items = [];
     var stream = db.createReadStream();
@@ -17,38 +17,26 @@ exports.get = function* () {
         value.id = data.key;
         items.push(value);
     });
-    var end = function (stream) {
+    var EventEnd = function (stream) {
         return function(done){
-            let endEvents = ['end'],
-                called = false;
+            let called = false;
             function _done(err, data) {
                 if (called) {
                     return;
                 }
                 called = true;
-                stream.removeListener('error', _done);
-                endEvents.forEach(function (name) {
-                    stream.removeListener(name, end);
-                });
-                console.log(done);
+                stream.removeListener('end', _done);
                 done(err, data);
             }
-            function end(data) {
-                _done(null, data);
-            }
-            stream.once('error', _done);
-            endEvents.forEach(function (name) {
-                stream.once(name, end);
-            });
+            stream.once('end', _done);
         }
     }
-    var res = end(stream);
-    yield res;
+    yield EventEnd(stream);
     return items;
-};
+});
 
-exports.insert = function* (msg) {
+exports.insert = co.wrap(function* (msg) {
     var id = utility.md5(msg.content + crypto.randomBytes(60).toString('hex'));
     yield function* () { db.put(id, msg) };
     return id;
-};
+});
