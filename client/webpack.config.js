@@ -38,7 +38,7 @@ module.exports = {
             'js/actrace'
         ]
     },
-    target: 'node',
+    // target: 'node',
     //输出
     output: {
         path: 'assets',
@@ -71,7 +71,7 @@ module.exports = {
                 loader: 'json-loader'
             },
             {
-                test: /\.(js|jsx)$/,
+                test: /\.(jsx)$/,
                 loaders: ['babel?optional=runtime'],
                 exclude: /(node_modules)/
             }, {

@@ -1,14 +1,17 @@
 var utility = require('utility');
 var crypto = require('crypto');
 var leveldb = require('levelup');
-var memdown = require('memdown').clearGlobalStore();
+// var memdown = require('memdown').clearGlobalStore();
+var memdown = require('memdown');
+
 var co = require('co');
+// console.log(memdown().clearGlobalStore);
 var db = leveldb('./data/msg', {
     valueEncoding: 'json',
     db: memdown
 });
 
-exports.get = co.wrap(function* () {
+exports.all = co.wrap(function* () {
     var err = null;
     var items = [];
     var stream = db.createReadStream();
@@ -18,7 +21,7 @@ exports.get = co.wrap(function* () {
         items.push(value);
     });
     var EventEnd = function (stream) {
-        return function(done){
+        return function (done) {
             let called = false;
             function _done(err, data) {
                 if (called) {
@@ -35,8 +38,18 @@ exports.get = co.wrap(function* () {
     return items;
 });
 
-exports.insert = co.wrap(function* (msg) {
-    var id = utility.md5(msg.content + crypto.randomBytes(60).toString('hex'));
-    yield function* () { db.put(id, msg) };
+exports.get = co.wrap(function* (key) {
+    return yield function* () {
+        db.get(key, (err,_val) => {
+            console.log(_val);
+        });
+    }
+})
+
+exports.insert = co.wrap(function* (id,msg) {
+    // var id = utility.md5(msg.content + crypto.randomBytes(60).toString('hex'));
+    yield function* () {
+        db.put(id, msg)
+    };
     return id;
 });
