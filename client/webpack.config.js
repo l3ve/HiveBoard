@@ -54,7 +54,7 @@ module.exports = {
         alias: {
             'react': path.join(__dirname, '/node_modules/react/dist/react.min'),
             'react-dom': path.join(__dirname, '/node_modules/react-dom/dist/react-dom.min'),
-            'react-redux': path.join(__dirname, '/node_modules/react-redux/dist/react-redux.min')
+            'react-redux': path.join(__dirname, '/node_modules/react-redux/dist/react-redux.min'),
         },
         //自动补全后缀
         extensions: ['', '.js', '.jsx', '.css', '.less', '.png', '.jpg','.json']
@@ -63,7 +63,8 @@ module.exports = {
         //减少依赖的查找
         noParse: [
             path.join(__dirname, '/node_modules/react/dist/react.min'),
-            // /\/leveldown\//
+            // /\/leveld`own\//,
+            // /\/levelu`p\//
         ],
         loaders: [
             {
@@ -71,7 +72,7 @@ module.exports = {
                 loader: 'json-loader'
             },
             {
-                test: /\.(jsx)$/,
+                test: /\.(jsx|js)$/,
                 loaders: ['babel?optional=runtime'],
                 exclude: /(node_modules)/
             }, {

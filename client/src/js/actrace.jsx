@@ -3,7 +3,8 @@
 // import tips from './notification';
 import {all, get, insert} from './db.js';
 import {co} from 'co';
-
+// var msg = require('./src/js/db.js');
+// var co = require('co');
 
 
 co(function* () {
@@ -11,11 +12,9 @@ co(function* () {
         'content': 'Just Fun'
     }).then((val)=>{});
     var _all = yield all();
-    console.log(_all,1);
     var a = yield get(123);
-    console.log(a);
     var c = yield [a,b];
-    // var d = yield get();
+    var d = yield get();
 })
 
 

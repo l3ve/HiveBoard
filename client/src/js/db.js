@@ -1,14 +1,13 @@
 var utility = require('utility');
 var crypto = require('crypto');
 var leveldb = require('levelup');
-// var memdown = require('memdown').clearGlobalStore();
-var memdown = require('memdown');
-
+var Memdown = require('memdown');
+var _db = Memdown.clearGlobalStore();
 var co = require('co');
-// console.log(memdown().clearGlobalStore);
+
 var db = leveldb('./data/msg', {
     valueEncoding: 'json',
-    db: memdown
+    db: _db
 });
 
 exports.all = co.wrap(function* () {
@@ -22,7 +21,7 @@ exports.all = co.wrap(function* () {
     });
     var EventEnd = function (stream) {
         return function (done) {
-            let called = false;
+            var called = false;
             function _done(err, data) {
                 if (called) {
                     return;
