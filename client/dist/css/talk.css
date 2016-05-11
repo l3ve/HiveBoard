@@ -1,0 +1,154 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+html,
+body {
+  height: 100%;
+  background: #eee;
+  font-family: '微软雅黑';
+  font-size: 16px;
+}
+li {
+  list-style-type: none;
+}
+input {
+  padding: 0 5px;
+  border: none;
+}
+input::-webkit-input-placeholder {
+  color: black;
+}
+input:focus {
+  outline: none;
+}
+.tip-box {
+  position: fixed;
+  z-index: 999;
+  top: 75px;
+  right: 20px;
+  max-width: 400px;
+  height: 30px;
+  line-height: 30px;
+}
+.tip-box li {
+  float: right;
+  margin: 10px auto;
+}
+.tip-box li p {
+  position: relative;
+  height: 100%;
+  padding: 20px;
+  background-color: #ff9800;
+}
+.tip-box li p::before {
+  z-index: -1;
+  position: absolute;
+  content: "";
+  bottom: 15px;
+  right: auto;
+  left: 10px;
+  width: 50%;
+  top: 60%;
+  max-width: 300px;
+  background: #777;
+  box-shadow: 0 15px 10px #777;
+  transform: rotate(-3deg);
+}
+.tip-box li p::after {
+  z-index: -1;
+  position: absolute;
+  content: "";
+  bottom: 15px;
+  right: 10px;
+  left: auto;
+  width: 50%;
+  top: 60%;
+  max-width: 300px;
+  background: #777;
+  box-shadow: 0 15px 10px #777;
+  transform: rotate(3deg);
+}
+.setting {
+  display: flex;
+  justify-content: space-around;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  width: 100%;
+  height: 50px;
+  background: #8c9eff;
+  box-shadow: 0 0 10px black;
+}
+.setting input {
+  width: 170px;
+  height: 30px;
+  position: relative;
+  top: 10px;
+}
+.msg-box {
+  box-sizing: border-box;
+  height: 100%;
+  padding: 70px 5px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+.msg-box .msg {
+  margin: 0 20px 30px;
+}
+.msg-box .msg i {
+  display: inline-block;
+  width: 60px;
+  height: 60px;
+  vertical-align: middle;
+  margin-right: 23px;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+.msg-box .msg p {
+  display: inline-block;
+  border-radius: 7px;
+  box-shadow: 0 8px 10px -10px #777;
+  padding: 18px 10px;
+  background-color: white;
+  word-wrap: break-word;
+  word-break: break-all;
+}
+.msg-box .tip {
+  text-align: center;
+  margin: 10px 0;
+}
+.msg-box .tip span {
+  position: relative;
+  color: #999;
+}
+.msg-box .tip span::before {
+  content: '----';
+  position: relative;
+  left: -20px;
+}
+.msg-box .tip span::after {
+  content: '----';
+  position: relative;
+  right: -20px;
+}
+.footer {
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  bottom: 7px;
+  width: 100%;
+  height: 40px;
+}
+.footer input {
+  transition: border 1s ease;
+  position: relative;
+  width: 50%;
+  height: 30px;
+  background-color: rgba(0, 0, 0, 0);
+  border: 2px solid #b388ff;
+}
+.footer input:focus {
+  border: 2px solid #7c4dff;
+}

@@ -32,14 +32,15 @@ var _reactDom = require('react-dom');
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
+var _notification = require('./dist/notification.js');
+
+var _notification2 = _interopRequireDefault(_notification);
+
 var _db = require('./dist/db.js');
 
 var _co = require('co');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-// import tips from './notification.js';
-
 
 (0, _co.co)(_regenerator2.default.mark(function _callee() {
     var b, _all, _some, c;
@@ -95,11 +96,7 @@ var ACT = function (_Component) {
     (0, _createClass3.default)(ACT, [{
         key: 'render',
         value: function render() {
-            return _react2.default.createElement(
-                'div',
-                null,
-                'ACT'
-            );
+            return _react2.default.createElement('div', null);
         }
     }]);
     return ACT;

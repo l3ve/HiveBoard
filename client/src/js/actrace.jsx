@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-// import tips from './notification.js';
+import tips from './dist/notification.js';
 import {all, get, insert} from './dist/db.js';
 import {co} from 'co';
 
@@ -26,7 +26,7 @@ class ACT extends Component {
     render() {
         return (
             <div>
-                ACT
+
             </div>
         );
     }
