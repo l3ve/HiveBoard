@@ -6,14 +6,15 @@ import {co} from 'co';
 
 
 co(function* () {
-    var b = yield insert('123',{
+    var b = yield insert('1',{
         'content': 'Just Fun'
-    }).then((val)=>{});
+    });
     var _all = yield all();
-    var a = yield get(123);
-    var c = yield [a,b];
-    var d = yield get();
-
+    var _some = yield get("123").then((val)=>{
+        console.log(val);
+    });
+    var c = yield [_some,_all];
+    console.log(_all);
 })
 
 
@@ -32,5 +33,5 @@ class ACT extends Component {
 }
 ReactDOM.render(
     <ACT />,
-    document.querySelector('body')
+    document.querySelector('.actrace')
 )

@@ -38,14 +38,20 @@ exports.all = co.wrap(function* () {
 });
 
 exports.get = co.wrap(function* (key) {
-    return yield function* () {
-        db.get(key, (err,_val) => {
-            console.log(_val);
-        });
+    let __val = {};
+    let wait = function (key) {
+        return function (done) {
+            db.get(key, (err, _val) => {
+                __val = _val;
+                done();
+            });
+        }
     }
+    yield wait(key);
+    return __val;
 })
 
-exports.insert = co.wrap(function* (id,msg) {
+exports.insert = co.wrap(function* (id, msg) {
     // var id = utility.md5(msg.content + crypto.randomBytes(60).toString('hex'));
     yield function* () {
         db.put(id, msg)

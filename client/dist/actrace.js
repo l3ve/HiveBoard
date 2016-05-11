@@ -42,16 +42,16 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 
 (0, _co.co)(_regenerator2.default.mark(function _callee() {
-    var b, _all, a, c, d;
+    var b, _all, _some, c;
 
     return _regenerator2.default.wrap(function _callee$(_context) {
         while (1) {
             switch (_context.prev = _context.next) {
                 case 0:
                     _context.next = 2;
-                    return (0, _db.insert)('123', {
+                    return (0, _db.insert)('1', {
                         'content': 'Just Fun'
-                    }).then(function (val) {});
+                    });
 
                 case 2:
                     b = _context.sent;
@@ -61,22 +61,21 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
                 case 5:
                     _all = _context.sent;
                     _context.next = 8;
-                    return (0, _db.get)(123);
+                    return (0, _db.get)("123").then(function (val) {
+                        console.log(val);
+                    });
 
                 case 8:
-                    a = _context.sent;
+                    _some = _context.sent;
                     _context.next = 11;
-                    return [a, b];
+                    return [_some, _all];
 
                 case 11:
                     c = _context.sent;
-                    _context.next = 14;
-                    return (0, _db.get)();
 
-                case 14:
-                    d = _context.sent;
+                    console.log(_all);
 
-                case 15:
+                case 13:
                 case 'end':
                     return _context.stop();
             }
@@ -106,5 +105,5 @@ var ACT = function (_Component) {
     return ACT;
 }(_react.Component);
 
-_reactDom2.default.render(_react2.default.createElement(ACT, null), document.querySelector('body'));
+_reactDom2.default.render(_react2.default.createElement(ACT, null), document.querySelector('.actrace'));
 //# sourceMappingURL=actrace.js.map
