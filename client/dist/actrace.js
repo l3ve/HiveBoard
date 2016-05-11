@@ -1,29 +1,50 @@
 'use strict';
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
-var _notification = require('./notification.jsx');
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 
-var _notification2 = _interopRequireDefault(_notification);
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
-var _db = require('./db.js');
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = require('babel-runtime/helpers/createClass');
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = require('babel-runtime/helpers/inherits');
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _regenerator = require('babel-runtime/regenerator');
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = require('react-dom');
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _db = require('./dist/db.js');
 
 var _co = require('co');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // import React, {Component} from 'react';
-// import ReactDOM from 'react-dom';
+// import tips from './notification.js';
 
 
-(0, _co.co)(regeneratorRuntime.mark(function _callee() {
+(0, _co.co)(_regenerator2.default.mark(function _callee() {
     var b, _all, a, c, d;
 
-    return regeneratorRuntime.wrap(function _callee$(_context) {
+    return _regenerator2.default.wrap(function _callee$(_context) {
         while (1) {
             switch (_context.prev = _context.next) {
                 case 0:
@@ -64,28 +85,26 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 }));
 
 var ACT = function (_Component) {
-    _inherits(ACT, _Component);
+    (0, _inherits3.default)(ACT, _Component);
 
     function ACT(props) {
-        _classCallCheck(this, ACT);
-
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(ACT).call(this, props));
+        (0, _classCallCheck3.default)(this, ACT);
+        return (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(ACT).call(this, props));
         // tips.show('fuck!');
     }
 
-    _createClass(ACT, [{
+    (0, _createClass3.default)(ACT, [{
         key: 'render',
         value: function render() {
-            return React.createElement(
+            return _react2.default.createElement(
                 'div',
                 null,
                 'ACT'
             );
         }
     }]);
-
     return ACT;
-}(Component);
+}(_react.Component);
 
-ReactDOM.render(React.createElement(ACT, null), document.querySelector('body'));
+_reactDom2.default.render(_react2.default.createElement(ACT, null), document.querySelector('body'));
 //# sourceMappingURL=actrace.js.map

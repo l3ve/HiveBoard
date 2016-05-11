@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import tips from './notification.js';
-import {all, get, insert} from './db.js';
+// import tips from './notification.js';
+import {all, get, insert} from './dist/db.js';
 import {co} from 'co';
-
 
 
 co(function* () {
