@@ -27,15 +27,15 @@ gulp.task('jsx', ['eslint'], function () {
         .pipe(gulp.dest('dist/js'));
 });
 gulp.task('move', function () {
-    return gulp.src(['src/js/*.js'])
-        .pipe(gulp.dest('./dist/js/'));
+    return gulp.src(['src/*/*.{css,js}'])
+        .pipe(gulp.dest('./dist/'));
 });
 
 
 gulp.task('watch', ['jsx', 'less', 'move'], function () {
     gulp.watch('src/js/*.jsx', ['jsx']);
     gulp.watch('src/css/*.less', ['less']);
-    gulp.watch('src/js/*.js', ['move']);
+    gulp.watch('src/*/*.{js,css}', ['move']);
 })
 
 gulp.task('default', ['watch']);

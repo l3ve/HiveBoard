@@ -36,6 +36,10 @@ var _notification = require('./dist/js/notification.js');
 
 var _notification2 = _interopRequireDefault(_notification);
 
+var _Intro = require('./dist/js/Intro.js');
+
+var _Intro2 = _interopRequireDefault(_Intro);
+
 var _db = require('./dist/js/db.js');
 
 var _co = require('co');
@@ -87,9 +91,18 @@ var ACT = function (_Component) {
     }
 
     (0, _createClass3.default)(ACT, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            this.refs.intro.show();
+        }
+    }, {
         key: 'render',
         value: function render() {
-            return _react2.default.createElement('div', null);
+            return _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(_Intro2.default, { ref: 'intro' })
+            );
         }
     }]);
     return ACT;

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import tips from './dist/js/notification.js';
+import Intro from './dist/js/Intro.js';
 import {all, get, insert} from './dist/js/db.js';
 import {co} from 'co';
 
@@ -23,10 +24,13 @@ class ACT extends Component {
         super(props);
         // tips.show('fuck!');
     }
+    componentDidMount() {
+        this.refs.intro.show();
+    }
     render() {
         return (
             <div>
-
+                <Intro ref='intro' />
             </div>
         );
     }

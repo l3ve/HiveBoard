@@ -10,10 +10,9 @@ app.on('window-all-closed',()=>{
 });
 
 app.on('ready',()=>{
-    mainWindow = new BrowserWindow({width: 800,height: 600});
+    mainWindow = new BrowserWindow({width: 960,height: 600});
 
     mainWindow.loadURL('file://'+ __dirname + '/actrace.html');
-    // mainWindow.loadURL('http://192.168.4.191:8000/actrace.html');
 
     mainWindow.openDevTools();
 
