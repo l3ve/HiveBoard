@@ -1,5 +1,5 @@
 {
-  "name": "ACG",
+  "name": "ACTrace",
   "version": "0.1.0",
   "main": "main.js",
   "dependencies": {
@@ -22,10 +22,8 @@
   },
   "scripts": {
     "postinstall": "cd node_modules/leveldown && HOME=~/.electron-gyp node-gyp rebuild --target=0.36.10 --arch=x64 --dist-url=https://atom.io/download/atom-shell",
-    "dev": "BUILD_DEV=true webpack --watch",
-    "start": "webpack-dev-server --hot --quiet",
     "app": "./node_modules/.bin/electron  .",
-    "deploy": "webpack -p --config webpack.config.js"
+    "dev": "gulp"
   },
   "devDependencies": {
     "babel-cli": "^6.8.0",

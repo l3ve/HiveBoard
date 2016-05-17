@@ -32,57 +32,50 @@ var _reactDom = require('react-dom');
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _notification = require('./dist/notification.js');
+var _notification = require('./dist/js/notification.js');
 
 var _notification2 = _interopRequireDefault(_notification);
 
-var _db = require('./dist/db.js');
+var _db = require('./dist/js/db.js');
 
 var _co = require('co');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 (0, _co.co)(_regenerator2.default.mark(function _callee() {
-    var b, _all, _some, c;
+    var _all, _some, c;
 
     return _regenerator2.default.wrap(function _callee$(_context) {
         while (1) {
             switch (_context.prev = _context.next) {
                 case 0:
                     _context.next = 2;
-                    return (0, _db.insert)('1', {
-                        'content': 'Just Fun'
-                    });
-
-                case 2:
-                    b = _context.sent;
-                    _context.next = 5;
                     return (0, _db.all)();
 
-                case 5:
+                case 2:
                     _all = _context.sent;
-                    _context.next = 8;
+                    _context.next = 5;
                     return (0, _db.get)("123").then(function (val) {
-                        console.log(val);
+                        // console.log(val);
                     });
 
-                case 8:
+                case 5:
                     _some = _context.sent;
-                    _context.next = 11;
+                    _context.next = 8;
                     return [_some, _all];
 
-                case 11:
+                case 8:
                     c = _context.sent;
 
-                    console.log(_all);
-
-                case 13:
+                case 9:
                 case 'end':
                     return _context.stop();
             }
         }
     }, _callee, this);
 }));
+
+// console.log(_all);
 
 var ACT = function (_Component) {
     (0, _inherits3.default)(ACT, _Component);
