@@ -14,12 +14,17 @@ class Intro extends Component {
         });
         this.animationEnd(this.refs['intro-last'], (dom) => {
             this.setState({
-                display: 'end'
+                display: 'during'
+            }, () => {
+                this.animationEnd(this.refs['intro-logo'], (dom) => {
+                    this.setState({
+                        display: 'none'
+                    });
+                })
             });
         })
     }
     animationEnd(dom, callback = function () { }) {
-        console.log(dom);
         dom.addEventListener('webkitAnimationEnd', function () {
             callback(this);
             dom = null;
@@ -28,7 +33,7 @@ class Intro extends Component {
     render() {
         let {display} = this.state;
         return (
-            <div className={'intro ' + display}>
+            <div ref='intro-logo' className={'intro animated ' + display}>
                 <span className='f1 animated'>A</span>
                 <span className='f2 animated'>C</span>
                 <span className='f3 animated'>T</span>

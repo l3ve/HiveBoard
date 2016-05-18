@@ -52,9 +52,13 @@ html,body {
             animation: zoomIn 0.5s 1.6s;
         }
     }
-    &.end {
+    &.during {
+        animation:  zoomIn;
         span {
             opacity: 1
         }
+    }
+    &.end {
+        display: none;
     }
 }

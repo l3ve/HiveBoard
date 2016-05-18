@@ -44,6 +44,12 @@ body {
 .intro.start .f7 {
   animation: zoomIn 0.5s 1.6s;
 }
-.intro.end span {
+.intro.during {
+  animation: zoomIn;
+}
+.intro.during span {
   opacity: 1;
+}
+.intro.end {
+  display: none;
 }

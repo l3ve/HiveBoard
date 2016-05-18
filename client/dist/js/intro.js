@@ -54,7 +54,13 @@ var Intro = function (_Component) {
             });
             this.animationEnd(this.refs['intro-last'], function (dom) {
                 _this2.setState({
-                    display: 'end'
+                    display: 'during'
+                }, function () {
+                    _this2.animationEnd(_this2.refs['intro-logo'], function (dom) {
+                        _this2.setState({
+                            display: 'none'
+                        });
+                    });
                 });
             });
         }
@@ -63,7 +69,6 @@ var Intro = function (_Component) {
         value: function animationEnd(dom) {
             var callback = arguments.length <= 1 || arguments[1] === undefined ? function () {} : arguments[1];
 
-            console.log(dom);
             dom.addEventListener('webkitAnimationEnd', function () {
                 callback(this);
                 dom = null;
@@ -76,7 +81,7 @@ var Intro = function (_Component) {
 
             return _react2.default.createElement(
                 'div',
-                { className: 'intro ' + display },
+                { ref: 'intro-logo', className: 'intro animated ' + display },
                 _react2.default.createElement(
                     'span',
                     { className: 'f1 animated' },
