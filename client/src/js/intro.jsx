@@ -18,7 +18,7 @@ class Intro extends Component {
             }, () => {
                 this.animationEnd(this.refs['intro-logo'], (dom) => {
                     this.setState({
-                        display: 'none'
+                        display: 'hidden'
                     });
                 })
             });

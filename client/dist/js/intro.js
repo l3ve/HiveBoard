@@ -58,7 +58,7 @@ var Intro = function (_Component) {
                 }, function () {
                     _this2.animationEnd(_this2.refs['intro-logo'], function (dom) {
                         _this2.setState({
-                            display: 'none'
+                            display: 'hidden'
                         });
                     });
                 });

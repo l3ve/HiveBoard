@@ -1,5 +1,9 @@
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
@@ -28,19 +32,27 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = require('react-dom');
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
-var _notification = require('./dist/js/notification.js');
+var _notification = require('./notification.js');
 
 var _notification2 = _interopRequireDefault(_notification);
 
-var _Intro = require('./dist/js/Intro.js');
+var _brief = require('./brief.js');
 
-var _Intro2 = _interopRequireDefault(_Intro);
+var _brief2 = _interopRequireDefault(_brief);
 
-var _db = require('./dist/js/db.js');
+var _detail = require('./detail.js');
+
+var _detail2 = _interopRequireDefault(_detail);
+
+var _add = require('./add.js');
+
+var _add2 = _interopRequireDefault(_add);
+
+var _intro = require('./intro.js');
+
+var _intro2 = _interopRequireDefault(_intro);
+
+var _db = require('./db.js');
 
 var _co = require('co');
 
@@ -96,17 +108,38 @@ var ACT = function (_Component) {
             this.refs.intro.show();
         }
     }, {
+        key: 'showAdd',
+        value: function showAdd() {
+            this.refs.add.show();
+        }
+    }, {
         key: 'render',
         value: function render() {
+            var _this2 = this;
+
             return _react2.default.createElement(
                 'div',
-                null,
-                _react2.default.createElement(_Intro2.default, { ref: 'intro' })
+                { className: 'actrace' },
+                _react2.default.createElement(_intro2.default, { ref: 'intro' }),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'add-btn', onClick: function onClick() {
+                            _this2.showAdd();
+                        } },
+                    'ADD'
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'warp' },
+                    _react2.default.createElement(_brief2.default, null),
+                    _react2.default.createElement(_detail2.default, null)
+                ),
+                _react2.default.createElement(_add2.default, { ref: 'add' })
             );
         }
     }]);
     return ACT;
 }(_react.Component);
 
-_reactDom2.default.render(_react2.default.createElement(ACT, null), document.querySelector('.actrace'));
+exports.default = ACT;
 //# sourceMappingURL=actrace.js.map

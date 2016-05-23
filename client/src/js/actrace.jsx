@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
-import ReactDOM from 'react-dom';
-import tips from './dist/js/notification.js';
-import Intro from './dist/js/Intro.js';
-import {all, get, insert} from './dist/js/db.js';
+import tips from './notification.js';
+import Brief from './brief.js';
+import Detail from './detail.js';
+import Add from './add.js';
+import Intro from './intro.js';
+import {all, get, insert} from './db.js';
 import {co} from 'co';
 
 
@@ -27,15 +29,23 @@ class ACT extends Component {
     componentDidMount() {
         this.refs.intro.show();
     }
+    showAdd() {
+        this.refs.add.show();
+    }
     render() {
         return (
-            <div>
+            <div className='actrace'>
                 <Intro ref='intro' />
+                <div className='add-btn' onClick={()=>{this.showAdd()}}>ADD</div>
+                <div className='warp'>
+                    <Brief />
+                    <Detail />
+                </div>
+                <Add ref='add' />
             </div>
         );
     }
 }
-ReactDOM.render(
-    <ACT />,
-    document.querySelector('.actrace')
-)
+
+export default ACT;
+
