@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
-import {insert, all} from './db.js';
+import {insert} from './db.js';
+import {co} from 'co';
 
 class Add extends Component {
     constructor(props) {
@@ -13,16 +14,22 @@ class Add extends Component {
             _cls: 'display'
         });
     }
+    hidden() {
+        this.setState({
+            _cls: 'hidden'
+        });
+    }
     insert() {
-        let _vlaue = this.refs['input_value'].value;
-        console.log(_vlaue);
+        let _vlaue = this.refs['input_value'].value,
+            {getAll} = this.props;
         co(function* () {
-            let _ok = yield insert('1', {
-                'name': _vlaue
+            yield insert({
+                'name': _vlaue,
+                'id':new Date().getTime()
             });
-            let _check = yield all();
-            console.log(_ok, _check);
-        })
+            getAll();
+            this.hidden();
+        }.bind(this))
     }
     render() {
         let {_cls} = this.state;

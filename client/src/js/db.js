@@ -38,23 +38,32 @@ exports.all = co.wrap(function* () {
 });
 
 exports.get = co.wrap(function* (key) {
-    let __val = {};
     let wait = function (key) {
-        return function (done) {
+        return new Promise((done) => {
             db.get(key, (err, _val) => {
-                __val = _val;
-                done();
+                done(_val);
             });
-        }
+        })
     }
-    yield wait(key);
+    let __val = yield wait(key);
     return __val;
 })
 
-exports.insert = co.wrap(function* (id, msg) {
-    // var id = utility.md5(msg.content + crypto.randomBytes(60).toString('hex'));
-    yield function* () {
-        db.put(id, msg)
-    };
-    return id;
+exports.insert = co.wrap(function* (msg) {
+    var id = utility.md5(msg.id + crypto.randomBytes(60).toString('hex'));
+    let _id = yield new Promise((done)=>{
+        db.put(id, msg, (err, _val) => {
+            done('ok');
+        })
+    });
+    return _id;
+});
+
+exports.remove = co.wrap(function* (id) {
+    let state =  yield new Promise((done)=> {
+        db.del(id, (err, _val) => {
+            done(_val);
+        })
+    })
+    return state;
 });

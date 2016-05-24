@@ -34,6 +34,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _db = require('./db.js');
 
+var _co = require('co');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Add = function (_Component) {
@@ -58,39 +60,40 @@ var Add = function (_Component) {
             });
         }
     }, {
+        key: 'hidden',
+        value: function hidden() {
+            this.setState({
+                _cls: 'hidden'
+            });
+        }
+    }, {
         key: 'insert',
         value: function insert() {
             var _vlaue = this.refs['input_value'].value;
-            console.log(_vlaue);
-            co(_regenerator2.default.mark(function _callee() {
-                var _ok, _check;
+            var getAll = this.props.getAll;
 
+            (0, _co.co)(_regenerator2.default.mark(function _callee() {
                 return _regenerator2.default.wrap(function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
                             case 0:
                                 _context.next = 2;
-                                return (0, _db.insert)('1', {
-                                    'name': _vlaue
+                                return (0, _db.insert)({
+                                    'name': _vlaue,
+                                    'id': new Date().getTime()
                                 });
 
                             case 2:
-                                _ok = _context.sent;
-                                _context.next = 5;
-                                return (0, _db.all)();
+                                getAll();
+                                this.hidden();
 
-                            case 5:
-                                _check = _context.sent;
-
-                                console.log(_ok, _check);
-
-                            case 7:
+                            case 4:
                             case 'end':
                                 return _context.stop();
                         }
                     }
                 }, _callee, this);
-            }));
+            }).bind(this));
         }
     }, {
         key: 'render',

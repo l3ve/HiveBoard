@@ -4,6 +4,10 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _regenerator = require('babel-runtime/regenerator');
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
+
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
@@ -23,10 +27,6 @@ var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorRet
 var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _regenerator = require('babel-runtime/regenerator');
-
-var _regenerator2 = _interopRequireDefault(_regenerator);
 
 var _react = require('react');
 
@@ -58,54 +58,30 @@ var _co = require('co');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-(0, _co.co)(_regenerator2.default.mark(function _callee() {
-    var _all, _some, c;
-
-    return _regenerator2.default.wrap(function _callee$(_context) {
-        while (1) {
-            switch (_context.prev = _context.next) {
-                case 0:
-                    _context.next = 2;
-                    return (0, _db.all)();
-
-                case 2:
-                    _all = _context.sent;
-                    _context.next = 5;
-                    return (0, _db.get)("123").then(function (val) {
-                        // console.log(val);
-                    });
-
-                case 5:
-                    _some = _context.sent;
-                    _context.next = 8;
-                    return [_some, _all];
-
-                case 8:
-                    c = _context.sent;
-
-                case 9:
-                case 'end':
-                    return _context.stop();
-            }
-        }
-    }, _callee, this);
-}));
-
-// console.log(_all);
-
 var ACT = function (_Component) {
     (0, _inherits3.default)(ACT, _Component);
 
     function ACT(props) {
         (0, _classCallCheck3.default)(this, ACT);
-        return (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(ACT).call(this, props));
+
+        var _this = (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(ACT).call(this, props));
+
+        _this.state = {
+            list: []
+        };
         // tips.show('fuck!');
+        return _this;
     }
 
     (0, _createClass3.default)(ACT, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
-            this.refs.intro.show();
+            // this.refs.intro.show();
+        }
+    }, {
+        key: 'componentWillMount',
+        value: function componentWillMount() {
+            this.getAll();
         }
     }, {
         key: 'showAdd',
@@ -113,9 +89,39 @@ var ACT = function (_Component) {
             this.refs.add.show();
         }
     }, {
+        key: 'getAll',
+        value: function getAll() {
+            (0, _co.co)(_regenerator2.default.mark(function _callee() {
+                var _all;
+
+                return _regenerator2.default.wrap(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                _context.next = 2;
+                                return (0, _db.all)();
+
+                            case 2:
+                                _all = _context.sent;
+
+                                this.setState({
+                                    list: _all
+                                });
+
+                            case 4:
+                            case 'end':
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, this);
+            }).bind(this, null));
+        }
+    }, {
         key: 'render',
         value: function render() {
             var _this2 = this;
+
+            var list = this.state.list;
 
             return _react2.default.createElement(
                 'div',
@@ -131,10 +137,14 @@ var ACT = function (_Component) {
                 _react2.default.createElement(
                     'div',
                     { className: 'warp' },
-                    _react2.default.createElement(_brief2.default, null),
+                    _react2.default.createElement(_brief2.default, { list: list, getAll: function getAll() {
+                            return _this2.getAll();
+                        } }),
                     _react2.default.createElement(_detail2.default, null)
                 ),
-                _react2.default.createElement(_add2.default, { ref: 'add' })
+                _react2.default.createElement(_add2.default, { ref: 'add', getAll: function getAll() {
+                        return _this2.getAll();
+                    } })
             );
         }
     }]);
