@@ -47,7 +47,7 @@ var Add = function (_Component) {
         var _this = (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(Add).call(this, props));
 
         _this.state = {
-            _cls: 'hidden'
+            _cls: 'display'
         };
         return _this;
     }
@@ -69,7 +69,10 @@ var Add = function (_Component) {
     }, {
         key: 'insert',
         value: function insert() {
-            var _vlaue = this.refs['input_value'].value;
+            var _name = this.refs['input_name'].value;
+            var _href = this.refs['input_href'].value;
+            var _chapter = this.refs['input_chapter'].value;
+            var _img = this.refs['input_img'].value;
             var getAll = this.props.getAll;
 
             (0, _co.co)(_regenerator2.default.mark(function _callee() {
@@ -79,7 +82,9 @@ var Add = function (_Component) {
                             case 0:
                                 _context.next = 2;
                                 return (0, _db.insert)({
-                                    'name': _vlaue,
+                                    'name': _name,
+                                    'href': _href,
+                                    'img': _img,
                                     'id': new Date().getTime()
                                 });
 
@@ -105,13 +110,72 @@ var Add = function (_Component) {
             return _react2.default.createElement(
                 'div',
                 { className: 'add ' + _cls },
-                _react2.default.createElement('input', { ref: 'input_value', className: 'fuck', type: 'text' }),
                 _react2.default.createElement(
-                    'span',
+                    'div',
+                    { className: 'all_input' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'name-wrap' },
+                        _react2.default.createElement('input', { ref: 'input-name', id: 'name', className: 'name', type: 'text' }),
+                        _react2.default.createElement(
+                            'label',
+                            { htmlFor: 'name' },
+                            _react2.default.createElement(
+                                'span',
+                                null,
+                                '名字'
+                            )
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'href-wrap' },
+                        _react2.default.createElement('input', { ref: 'input-href', id: 'href', className: 'href', type: 'text' }),
+                        _react2.default.createElement(
+                            'label',
+                            { htmlFor: 'href' },
+                            _react2.default.createElement(
+                                'span',
+                                null,
+                                '连接'
+                            )
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'chapter-wrap' },
+                        _react2.default.createElement('input', { ref: 'input-chapter', id: 'chapter', className: 'chapter', type: 'text' }),
+                        _react2.default.createElement(
+                            'label',
+                            { htmlFor: 'chapter' },
+                            _react2.default.createElement(
+                                'span',
+                                null,
+                                '章节'
+                            )
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'img-wrap' },
+                        _react2.default.createElement('input', { ref: 'input-img', id: 'img', className: 'img', type: 'text' }),
+                        _react2.default.createElement(
+                            'label',
+                            { htmlFor: 'img' },
+                            _react2.default.createElement(
+                                'span',
+                                null,
+                                '图片'
+                            )
+                        )
+                    )
+                ),
+                _react2.default.createElement(
+                    'p',
                     { onClick: function onClick() {
                             _this2.insert();
                         } },
-                    '存档'
+                    '一发入魂'
                 )
             );
         }

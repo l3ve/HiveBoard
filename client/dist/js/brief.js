@@ -82,10 +82,15 @@ var List = function (_Component) {
 
             return _react2.default.createElement(
                 'div',
-                { onClick: function onClick() {
-                        _this2.del(_data.id);
-                    } },
-                _data.name || _data.content
+                { className: 'trace' },
+                _data.name || _data.content,
+                _react2.default.createElement(
+                    'span',
+                    { className: 'list-del-btn', onClick: function onClick() {
+                            _this2.del(_data.id);
+                        } },
+                    '删除'
+                )
             );
         }
     }]);
@@ -111,8 +116,8 @@ var Brief = function (_Component2) {
             return _react2.default.createElement(
                 'div',
                 { className: 'brief' },
-                list.map(function (one) {
-                    return _react2.default.createElement(List, { _data: one, getAll: getAll });
+                list.map(function (one, index) {
+                    return _react2.default.createElement(List, { key: index, _data: one, getAll: getAll });
                 })
             );
         }

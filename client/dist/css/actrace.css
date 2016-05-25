@@ -67,17 +67,109 @@ body {
 .add {
   position: fixed;
   z-index: 100;
-  width: 300px;
-  height: 200px;
   top: 100px;
   left: 50%;
+}
+.add .all_input {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  padding: 20px;
+  width: 430px;
+  height: 200px;
   background-color: white;
   border-radius: 7px;
-  margin-left: -150px;
+  margin-left: -215px;
+  box-shadow: 0 0 20px #000;
+}
+.add .all_input .name-wrap,
+.add .all_input .href-wrap,
+.add .all_input .chapter-wrap,
+.add .all_input .img-wrap {
+  position: relative;
+  box-sizing: border-box;
+  display: inline-block;
+  width: 210px;
+  height: 80px;
+  vertical-align: top;
+  transition: transform 0.3s, color 0.3s;
+}
+.add .all_input .name-wrap input:focus,
+.add .all_input .href-wrap input:focus,
+.add .all_input .chapter-wrap input:focus,
+.add .all_input .img-wrap input:focus {
+  height: 30px;
+}
+.add .all_input .name-wrap input:focus + label::before,
+.add .all_input .href-wrap input:focus + label::before,
+.add .all_input .chapter-wrap input:focus + label::before,
+.add .all_input .img-wrap input:focus + label::before {
+  border-width: 8px;
+  border-color: #1784cd;
+  border-top-width: 45px;
+}
+.add .all_input .name-wrap input:focus + label span,
+.add .all_input .href-wrap input:focus + label span,
+.add .all_input .chapter-wrap input:focus + label span,
+.add .all_input .img-wrap input:focus + label span {
+  color: #fff;
+  transform: translate3d(0, -1.5em, 0) scale3d(0.75, 0.75, 1) translateZ(1px);
+}
+.add .all_input .name-wrap label,
+.add .all_input .href-wrap label,
+.add .all_input .chapter-wrap label,
+.add .all_input .img-wrap label {
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+}
+.add .all_input .name-wrap label::before,
+.add .all_input .href-wrap label::before,
+.add .all_input .chapter-wrap label::before,
+.add .all_input .img-wrap label::before {
+  content: '';
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: 0 solid transparent;
+  transition: border-width 0.3s, border-color 0.3s;
+}
+.add .all_input .name-wrap label span,
+.add .all_input .href-wrap label span,
+.add .all_input .chapter-wrap label span,
+.add .all_input .img-wrap label span {
+  position: relative;
+  display: block;
+  box-sizing: border-box;
+  padding: 30px 1em;
+  width: 100%;
+}
+.add .all_input input {
+  position: absolute;
+  box-sizing: border-box;
+  padding: 33px 23px 0;
+  width: 100%;
+  color: #1784cd;
+  background-color: transparent;
+  border: 0;
+  outline: none;
 }
 .brief {
   flex: 1;
   border: 1px solid #474747;
+}
+.brief .trace {
+  position: relative;
+}
+.brief .list-del-btn {
+  position: absolute;
+  right: 5px;
+  cursor: pointer;
 }
 .detail {
   flex: 3;

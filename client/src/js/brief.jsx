@@ -14,8 +14,9 @@ class List extends Component {
     render() {
         let {_data} = this.props;
         return (
-            <div onClick={()=>{this.del(_data.id)}}>
+            <div className='trace'>
                 {_data.name || _data.content}
+                <span className='list-del-btn' onClick={()=>{this.del(_data.id)}}>删除</span>
             </div>
         )
     }
@@ -28,8 +29,8 @@ class Brief extends Component {
         // console.log(list);
         return (
             <div className='brief'>
-                {list.map((one)=>{
-                    return <List _data={one} getAll={getAll} />
+                {list.map((one,index)=>{
+                    return <List key={index} _data={one} getAll={getAll} />
                 })}
             </div>
         );
