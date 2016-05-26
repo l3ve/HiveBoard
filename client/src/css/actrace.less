@@ -73,19 +73,18 @@ html,body {
 .add {
     position: fixed;
     z-index: 100;
-
+    width: 470px;
     top: 100px;
     left: 50%;
+    margin-left: -235px;
     .all_input{
         display: flex;
         justify-content: space-around;
         flex-wrap: wrap;
         padding: 20px;
-        width: 430px;
         height: 200px;
         background-color: white;
         border-radius: 7px;
-        margin-left: -215px;
         box-shadow: 0 0 20px #000;
         .name-wrap,.href-wrap,.chapter-wrap,.img-wrap {
             position: relative;
@@ -94,17 +93,17 @@ html,body {
             width: 210px;
             height: 80px;
             vertical-align: top;
-            transition: transform 0.3s, color 0.3s;
-            input:focus {
+            input:focus,input.fill {
                 height: 30px;
                 &+label::before {
                     border-width: 8px;
                     border-color: #1784cd;
-                    border-top-width: 45px;
+                    border-top-width: 33px;
                 }
                 &+label span {
                     color: #fff;
-                    transform: translate3d(0, -1.5em, 0) scale3d(0.75, 0.75, 1) translateZ(1px);
+                    transition: transform 0.3s, color 0.3s;
+                    transform: translate3d(0, -24px, 0) scale3d(0.75, 0.75, 1)  translateZ(1px);
                 }
             }
             label {
@@ -125,6 +124,7 @@ html,body {
                     transition: border-width 0.3s, border-color 0.3s;
                 }
                 span {
+                    text-align: center;
                     position: relative;
                     display: block;
                     box-sizing: border-box;
@@ -136,13 +136,17 @@ html,body {
         input {
             position: absolute;
             box-sizing: border-box;
-            padding: 33px 23px 0;
+            padding: 53px 23px 0;
             width: 100%;
             color: #1784cd;
             background-color: transparent;
             border: 0;
             outline: none;
         }
+    }
+    .save-btn {
+        text-align: center;
+        cursor: pointer;
     }
 }
 .brief {

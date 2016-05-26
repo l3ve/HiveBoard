@@ -4,6 +4,10 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
+
+var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
@@ -47,7 +51,11 @@ var Add = function (_Component) {
         var _this = (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(Add).call(this, props));
 
         _this.state = {
-            _cls: 'display'
+            _cls: 'display',
+            _nameCls: 'empty',
+            _hrefCls: 'empty',
+            _chapterCls: 'empty',
+            _imgCls: 'empty'
         };
         return _this;
     }
@@ -101,11 +109,25 @@ var Add = function (_Component) {
             }).bind(this));
         }
     }, {
+        key: 'handleChange',
+        value: function handleChange(ref) {
+            if (this.refs[ref].value.length != 0) {
+                this.setState((0, _defineProperty3.default)({}, '_' + ref + 'Cls', 'fill'));
+            } else {
+                this.setState((0, _defineProperty3.default)({}, '_' + ref + 'Cls', 'empty'));
+            }
+        }
+    }, {
         key: 'render',
         value: function render() {
             var _this2 = this;
 
-            var _cls = this.state._cls;
+            var _state = this.state;
+            var _cls = _state._cls;
+            var _nameCls = _state._nameCls;
+            var _hrefCls = _state._hrefCls;
+            var _chapterCls = _state._chapterCls;
+            var _imgCls = _state._imgCls;
 
             return _react2.default.createElement(
                 'div',
@@ -116,7 +138,9 @@ var Add = function (_Component) {
                     _react2.default.createElement(
                         'div',
                         { className: 'name-wrap' },
-                        _react2.default.createElement('input', { ref: 'input-name', id: 'name', className: 'name', type: 'text' }),
+                        _react2.default.createElement('input', { ref: 'name', onChange: function onChange() {
+                                _this2.handleChange('name');
+                            }, id: 'name', className: 'name ' + _nameCls, type: 'text' }),
                         _react2.default.createElement(
                             'label',
                             { htmlFor: 'name' },
@@ -130,7 +154,9 @@ var Add = function (_Component) {
                     _react2.default.createElement(
                         'div',
                         { className: 'href-wrap' },
-                        _react2.default.createElement('input', { ref: 'input-href', id: 'href', className: 'href', type: 'text' }),
+                        _react2.default.createElement('input', { ref: 'href', onChange: function onChange() {
+                                _this2.handleChange('href');
+                            }, id: 'href', className: 'href ' + _hrefCls, type: 'text' }),
                         _react2.default.createElement(
                             'label',
                             { htmlFor: 'href' },
@@ -144,7 +170,9 @@ var Add = function (_Component) {
                     _react2.default.createElement(
                         'div',
                         { className: 'chapter-wrap' },
-                        _react2.default.createElement('input', { ref: 'input-chapter', id: 'chapter', className: 'chapter', type: 'text' }),
+                        _react2.default.createElement('input', { ref: 'chapter', onChange: function onChange() {
+                                _this2.handleChange('chapter');
+                            }, id: 'chapter', className: 'chapter ' + _chapterCls, type: 'text' }),
                         _react2.default.createElement(
                             'label',
                             { htmlFor: 'chapter' },
@@ -158,7 +186,9 @@ var Add = function (_Component) {
                     _react2.default.createElement(
                         'div',
                         { className: 'img-wrap' },
-                        _react2.default.createElement('input', { ref: 'input-img', id: 'img', className: 'img', type: 'text' }),
+                        _react2.default.createElement('input', { ref: 'img', onChange: function onChange() {
+                                _this2.handleChange('img');
+                            }, id: 'img', className: 'img ' + _imgCls, type: 'text' }),
                         _react2.default.createElement(
                             'label',
                             { htmlFor: 'img' },
@@ -172,7 +202,7 @@ var Add = function (_Component) {
                 ),
                 _react2.default.createElement(
                     'p',
-                    { onClick: function onClick() {
+                    { className: 'save-btn', onClick: function onClick() {
                             _this2.insert();
                         } },
                     '一发入魂'

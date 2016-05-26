@@ -67,19 +67,19 @@ body {
 .add {
   position: fixed;
   z-index: 100;
+  width: 470px;
   top: 100px;
   left: 50%;
+  margin-left: -235px;
 }
 .add .all_input {
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
   padding: 20px;
-  width: 430px;
   height: 200px;
   background-color: white;
   border-radius: 7px;
-  margin-left: -215px;
   box-shadow: 0 0 20px #000;
 }
 .add .all_input .name-wrap,
@@ -92,28 +92,40 @@ body {
   width: 210px;
   height: 80px;
   vertical-align: top;
-  transition: transform 0.3s, color 0.3s;
 }
 .add .all_input .name-wrap input:focus,
 .add .all_input .href-wrap input:focus,
 .add .all_input .chapter-wrap input:focus,
-.add .all_input .img-wrap input:focus {
+.add .all_input .img-wrap input:focus,
+.add .all_input .name-wrap input.fill,
+.add .all_input .href-wrap input.fill,
+.add .all_input .chapter-wrap input.fill,
+.add .all_input .img-wrap input.fill {
   height: 30px;
 }
 .add .all_input .name-wrap input:focus + label::before,
 .add .all_input .href-wrap input:focus + label::before,
 .add .all_input .chapter-wrap input:focus + label::before,
-.add .all_input .img-wrap input:focus + label::before {
+.add .all_input .img-wrap input:focus + label::before,
+.add .all_input .name-wrap input.fill + label::before,
+.add .all_input .href-wrap input.fill + label::before,
+.add .all_input .chapter-wrap input.fill + label::before,
+.add .all_input .img-wrap input.fill + label::before {
   border-width: 8px;
   border-color: #1784cd;
-  border-top-width: 45px;
+  border-top-width: 33px;
 }
 .add .all_input .name-wrap input:focus + label span,
 .add .all_input .href-wrap input:focus + label span,
 .add .all_input .chapter-wrap input:focus + label span,
-.add .all_input .img-wrap input:focus + label span {
+.add .all_input .img-wrap input:focus + label span,
+.add .all_input .name-wrap input.fill + label span,
+.add .all_input .href-wrap input.fill + label span,
+.add .all_input .chapter-wrap input.fill + label span,
+.add .all_input .img-wrap input.fill + label span {
   color: #fff;
-  transform: translate3d(0, -1.5em, 0) scale3d(0.75, 0.75, 1) translateZ(1px);
+  transition: transform 0.3s, color 0.3s;
+  transform: translate3d(0, -24px, 0) scale3d(0.75, 0.75, 1) translateZ(1px);
 }
 .add .all_input .name-wrap label,
 .add .all_input .href-wrap label,
@@ -143,6 +155,7 @@ body {
 .add .all_input .href-wrap label span,
 .add .all_input .chapter-wrap label span,
 .add .all_input .img-wrap label span {
+  text-align: center;
   position: relative;
   display: block;
   box-sizing: border-box;
@@ -152,12 +165,16 @@ body {
 .add .all_input input {
   position: absolute;
   box-sizing: border-box;
-  padding: 33px 23px 0;
+  padding: 53px 23px 0;
   width: 100%;
   color: #1784cd;
   background-color: transparent;
   border: 0;
   outline: none;
+}
+.add .save-btn {
+  text-align: center;
+  cursor: pointer;
 }
 .brief {
   flex: 1;
