@@ -93,19 +93,7 @@ html,body {
             width: 210px;
             height: 80px;
             vertical-align: top;
-            input:focus,input.fill {
-                height: 30px;
-                &+label::before {
-                    border-width: 8px;
-                    border-color: #1784cd;
-                    border-top-width: 33px;
-                }
-                &+label span {
-                    color: #fff;
-                    transition: transform 0.3s, color 0.3s;
-                    transform: translate3d(0, -24px, 0) scale3d(0.75, 0.75, 1)  translateZ(1px);
-                }
-            }
+            background-color: #ddd;
             label {
                 padding: 0;
                 width: 100%;
@@ -124,24 +112,55 @@ html,body {
                     transition: border-width 0.3s, border-color 0.3s;
                 }
                 span {
+                    box-shadow: 0 7px 3px -7px;
                     text-align: center;
                     position: relative;
                     display: block;
                     box-sizing: border-box;
-                    padding: 30px 1em;
+                    padding: 29px 1em;
                     width: 100%;
                 }
             }
+        }
+        .name-wrap,.href-wrap,.chapter-wrap {
+            input:focus,input.fill {
+                height: 30px;
+                &+label::before {
+                    border-width: 8px;
+                    border-color: #1784cd;
+                    border-top-width: 33px;
+                }
+                &+label span {
+                    color: #fff;
+                    box-shadow: none;
+                    transition: transform 0.3s, color 0.3s;
+                    transform: translate3d(0, -24px, 0) scale3d(0.75, 0.75, 1)  translateZ(1px);
+                }
+            }
+        }
+        .img-wrap {
+            .preview {
+                width: 70px;
+                height: 70px;
+                position: absolute;
+                top: 5px;
+                left: 50%;
+                margin-left: -35px;
+            }
+
         }
         input {
             position: absolute;
             box-sizing: border-box;
             padding: 53px 23px 0;
             width: 100%;
-            color: #1784cd;
+            // color: #b;
             background-color: transparent;
             border: 0;
             outline: none;
+            &#img {
+                opacity: 0;
+            }
         }
     }
     .save-btn {

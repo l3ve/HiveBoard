@@ -7,6 +7,7 @@ class Add extends Component {
         super(props);
         this.state = {
             _cls: 'display',
+            _imgSrc: '',
             _nameCls: 'empty',
             _hrefCls: 'empty',
             _chapterCls: 'empty',
@@ -23,11 +24,25 @@ class Add extends Component {
             _cls: 'hidden'
         });
     }
+    clear() {
+        this.refs['name'].value = '';
+        this.refs['href'].value = '';
+        this.refs['chapter'].value = '';
+        this.refs['img'].value = '';
+        this.setState({
+            _nameCls: 'empty',
+            _hrefCls: 'empty',
+            _chapterCls: 'empty',
+            _imgCls: 'empty',
+            _imgSrc: ''
+
+        });
+    }
     insert() {
-        let _name = this.refs['input_name'].value,
-            _href = this.refs['input_href'].value,
-            _chapter = this.refs['input_chapter'].value,
-            _img = this.refs['input_img'].value,
+        let _name = this.refs['name'].value || '莫名',
+            _href = this.refs['href'].value || 'http://www.didamoe.com',
+            _chapter = this.refs['chapter'].value || '1',
+            _img = this.state._imgSrc,
             {getAll} = this.props;
         co(function* () {
             yield insert({
@@ -38,39 +53,56 @@ class Add extends Component {
             });
             getAll();
             this.hidden();
+            this.clear();
         }.bind(this))
+    }
+    toBase64(file) {
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        return new Promise((so) => {
+            reader.onload = (e) => {
+                this.setState({
+                    _imgSrc: e.target.result
+                });
+                so(e.target.result);
+            }
+        })
     }
     handleChange(ref) {
         if (this.refs[ref].value.length != 0) {
             this.setState({
-                ['_'+ref+'Cls']: 'fill'
+                ['_' + ref + 'Cls']: 'fill'
             });
         } else {
             this.setState({
-                ['_'+ref+'Cls']: 'empty'
+                ['_' + ref + 'Cls']: 'empty'
             });
+        }
+        if (ref == 'img') {
+            this.toBase64(this.refs['img'].files[0]);
         }
     }
     render() {
-        let {_cls, _nameCls, _hrefCls, _chapterCls, _imgCls} = this.state;
+        let {_cls, _nameCls, _hrefCls, _chapterCls, _imgCls, _imgSrc} = this.state;
         return (
             <div className={'add ' + _cls}>
                 <div className='all_input'>
                     <div className='name-wrap'>
-                        <input ref='name' onChange={() => { this.handleChange('name') } } id='name' className={'name '+_nameCls} type="text" />
+                        <input ref='name' onChange={() => { this.handleChange('name') } } id='name' className={'name ' + _nameCls} type="text" />
                         <label htmlFor="name"><span>名字</span></label>
                     </div>
                     <div className='href-wrap'>
-                        <input ref='href' onChange={() => { this.handleChange('href') } } id='href'  className={'href '+_hrefCls} type="text" />
+                        <input ref='href' onChange={() => { this.handleChange('href') } } id='href'  className={'href ' + _hrefCls} type="text" />
                         <label htmlFor="href"><span>连接</span></label>
                     </div>
                     <div className='chapter-wrap'>
-                        <input ref='chapter' onChange={() => { this.handleChange('chapter') } } id='chapter'  className={'chapter '+_chapterCls} type="text" />
+                        <input ref='chapter' onChange={() => { this.handleChange('chapter') } } id='chapter'  className={'chapter ' + _chapterCls} type="text" />
                         <label htmlFor="chapter"><span>章节</span></label>
                     </div>
                     <div className='img-wrap'>
-                        <input ref='img' onChange={() => { this.handleChange('img') } } id='img'  className={'img '+_imgCls} type="text" />
+                        <input ref='img' onChange={() => { this.handleChange('img') } } id='img'  className={'img ' + _imgCls} type="file" />
                         <label htmlFor="img"><span>图片</span></label>
+                        {_imgSrc ? <img className='preview' src={_imgSrc} alt="preview"/> : ''}
                     </div>
                 </div>
                 <p className='save-btn' onClick={() => { this.insert() } }>一发入魂</p>

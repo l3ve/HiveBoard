@@ -92,40 +92,7 @@ body {
   width: 210px;
   height: 80px;
   vertical-align: top;
-}
-.add .all_input .name-wrap input:focus,
-.add .all_input .href-wrap input:focus,
-.add .all_input .chapter-wrap input:focus,
-.add .all_input .img-wrap input:focus,
-.add .all_input .name-wrap input.fill,
-.add .all_input .href-wrap input.fill,
-.add .all_input .chapter-wrap input.fill,
-.add .all_input .img-wrap input.fill {
-  height: 30px;
-}
-.add .all_input .name-wrap input:focus + label::before,
-.add .all_input .href-wrap input:focus + label::before,
-.add .all_input .chapter-wrap input:focus + label::before,
-.add .all_input .img-wrap input:focus + label::before,
-.add .all_input .name-wrap input.fill + label::before,
-.add .all_input .href-wrap input.fill + label::before,
-.add .all_input .chapter-wrap input.fill + label::before,
-.add .all_input .img-wrap input.fill + label::before {
-  border-width: 8px;
-  border-color: #1784cd;
-  border-top-width: 33px;
-}
-.add .all_input .name-wrap input:focus + label span,
-.add .all_input .href-wrap input:focus + label span,
-.add .all_input .chapter-wrap input:focus + label span,
-.add .all_input .img-wrap input:focus + label span,
-.add .all_input .name-wrap input.fill + label span,
-.add .all_input .href-wrap input.fill + label span,
-.add .all_input .chapter-wrap input.fill + label span,
-.add .all_input .img-wrap input.fill + label span {
-  color: #fff;
-  transition: transform 0.3s, color 0.3s;
-  transform: translate3d(0, -24px, 0) scale3d(0.75, 0.75, 1) translateZ(1px);
+  background-color: #ddd;
 }
 .add .all_input .name-wrap label,
 .add .all_input .href-wrap label,
@@ -155,22 +122,62 @@ body {
 .add .all_input .href-wrap label span,
 .add .all_input .chapter-wrap label span,
 .add .all_input .img-wrap label span {
+  box-shadow: 0 7px 3px -7px;
   text-align: center;
   position: relative;
   display: block;
   box-sizing: border-box;
-  padding: 30px 1em;
+  padding: 29px 1em;
   width: 100%;
+}
+.add .all_input .name-wrap input:focus,
+.add .all_input .href-wrap input:focus,
+.add .all_input .chapter-wrap input:focus,
+.add .all_input .name-wrap input.fill,
+.add .all_input .href-wrap input.fill,
+.add .all_input .chapter-wrap input.fill {
+  height: 30px;
+}
+.add .all_input .name-wrap input:focus + label::before,
+.add .all_input .href-wrap input:focus + label::before,
+.add .all_input .chapter-wrap input:focus + label::before,
+.add .all_input .name-wrap input.fill + label::before,
+.add .all_input .href-wrap input.fill + label::before,
+.add .all_input .chapter-wrap input.fill + label::before {
+  border-width: 8px;
+  border-color: #1784cd;
+  border-top-width: 33px;
+}
+.add .all_input .name-wrap input:focus + label span,
+.add .all_input .href-wrap input:focus + label span,
+.add .all_input .chapter-wrap input:focus + label span,
+.add .all_input .name-wrap input.fill + label span,
+.add .all_input .href-wrap input.fill + label span,
+.add .all_input .chapter-wrap input.fill + label span {
+  color: #fff;
+  box-shadow: none;
+  transition: transform 0.3s, color 0.3s;
+  transform: translate3d(0, -24px, 0) scale3d(0.75, 0.75, 1) translateZ(1px);
+}
+.add .all_input .img-wrap .preview {
+  width: 70px;
+  height: 70px;
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  margin-left: -35px;
 }
 .add .all_input input {
   position: absolute;
   box-sizing: border-box;
   padding: 53px 23px 0;
   width: 100%;
-  color: #1784cd;
   background-color: transparent;
   border: 0;
   outline: none;
+}
+.add .all_input input#img {
+  opacity: 0;
 }
 .add .save-btn {
   text-align: center;
