@@ -11,11 +11,14 @@ class List extends Component {
             this.props.getAll();
         }.bind(this))
     }
+    handleClick(_data) {
+        this.props.toDetail(_data);
+    }
     render() {
         let {_data} = this.props;
         return (
             <div className='trace'>
-                {_data.name || _data.content}
+                <span onClick={()=>this.handleClick(_data)}> {_data.name}</span>
                 <span className='list-del-btn' onClick={()=>{this.del(_data.id)}}>删除</span>
             </div>
         )
@@ -25,12 +28,12 @@ class List extends Component {
 
 class Brief extends Component {
     render() {
-        let {list,getAll} = this.props;
+        let {list,getAll,toDetail} = this.props;
         // console.log(list);
         return (
             <div className='brief'>
                 {list.map((one,index)=>{
-                    return <List key={index} _data={one} getAll={getAll} />
+                    return <List key={index} _data={one} getAll={getAll} toDetail={toDetail} />
                 })}
             </div>
         );

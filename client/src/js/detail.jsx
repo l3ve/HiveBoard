@@ -2,9 +2,12 @@ import React, {Component, PropTypes} from 'react';
 
 class Detail extends Component {
     render() {
+        let {detail} = this.props;
+        console.log(detail);
         return (
-            <div className='detail'>
-                detail
+            <div key={detail.id} className='detail'>
+                <p className='name'><a href={detail.href} target='_back'>{detail.name}</a></p>
+                <img src={detail.img} alt="bg"/>
             </div>
         );
     }

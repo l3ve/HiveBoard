@@ -11,7 +11,8 @@ class ACT extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            list : []
+            list : [],
+            detail:{}
         }
         // tips.show('fuck!');
     }
@@ -28,19 +29,25 @@ class ACT extends Component {
         co(function* () {
             let _all = yield all();
             this.setState({
-                list: _all
+                list: _all,
+                detail: _all[0]
             });
         }.bind(this,null))
     }
+    toDetail(obj) {
+        this.setState({
+            detail:obj
+        });
+    }
     render() {
-        let {list} = this.state;
+        let {list,detail} = this.state;
         return (
             <div className='actrace'>
                 <Intro ref='intro' />
                 <div className='add-btn' onClick={() => { this.showAdd() } }>ADD</div>
                 <div className='warp'>
-                    <Brief list={list} getAll={()=>this.getAll()} />
-                    <Detail />
+                    <Brief list={list} getAll={()=>this.getAll()} toDetail={(data)=>this.toDetail(data)} />
+                    <Detail detail={detail}/>
                 </div>
                 <Add ref='add' getAll={()=>this.getAll()} />
             </div>

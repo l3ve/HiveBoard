@@ -67,7 +67,8 @@ var ACT = function (_Component) {
         var _this = (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(ACT).call(this, props));
 
         _this.state = {
-            list: []
+            list: [],
+            detail: {}
         };
         // tips.show('fuck!');
         return _this;
@@ -105,7 +106,8 @@ var ACT = function (_Component) {
                                 _all = _context.sent;
 
                                 this.setState({
-                                    list: _all
+                                    list: _all,
+                                    detail: _all[0]
                                 });
 
                             case 4:
@@ -117,11 +119,20 @@ var ACT = function (_Component) {
             }).bind(this, null));
         }
     }, {
+        key: 'toDetail',
+        value: function toDetail(obj) {
+            this.setState({
+                detail: obj
+            });
+        }
+    }, {
         key: 'render',
         value: function render() {
             var _this2 = this;
 
-            var list = this.state.list;
+            var _state = this.state;
+            var list = _state.list;
+            var detail = _state.detail;
 
             return _react2.default.createElement(
                 'div',
@@ -139,8 +150,10 @@ var ACT = function (_Component) {
                     { className: 'warp' },
                     _react2.default.createElement(_brief2.default, { list: list, getAll: function getAll() {
                             return _this2.getAll();
+                        }, toDetail: function toDetail(data) {
+                            return _this2.toDetail(data);
                         } }),
-                    _react2.default.createElement(_detail2.default, null)
+                    _react2.default.createElement(_detail2.default, { detail: detail })
                 ),
                 _react2.default.createElement(_add2.default, { ref: 'add', getAll: function getAll() {
                         return _this2.getAll();

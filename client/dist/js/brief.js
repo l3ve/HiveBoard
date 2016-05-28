@@ -74,6 +74,11 @@ var List = function (_Component) {
             }).bind(this));
         }
     }, {
+        key: 'handleClick',
+        value: function handleClick(_data) {
+            this.props.toDetail(_data);
+        }
+    }, {
         key: 'render',
         value: function render() {
             var _this2 = this;
@@ -83,7 +88,14 @@ var List = function (_Component) {
             return _react2.default.createElement(
                 'div',
                 { className: 'trace' },
-                _data.name || _data.content,
+                _react2.default.createElement(
+                    'span',
+                    { onClick: function onClick() {
+                            return _this2.handleClick(_data);
+                        } },
+                    ' ',
+                    _data.name
+                ),
                 _react2.default.createElement(
                     'span',
                     { className: 'list-del-btn', onClick: function onClick() {
@@ -111,13 +123,14 @@ var Brief = function (_Component2) {
             var _props = this.props;
             var list = _props.list;
             var getAll = _props.getAll;
+            var toDetail = _props.toDetail;
             // console.log(list);
 
             return _react2.default.createElement(
                 'div',
                 { className: 'brief' },
                 list.map(function (one, index) {
-                    return _react2.default.createElement(List, { key: index, _data: one, getAll: getAll });
+                    return _react2.default.createElement(List, { key: index, _data: one, getAll: getAll, toDetail: toDetail });
                 })
             );
         }

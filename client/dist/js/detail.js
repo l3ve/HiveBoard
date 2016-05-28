@@ -41,10 +41,22 @@ var Detail = function (_Component) {
     (0, _createClass3.default)(Detail, [{
         key: 'render',
         value: function render() {
+            var detail = this.props.detail;
+
+            console.log(detail);
             return _react2.default.createElement(
                 'div',
-                { className: 'detail' },
-                'detail'
+                { key: detail.id, className: 'detail' },
+                _react2.default.createElement(
+                    'p',
+                    { className: 'name' },
+                    _react2.default.createElement(
+                        'a',
+                        { href: detail.href, target: '_back' },
+                        detail.name
+                    )
+                ),
+                _react2.default.createElement('img', { src: detail.img, alt: 'bg' })
             );
         }
     }]);

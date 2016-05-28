@@ -55,7 +55,7 @@ var Add = function (_Component) {
         var _this = (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(Add).call(this, props));
 
         _this.state = {
-            _cls: 'display',
+            _cls: 'hidden',
             _imgSrc: '',
             _nameCls: 'empty',
             _hrefCls: 'empty',
@@ -74,10 +74,12 @@ var Add = function (_Component) {
         }
     }, {
         key: 'hidden',
-        value: function hidden() {
-            this.setState({
-                _cls: 'hidden'
-            });
+        value: function hidden(e) {
+            if (!e || !e.target.className.indexOf('shadow')) {
+                this.setState({
+                    _cls: 'hidden'
+                });
+            }
         }
     }, {
         key: 'clear',
@@ -114,6 +116,7 @@ var Add = function (_Component) {
                                     'name': _name,
                                     'href': _href,
                                     'img': _img,
+                                    'chapter': _chapter,
                                     'id': new Date().getTime()
                                 });
 
@@ -173,82 +176,88 @@ var Add = function (_Component) {
 
             return _react2.default.createElement(
                 'div',
-                { className: 'add ' + _cls },
+                { className: 'shadow ' + _cls, onClick: function onClick(e) {
+                        return _this3.hidden(e);
+                    } },
                 _react2.default.createElement(
                     'div',
-                    { className: 'all_input' },
+                    { className: 'add' },
                     _react2.default.createElement(
                         'div',
-                        { className: 'name-wrap' },
-                        _react2.default.createElement('input', { ref: 'name', onChange: function onChange() {
-                                _this3.handleChange('name');
-                            }, id: 'name', className: 'name ' + _nameCls, type: 'text' }),
+                        { className: 'all_input' },
                         _react2.default.createElement(
-                            'label',
-                            { htmlFor: 'name' },
+                            'div',
+                            { className: 'name-wrap' },
+                            _react2.default.createElement('input', { ref: 'name', onChange: function onChange() {
+                                    _this3.handleChange('name');
+                                }, id: 'name', className: 'name ' + _nameCls, type: 'text' }),
                             _react2.default.createElement(
-                                'span',
-                                null,
-                                '名字'
-                            )
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'href-wrap' },
-                        _react2.default.createElement('input', { ref: 'href', onChange: function onChange() {
-                                _this3.handleChange('href');
-                            }, id: 'href', className: 'href ' + _hrefCls, type: 'text' }),
-                        _react2.default.createElement(
-                            'label',
-                            { htmlFor: 'href' },
-                            _react2.default.createElement(
-                                'span',
-                                null,
-                                '连接'
-                            )
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'chapter-wrap' },
-                        _react2.default.createElement('input', { ref: 'chapter', onChange: function onChange() {
-                                _this3.handleChange('chapter');
-                            }, id: 'chapter', className: 'chapter ' + _chapterCls, type: 'text' }),
-                        _react2.default.createElement(
-                            'label',
-                            { htmlFor: 'chapter' },
-                            _react2.default.createElement(
-                                'span',
-                                null,
-                                '章节'
-                            )
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'img-wrap' },
-                        _react2.default.createElement('input', { ref: 'img', onChange: function onChange() {
-                                _this3.handleChange('img');
-                            }, id: 'img', className: 'img ' + _imgCls, type: 'file' }),
-                        _react2.default.createElement(
-                            'label',
-                            { htmlFor: 'img' },
-                            _react2.default.createElement(
-                                'span',
-                                null,
-                                '图片'
+                                'label',
+                                { htmlFor: 'name' },
+                                _react2.default.createElement(
+                                    'span',
+                                    null,
+                                    '名字'
+                                )
                             )
                         ),
-                        _imgSrc ? _react2.default.createElement('img', { className: 'preview', src: _imgSrc, alt: 'preview' }) : ''
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'href-wrap' },
+                            _react2.default.createElement('input', { ref: 'href', onChange: function onChange() {
+                                    _this3.handleChange('href');
+                                }, id: 'href', className: 'href ' + _hrefCls, type: 'text' }),
+                            _react2.default.createElement(
+                                'label',
+                                { htmlFor: 'href' },
+                                _react2.default.createElement(
+                                    'span',
+                                    null,
+                                    '连接'
+                                )
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'chapter-wrap' },
+                            _react2.default.createElement('input', { ref: 'chapter', onChange: function onChange() {
+                                    _this3.handleChange('chapter');
+                                }, id: 'chapter', className: 'chapter ' + _chapterCls, type: 'text' }),
+                            _react2.default.createElement(
+                                'label',
+                                { htmlFor: 'chapter' },
+                                _react2.default.createElement(
+                                    'span',
+                                    null,
+                                    '章节'
+                                )
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'img-wrap' },
+                            _react2.default.createElement('input', { ref: 'img', onChange: function onChange() {
+                                    _this3.handleChange('img');
+                                }, id: 'img', className: 'img ' + _imgCls, type: 'file' }),
+                            _react2.default.createElement(
+                                'label',
+                                { htmlFor: 'img' },
+                                _react2.default.createElement(
+                                    'span',
+                                    null,
+                                    '图片'
+                                )
+                            ),
+                            _imgSrc ? _react2.default.createElement('img', { className: 'preview', src: _imgSrc, alt: 'preview' }) : ''
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'p',
+                        { className: 'save-btn', onClick: function onClick() {
+                                _this3.insert();
+                            } },
+                        '一发入魂'
                     )
-                ),
-                _react2.default.createElement(
-                    'p',
-                    { className: 'save-btn', onClick: function onClick() {
-                            _this3.insert();
-                        } },
-                    '一发入魂'
                 )
             );
         }
