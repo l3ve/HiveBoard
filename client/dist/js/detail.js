@@ -56,7 +56,13 @@ var Detail = function (_Component) {
                         detail.name
                     )
                 ),
-                _react2.default.createElement('img', { src: detail.img, alt: 'bg' })
+                _react2.default.createElement('img', { src: detail.img, alt: 'bg' }),
+                _react2.default.createElement(
+                    'p',
+                    null,
+                    '上次看到:',
+                    detail.chapter
+                )
             );
         }
     }]);
