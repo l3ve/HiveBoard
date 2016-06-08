@@ -20,9 +20,7 @@ gulp.task('eslint', function () {
 gulp.task('jsx', ['eslint'], function () {
     return gulp.src(['src/js/*.jsx', '!node_modules/**'])
         .pipe(sourcemaps.init())
-        .pipe(babel({
-            presets: ['es2015', 'react']
-        }))
+        .pipe(babel())
         .pipe(sourcemaps.write("."))
         .pipe(gulp.dest('dist/js'));
 });
