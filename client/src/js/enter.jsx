@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ACT from './dist/js/actrace.js';
+import ACT from './actrace.jsx';
 
 ReactDOM.render(
     <ACT />,

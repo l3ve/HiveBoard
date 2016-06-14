@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import tips from './notification.js';
-import Brief from './brief.js';
-import Detail from './detail.js';
-import Add from './add.js';
-import Intro from './intro.js';
+import tips from './notification';
+import Brief from './brief';
+import Detail from './detail';
+import Add from './add';
+import Intro from './intro';
 import {all, get, insert} from './db.js';
 import {co} from 'co';
 
