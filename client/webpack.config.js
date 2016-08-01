@@ -12,20 +12,20 @@ var webpack = require('webpack'),
         })
     ];
 
-var nodeModules = {};
-fs.readdirSync('node_modules')
-    .filter(function (x) {
-        return ['.bin'].indexOf(x) === -1;
-    })
-    .forEach(function (mod) {
-        nodeModules[mod] = 'commonjs ' + mod;
-    });
+// var nodeModules = {};
+// fs.readdirSync('node_modules')
+//     .filter(function (x) {
+//         return ['.bin'].indexOf(x) === -1;
+//     })
+//     .forEach(function (mod) {
+//         nodeModules[mod] = 'commonjs ' + mod;
+//     });
 module.exports = {
     //入口文件
     entry: {
-        base: ['css/animation', 'css/actrace'],
+        base: ['css/animation', 'css/talk'],
         enter: [
-            'js/enter'
+            'lib/talk'
         ]
     },
     target: 'node',
@@ -37,15 +37,14 @@ module.exports = {
         umdNamedDefine: true,  //同上
         filename: "[name].js"
     },
-    externals: nodeModules,
+    // externals: nodeModules,
     plugins: plugin,
     resolve: {
         //根目录遍历
         root: [process.cwd() + '/src', process.cwd() + '/node_modules'],
         alias: {
             'react': path.join(__dirname, '/node_modules/react/dist/react.min'),
-            'react-dom': path.join(__dirname, '/node_modules/react-dom/dist/react-dom.min'),
-            'react-redux': path.join(__dirname, '/node_modules/react-redux/dist/react-redux.min')
+            'react-dom': path.join(__dirname, '/node_modules/react-dom/dist/react-dom.min')
         },
         //自动补全后缀
         extensions: ['', '.js', '.jsx', '.css', '.less', '.png', '.jpg']
@@ -76,11 +75,13 @@ module.exports = {
                 loaders: ['babel'],
                 exclude: /(node_modules)/,
                 include: path.join(__dirname, 'src')
-            }, {
+            },
+            {
                 test: /\.(less|css)$/,
                 exclude: /(node_modules)/,
                 loader: 'style!css!postcss'
-            }, {
+            },
+            {
                 test: /\.(png|jpg|gif)$/,
                 exclude: /(node_modules)/,
                 loader: 'url?limit=8192'

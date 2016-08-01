@@ -12,7 +12,7 @@ app.on('window-all-closed',()=>{
 app.on('ready',()=>{
     mainWindow = new BrowserWindow({width: 960,height: 600});
 
-    mainWindow.loadURL('file://'+ __dirname + '/actrace.html');
+    mainWindow.loadURL('file://'+ __dirname + '/index.html');
 
     mainWindow.openDevTools();
 

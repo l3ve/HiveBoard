@@ -7,7 +7,7 @@ var app = require('koa')();
 var router = require('koa-router')();
 var favicon = require('koa-favicon');
 var static = require('koa-static');
-var io = require('./common/socket-S');
+var io = require('./models/socket-S');
 app.use(bodyParser());
 app.use(static(path.join(__dirname,'.')));
 app.use(favicon(__dirname + '/src/favicon.ico'));

@@ -55,13 +55,13 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(99);
-	module.exports = __webpack_require__(98);
+	__webpack_require__(81);
+	module.exports = __webpack_require__(82);
 
 
 /***/ },
 
-/***/ 43:
+/***/ 39:
 /***/ function(module, exports) {
 
 	/*
@@ -118,7 +118,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 
-/***/ 44:
+/***/ 40:
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -371,25 +371,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 
-/***/ 96:
+/***/ 79:
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(43)();
-	// imports
-
-
-	// module
-	exports.push([module.id, ".hidden {\n    display: none;\n}\n.shadow {\n    position: fixed;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    background-color: rgba(0,0,0,0.7);\n}\nhtml, body {\n    margin: 0;\n    height: 100%;\n    background-color: rgba(235,235,235,0.8);\n}\n.intro {\n    position: fixed;\n    width: 100%;\n    height: 100%;\n    background-color: rgba(255,255,255,0.8);\n    line-height: 100%;\n    text-align: center;\n}\n.intro span {\n    display: inline-block;\n    position: relative;\n    top: 50%;\n    font-size: 7em;\n    font-weight: bolder;\n    opacity: 0;\n    text-shadow: 0 1px hsl(0, 0%, 85%),\n                     0 2px hsl(0, 0%, 80%),\n                     0 3px hsl(0, 0%, 75%),\n                     0 4px hsl(0, 0%, 70%),\n                     0 5px hsl(0, 0%, 65%),\n                     0 5px 10px black;\n}\n.intro.start .f1 {\n    -webkit-animation: zoomIn 0.5s 1s;\n            animation: zoomIn 0.5s 1s;\n}\n.intro.start .f2 {\n    -webkit-animation: zoomIn 0.5s 1.1s;\n            animation: zoomIn 0.5s 1.1s;\n}\n.intro.start .f3 {\n    -webkit-animation: zoomIn 0.5s 1.2s;\n            animation: zoomIn 0.5s 1.2s;\n}\n.intro.start .f4 {\n    -webkit-animation: zoomIn 0.5s 1.3s;\n            animation: zoomIn 0.5s 1.3s;\n}\n.intro.start .f5 {\n    -webkit-animation: zoomIn 0.5s 1.4s;\n            animation: zoomIn 0.5s 1.4s;\n}\n.intro.start .f6 {\n    -webkit-animation: zoomIn 0.5s 1.5s;\n            animation: zoomIn 0.5s 1.5s;\n}\n.intro.start .f7 {\n    -webkit-animation: zoomIn 0.5s 1.6s;\n            animation: zoomIn 0.5s 1.6s;\n}\n.intro.during {\n    -webkit-animation: zoomIn;\n            animation: zoomIn;\n}\n.intro.during span {\n    opacity: 1;\n}\n.intro.end {\n    display: none;\n}\n.add-btn {\n    height: 30px;\n    line-height: 30px;\n    text-align: center;\n    cursor: pointer;\n}\n.warp {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-pack: start;\n        -ms-flex-pack: start;\n            justify-content: flex-start;\n}\n.add {\n    position: fixed;\n    z-index: 100;\n    width: 470px;\n    top: 100px;\n    left: 50%;\n    margin-left: -235px;\n}\n.add .all_input{\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -ms-flex-pack: distribute;\n        justify-content: space-around;\n    -ms-flex-wrap: wrap;\n        flex-wrap: wrap;\n    padding: 20px;\n    height: 200px;\n    background-color: white;\n    border-radius: 7px;\n    box-shadow: 0 0 20px #000;\n}\n.add .all_input .name-wrap, .add .all_input .href-wrap, .add .all_input .chapter-wrap, .add .all_input .img-wrap {\n    position: relative;\n    box-sizing: border-box;\n    display: inline-block;\n    width: 210px;\n    height: 80px;\n    vertical-align: top;\n    background-color: #ddd;\n}\n.add .all_input .name-wrap label, .add .all_input .href-wrap label, .add .all_input .chapter-wrap label, .add .all_input .img-wrap label {\n    padding: 0;\n    width: 100%;\n    height: 100%;\n    background-color: #fff;\n}\n.add .all_input .name-wrap label span, .add .all_input .href-wrap label span, .add .all_input .chapter-wrap label span, .add .all_input .img-wrap label span {\n    box-shadow: 0 7px 3px -7px;\n    text-align: center;\n    position: relative;\n    display: block;\n    box-sizing: border-box;\n    padding: 29px 1em;\n    width: 100%;\n}\n.add .all_input .name-wrap label::before, .add .all_input .href-wrap label::before, .add .all_input .chapter-wrap label::before, .add .all_input .img-wrap label::before {\n    content: '';\n    display: block;\n    box-sizing: border-box;\n    width: 100%;\n    height: 100%;\n    position: absolute;\n    top: 0;\n    left: 0;\n    border: 0 solid transparent;\n    -webkit-transition: border-width 0.3s, border-color 0.3s;\n    transition: border-width 0.3s, border-color 0.3s;\n}\n.add .all_input .name-wrap input:focus, .add .all_input .name-wrap input.fill, .add .all_input .href-wrap input:focus, .add .all_input .href-wrap input.fill, .add .all_input .chapter-wrap input:focus, .add .all_input .chapter-wrap input.fill {\n    height: 30px\n}\n.add .all_input .name-wrap input:focus+label::before, .add .all_input .name-wrap input.fill+label::before, .add .all_input .href-wrap input:focus+label::before, .add .all_input .href-wrap input.fill+label::before, .add .all_input .chapter-wrap input:focus+label::before, .add .all_input .chapter-wrap input.fill+label::before {\n    border-width: 8px;\n    border-color: #1784cd;\n    border-top-width: 33px;\n}\n.add .all_input .name-wrap input:focus+label span, .add .all_input .name-wrap input.fill+label span, .add .all_input .href-wrap input:focus+label span, .add .all_input .href-wrap input.fill+label span, .add .all_input .chapter-wrap input:focus+label span, .add .all_input .chapter-wrap input.fill+label span {\n    color: #fff;\n    box-shadow: none;\n    -webkit-transition: color 0.3s, -webkit-transform 0.3s;\n    transition: color 0.3s, -webkit-transform 0.3s;\n    transition: transform 0.3s, color 0.3s;\n    transition: transform 0.3s, color 0.3s, -webkit-transform 0.3s;\n    -webkit-transform: translate3d(0, -24px, 0) scale3d(0.75, 0.75, 1)  translateZ(1px);\n            transform: translate3d(0, -24px, 0) scale3d(0.75, 0.75, 1)  translateZ(1px);\n}\n.add .all_input .img-wrap .preview {\n    width: 70px;\n    height: 70px;\n    position: absolute;\n    top: 5px;\n    left: 50%;\n    margin-left: -35px;\n}\n.add .all_input input {\n    position: absolute;\n    box-sizing: border-box;\n    padding: 53px 23px 0;\n    width: 100%;\n    // color: #b;\n    background-color: transparent;\n    border: 0;\n    outline: none\n}\n.add .all_input input#img {\n    opacity: 0;\n}\n.add .save-btn {\n    text-align: center;\n    cursor: pointer;\n}\n.brief {\n    -webkit-box-flex: 1;\n        -ms-flex: 1;\n            flex: 1;\n    border: 1px solid #474747;\n}\n.brief .trace {\n    position: relative;\n}\n.brief .list-del-btn {\n    position: absolute;\n    right: 5px;\n    cursor: pointer;\n}\n.detail {\n    -webkit-box-flex: 3;\n        -ms-flex: 3;\n            flex: 3;\n    border: 1px solid #373737;\n}", ""]);
-
-	// exports
-
-
-/***/ },
-
-/***/ 97:
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(43)();
+	exports = module.exports = __webpack_require__(39)();
 	// imports
 
 
@@ -401,23 +386,38 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 
-/***/ 98:
+/***/ 80:
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(39)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "* {\n    padding: 0;\n    margin: 0;\n}\nhtml, body {\n    height: 100%;\n    background: #eee;\n    font-family:'\\5FAE\\8F6F\\96C5\\9ED1';\n    font-size: 16px;\n}\nli {\n    list-style-type: none;\n}\ninput {\n    padding: 0 5px;\n    border: none\n}\ninput::-webkit-input-placeholder {\n    color: black;\n}\ninput:focus {\n    outline: none;\n}\n.tip-box {\n    position: fixed;\n    z-index: 999;\n    top: 75px;\n    right: 20px;\n    max-width: 400px;\n    height: 30px;\n    line-height: 30px;\n}\n.tip-box li {\n    float: right;\n    margin: 10px auto;\n}\n.tip-box li p {\n    position: relative;\n    height: 100%;\n    padding: 20px;\n    background-color: #ff9800;\n}\n.tip-box li p::before {\n    z-index: -1;\n    position: absolute;\n    content: \"\";\n    bottom: 15px;\n    right: auto;\n    left: 10px;\n    width: 50%;\n    top: 60%;\n    max-width: 300px;\n    background: #777;\n    box-shadow: 0 15px 10px #777;\n    -webkit-transform: rotate(-3deg);\n            transform: rotate(-3deg);\n}\n.tip-box li p::after{\n    z-index: -1;\n    position: absolute;\n    content: \"\";\n    bottom: 15px;\n    right: 10px;\n    left: auto;\n    width: 50%;\n    top: 60%;\n    max-width: 300px;\n    background: #777;\n    box-shadow: 0 15px 10px #777;\n    -webkit-transform: rotate(3deg);\n            transform: rotate(3deg);\n}\n.setting {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -ms-flex-pack: distribute;\n        justify-content: space-around;\n    position: fixed;\n    z-index: 1000;\n    top: 0;\n    width: 100%;\n    height: 50px;\n    background: #8c9eff;\n    box-shadow: 0 0 10px black;\n}\n.setting input {\n    width: 170px;\n    height: 30px;\n    position: relative;\n    top: 10px;\n}\n.msg-box {\n    box-sizing: border-box;\n    height: 100%;\n    padding: 70px 5px;\n    overflow-y: scroll;\n    overflow-x: hidden;\n}\n.msg-box .msg {\n    margin: 0 20px 30px;\n}\n.msg-box .msg i {\n    display: inline-block;\n    width: 60px;\n    height: 60px;\n    vertical-align: middle;\n    margin-right: 23px;\n    background-position: center;\n    background-size: contain;\n    background-repeat: no-repeat;\n}\n.msg-box .msg p {\n    display: inline-block;\n    border-radius: 7px;\n    box-shadow: 0 8px 10px -10px #777;\n    padding: 18px 10px;\n    background-color: white;\n    word-wrap: break-word;\n    word-break:break-all;\n}\n.msg-box .tip {\n    text-align: center;\n    margin: 10px 0;\n}\n.msg-box .tip span {\n    position: relative;\n    color: #999;\n}\n.msg-box .tip span::before{\n    content: '----';\n    position: relative;\n    left: -20px;\n}\n.msg-box .tip span::after{\n    content: '----';\n    position: relative;\n    right: -20px;\n}\n.footer {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    position: fixed;\n    bottom: 7px;\n    width: 100%;\n    height: 40px;\n}\n.footer input {\n    -webkit-transition: border 1s ease;\n    transition: border 1s ease;\n    position: relative;\n    width: 50%;\n    height: 30px;\n    background-color: rgba(0,0,0,0);\n    border: 2px solid #b388ff\n}\n.footer input:focus {\n    border: 2px solid #7c4dff;\n}", ""]);
+
+	// exports
+
+
+/***/ },
+
+/***/ 81:
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(96);
+	var content = __webpack_require__(79);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(44)(content, {});
+	var update = __webpack_require__(40)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./actrace.less", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./actrace.less");
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./animation.css", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./animation.css");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -428,23 +428,23 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 
-/***/ 99:
+/***/ 82:
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(97);
+	var content = __webpack_require__(80);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(44)(content, {});
+	var update = __webpack_require__(40)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./animation.css", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./animation.css");
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./talk.less", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./talk.less");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});

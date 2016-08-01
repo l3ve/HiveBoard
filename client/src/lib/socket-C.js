@@ -5,7 +5,7 @@ class Io {
         this.init();
     }
     init() {
-        this.io = io('http://192.168.4.191:3333');
+        this.io = io('http://192.168.72.58:3333');
         this.setPara();
         this.io.on('message', (msg) => {
             View.renderTalk(msg.split(',')[0]);
@@ -24,7 +24,7 @@ class Io {
             this.send('init', _name);
         }
     }
-    send(type, msg,) {
+    send(type, msg) {
         this.io.emit(type, msg);
     }
 }

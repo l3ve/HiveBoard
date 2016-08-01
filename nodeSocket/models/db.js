@@ -1,9 +1,8 @@
 var leveldb = require('levelup');
 var memdown = require('memdown').clearGlobalStore();
-var config = require('../config');
 var thunkify = require('thunkify-wrap');
 
-var db = leveldb('./data/msg', {
+var db = leveldb('./database/msg', {
     valueEncoding: 'json',
     db: memdown
 });
