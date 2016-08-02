@@ -1,4 +1,3 @@
-import View from './view';
 class Io {
     constructor() {
         this.io = false;
@@ -7,14 +6,19 @@ class Io {
     init() {
         this.io = io('http://192.168.72.58:3333');
         this.setPara();
-        this.io.on('message', (msg) => {
-            View.renderTalk(msg.split(',')[0]);
+        this.io.on('talk', (res) => {
+            console.log(`${res.split(',')[1]}: ${res.split(',')[0]}.`);
         });
-        this.io.on('sys message', (msg) => {
-            View.renderSysTip(msg);
+        this.io.on('tip', (res) => {
+            console.log('系统:'+res);
         });
-        this.io.on('newUser', (msg) => {
-            View.renderCtxTip(msg);
+        this.io.on('newUser', (res) => {
+            console.log(`---${res.msg}---`);
+            console.log(`当前人数:${res.num}.`);
+        });
+        this.io.on('leave', (res) => {
+            console.log(`---${res.msg}---`);
+            console.log(`当前人数:${res.num}.`);
         });
     }
     setPara() {
@@ -24,7 +28,7 @@ class Io {
             this.send('init', _name);
         }
     }
-    send(type, msg) {
+    send(type, msg={}) {
         this.io.emit(type, msg);
     }
 }

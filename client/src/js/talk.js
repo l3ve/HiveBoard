@@ -4,7 +4,12 @@ let socket = Io;
 
 document.querySelector('.talk').addEventListener('keydown',(e)=>{
     if (e.keyCode === 13) {
-        socket.send('message',e.path[0].value)
+        socket.send('talk',e.path[0].value);
+    }
+});
+document.querySelector('.room').addEventListener('keydown',(e)=>{
+    if (e.keyCode === 13) {
+        socket.send('leave');
     }
 });
 document.querySelector('.name').addEventListener('keydown',(e)=>{

@@ -40,15 +40,14 @@ class Io {
                 let nameIndex = this.usedName.indexOf(this.userName[socket.id]);
                 this.usedName[nameIndex] = msg;
                 this.userName[socket.id] = msg;
-                socket.emit('sys message', `赐予汝的新称号 : ${msg}酱`);
+                socket.emit('tip', `赐予汝的新称号 : ${msg}酱`);
             }
             else {
-                socket.emit('sys message', `有个煞笔(${msg})和你同名!`);
+                socket.emit('tip', `有个煞笔也叫${msg}!`);
             }
         });
     }
     assignRoom(socket) {
-        // socket.leave(this.currentRoom[socket.id]
         socket.join('RUO', () => {
             this.currentRoom[socket.id] = 'RUO';
             this.newUserNotice(socket);
@@ -57,34 +56,30 @@ class Io {
     newUserNotice(socket) {
         this.userNum++;
         var msg = `野生的${this.userName[socket.id]}酱出现在草丛里!`;
-        this.io.to(this.currentRoom[socket.id]).emit('newUser', msg);
+        this.io.to(this.currentRoom[socket.id]).emit('newUser', { msg: msg, num: this.userNum });
     }
     userMsg(socket) {
-        socket.on('message', (msg) => {
+        socket.on('talk', (msg) => {
             msg = `${msg},${this.userName[socket.id]}`;
-            this.io.to(this.currentRoom[socket.id]).emit('message', msg);
+            this.io.to(this.currentRoom[socket.id]).emit('talk', msg);
         });
     }
     sysMsg(socket) {
-        socket.on('sys message', (msg) => {
-            this.io.to(this.currentRoom[socket.id]).emit('sys message', msg);
+        socket.on('tip', (msg) => {
+            this.io.to(this.currentRoom[socket.id]).emit('tip', msg);
         });
     }
     disconnect(socket) {
-        socket.on('disconnect', () => {
-            var msg = this.userName[socket.id] + ' just left';
-            this.io.emit('exit user', msg);
+        socket.on('leave', () => {
+            var msg = `愤怒的${this.userName[socket.id]}离开了!`;
             var nameIndex = this.usedName.indexOf(this.userName[socket.id]);
+            this.io.to(this.currentRoom[socket.id]).emit('leave', {msg:msg,num:this.userNum--});
             delete this.userName[socket.id];
             delete this.usedName[nameIndex];
-            socket.leave(this.currentRoom[socket.id]);
             delete this.currentRoom[socket.id];
+            socket.leave(this.currentRoom[socket.id]);
         });
-
     }
-
 }
-
-
 
 module.exports = new Io();

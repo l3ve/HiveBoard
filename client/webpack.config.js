@@ -25,7 +25,7 @@ module.exports = {
     entry: {
         base: ['css/animation', 'css/talk'],
         enter: [
-            'lib/talk'
+            'js/talk'
         ]
     },
     target: 'node',
