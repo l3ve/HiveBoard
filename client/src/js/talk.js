@@ -1,4 +1,5 @@
 import Io from './socket-C';
+import Canvas from './canvas';
 
 let socket = Io;
 
@@ -9,7 +10,7 @@ document.querySelector('.talk').addEventListener('keydown',(e)=>{
 });
 document.querySelector('.room').addEventListener('keydown',(e)=>{
     if (e.keyCode === 13) {
-        socket.send('leave');
+        Canvas.clear();
     }
 });
 document.querySelector('.name').addEventListener('keydown',(e)=>{
@@ -18,3 +19,5 @@ document.querySelector('.name').addEventListener('keydown',(e)=>{
         socket.send('changeName',e.path[0].value);
     }
 });
+
+Canvas.init();

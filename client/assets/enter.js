@@ -205,6 +205,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _socketC2 = _interopRequireDefault(_socketC);
 
+	var _canvas = __webpack_require__(29);
+
+	var _canvas2 = _interopRequireDefault(_canvas);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var socket = _socketC2.default;
@@ -216,7 +220,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	document.querySelector('.room').addEventListener('keydown', function (e) {
 	    if (e.keyCode === 13) {
-	        socket.send('leave');
+	        _canvas2.default.clear();
 	    }
 	});
 	document.querySelector('.name').addEventListener('keydown', function (e) {
@@ -225,6 +229,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        socket.send('changeName', e.path[0].value);
 	    }
 	});
+
+	_canvas2.default.init();
 
 /***/ },
 /* 11 */
@@ -468,6 +474,111 @@ return /******/ (function(modules) { // webpackBootstrap
 	var $export = __webpack_require__(19);
 	// 19.1.2.4 / 15.2.3.6 Object.defineProperty(O, P, Attributes)
 	$export($export.S + $export.F * !__webpack_require__(1), 'Object', {defineProperty: __webpack_require__(6).f});
+
+/***/ },
+/* 25 */,
+/* 26 */,
+/* 27 */,
+/* 28 */,
+/* 29 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _classCallCheck2 = __webpack_require__(12);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _createClass2 = __webpack_require__(13);
+
+	var _createClass3 = _interopRequireDefault(_createClass2);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Canvas = function () {
+	    function Canvas() {
+	        (0, _classCallCheck3.default)(this, Canvas);
+
+	        this.canvas = document.querySelector('#canvas');
+	        this.ctx = canvas.getContext('2d');
+	        this.begin = false;
+	        this.canvas.setAttribute('width', document.querySelector('.game-box').offsetWidth + 'px');
+	        this.canvas.setAttribute('height', document.querySelector('.game-box').offsetHeight - 140 + 'px');
+	        this.ctx.strokeStyle = "#000";
+	        this.ctx.lineWidth = 1;
+	        this.chess = {
+	            size: 30
+	        };
+	        this.drawBegin = this.drawBegin.bind(this);
+	        this.moveTo = this.moveTo.bind(this);
+	        this.drawEnd = this.drawEnd.bind(this);
+	    }
+
+	    (0, _createClass3.default)(Canvas, [{
+	        key: 'init',
+	        value: function init() {
+	            this.listenerEvent();
+	        }
+	    }, {
+	        key: 'listenerEvent',
+	        value: function listenerEvent() {
+	            //     this.canvas.addEventListener("mousedown", this.drawBegin, false);
+	            //     this.canvas.addEventListener("mousemove", this.moveTo, false);
+	            this.canvas.addEventListener("mouseup", this.drawEnd, false);
+	            // this.canvas.addEventListener("touchstart", PADmoveTo, false);
+	            // this.canvas.addEventListener("touchmove", PADdrawBegin, false);
+	            // this.canvas.addEventListener("touchend", drawEnd, false);
+	        }
+	    }, {
+	        key: 'clear',
+	        value: function clear() {
+	            var w = arguments.length <= 0 || arguments[0] === undefined ? this.canvas.width : arguments[0];
+	            var h = arguments.length <= 1 || arguments[1] === undefined ? this.canvas.height : arguments[1];
+
+	            this.ctx.clearRect(0, 0, w, h);
+	        }
+	    }, {
+	        key: 'moveTo',
+	        value: function moveTo(e) {
+	            if (this.begin) {
+	                this.ctx.lineTo(e.offsetX, e.offsetY);
+	                this.ctx.stroke();
+	            }
+	        }
+	    }, {
+	        key: 'drawBegin',
+	        value: function drawBegin(e) {
+	            this.begin = true;
+	            this.ctx.beginPath();
+	            this.ctx.moveTo(e.offsetX, e.offsetY);
+	        }
+	    }, {
+	        key: 'drawEnd',
+	        value: function drawEnd(e) {
+	            // this.begin = false;
+	            var x = e.offsetX,
+	                y = e.offsetY,
+	                size = this.chess.size;
+	            this.ctx.beginPath();
+	            this.ctx.moveTo(x, y);
+	            this.ctx.moveTo(x + size, y + Math.sqrt(3) * size);
+	            this.ctx.lineTo(x + size * 2, y);
+	            this.ctx.lineTo(x + size, y - Math.sqrt(3) * size);
+	            this.ctx.lineTo(x - size, y - Math.sqrt(3) * size);
+	            this.ctx.lineTo(x - size * 2, y);
+	            this.ctx.lineTo(x - size, y + Math.sqrt(3) * size);
+	            this.ctx.closePath();
+	            this.ctx.stroke();
+	        }
+	    }]);
+	    return Canvas;
+	}();
+
+	exports.default = new Canvas();
 
 /***/ }
 /******/ ])

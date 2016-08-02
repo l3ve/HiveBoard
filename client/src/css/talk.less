@@ -1,6 +1,7 @@
 * {
     padding: 0;
     margin: 0;
+    box-sizing: border-box;
 }
 html,body {
     height: 100%;
@@ -21,53 +22,6 @@ input {
         outline: none;
     }
 }
-.tip-box {
-    position: fixed;
-    z-index: 999;
-    top: 75px;
-    right: 20px;
-    max-width: 400px;
-    height: 30px;
-    line-height: 30px;
-    li {
-        float: right;
-        margin: 10px auto;
-        p {
-            position: relative;
-            height: 100%;
-            padding: 20px;
-            background-color: #ff9800;
-        }
-        p::before {
-            z-index: -1;
-            position: absolute;
-            content: "";
-            bottom: 15px;
-            right: auto;
-            left: 10px;
-            width: 50%;
-            top: 60%;
-            max-width: 300px;
-            background: #777;
-            box-shadow: 0 15px 10px #777;
-            transform: rotate(-3deg);
-        }
-        p::after{
-            z-index: -1;
-            position: absolute;
-            content: "";
-            bottom: 15px;
-            right: 10px;
-            left: auto;
-            width: 50%;
-            top: 60%;
-            max-width: 300px;
-            background: #777;
-            box-shadow: 0 15px 10px #777;
-            transform: rotate(3deg);
-        }
-    }
-}
 .setting {
     display: flex;
     justify-content: space-around;
@@ -85,52 +39,12 @@ input {
         top: 10px;
     }
 }
-.msg-box {
+.game-box {
     box-sizing: border-box;
     height: 100%;
-    padding: 70px 5px;
+    padding: 70px 0;
     overflow-y: scroll;
     overflow-x: hidden;
-    .msg {
-        margin: 0 20px 30px;
-        i {
-            display: inline-block;
-            width: 60px;
-            height: 60px;
-            vertical-align: middle;
-            margin-right: 23px;
-            background-position: center;
-            background-size: contain;
-            background-repeat: no-repeat;
-        }
-        p {
-            display: inline-block;
-            border-radius: 7px;
-            box-shadow: 0 8px 10px -10px #777;
-            padding: 18px 10px;
-            background-color: white;
-            word-wrap: break-word;
-            word-break:break-all;
-        }
-    }
-    .tip {
-        text-align: center;
-        margin: 10px 0;
-        span {
-            position: relative;
-            color: #999;
-        }
-        span::before{
-            content: '----';
-            position: relative;
-            left: -20px;
-        }
-        span::after{
-            content: '----';
-            position: relative;
-            right: -20px;
-        }
-    }
 }
 .footer {
     display: flex;
