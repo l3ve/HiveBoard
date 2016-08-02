@@ -221,6 +221,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	document.querySelector('.room').addEventListener('keydown', function (e) {
 	    if (e.keyCode === 13) {
 	        _canvas2.default.clear();
+	        // Canvas.removeListenerEvent();
 	    }
 	});
 	document.querySelector('.name').addEventListener('keydown', function (e) {
@@ -526,12 +527,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'listenerEvent',
 	        value: function listenerEvent() {
-	            //     this.canvas.addEventListener("mousedown", this.drawBegin, false);
-	            //     this.canvas.addEventListener("mousemove", this.moveTo, false);
 	            this.canvas.addEventListener("mouseup", this.drawEnd, false);
-	            // this.canvas.addEventListener("touchstart", PADmoveTo, false);
-	            // this.canvas.addEventListener("touchmove", PADdrawBegin, false);
-	            // this.canvas.addEventListener("touchend", drawEnd, false);
+	        }
+	    }, {
+	        key: 'removeListenerEvent',
+	        value: function removeListenerEvent() {
+	            this.canvas.removeEventListener("mouseup", this.drawEnd);
 	        }
 	    }, {
 	        key: 'clear',
@@ -559,7 +560,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'drawEnd',
 	        value: function drawEnd(e) {
-	            // this.begin = false;
 	            var x = e.offsetX,
 	                y = e.offsetY,
 	                size = this.chess.size;

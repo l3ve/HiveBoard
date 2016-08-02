@@ -11,6 +11,7 @@ document.querySelector('.talk').addEventListener('keydown',(e)=>{
 document.querySelector('.room').addEventListener('keydown',(e)=>{
     if (e.keyCode === 13) {
         Canvas.clear();
+        // Canvas.removeListenerEvent();
     }
 });
 document.querySelector('.name').addEventListener('keydown',(e)=>{
