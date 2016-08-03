@@ -54,7 +54,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(10);
+	module.exports = __webpack_require__(13);
 
 
 /***/ },
@@ -62,7 +62,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	// Thank's IE8 for his funny defineProperty
-	module.exports = !__webpack_require__(4)(function(){
+	module.exports = !__webpack_require__(6)(function(){
 	  return Object.defineProperty({}, 'a', {get: function(){ return 7; }}).a != 7;
 	});
 
@@ -78,11 +78,57 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 3 */
 /***/ function(module, exports) {
 
+	"use strict";
+
+	exports.__esModule = true;
+
+	exports.default = function (instance, Constructor) {
+	  if (!(instance instanceof Constructor)) {
+	    throw new TypeError("Cannot call a class as a function");
+	  }
+	};
+
+/***/ },
+/* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	exports.__esModule = true;
+
+	var _defineProperty = __webpack_require__(14);
+
+	var _defineProperty2 = _interopRequireDefault(_defineProperty);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = function () {
+	  function defineProperties(target, props) {
+	    for (var i = 0; i < props.length; i++) {
+	      var descriptor = props[i];
+	      descriptor.enumerable = descriptor.enumerable || false;
+	      descriptor.configurable = true;
+	      if ("value" in descriptor) descriptor.writable = true;
+	      (0, _defineProperty2.default)(target, descriptor.key, descriptor);
+	    }
+	  }
+
+	  return function (Constructor, protoProps, staticProps) {
+	    if (protoProps) defineProperties(Constructor.prototype, protoProps);
+	    if (staticProps) defineProperties(Constructor, staticProps);
+	    return Constructor;
+	  };
+	}();
+
+/***/ },
+/* 5 */
+/***/ function(module, exports) {
+
 	var core = module.exports = {version: '2.4.0'};
 	if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
 
 /***/ },
-/* 4 */
+/* 6 */
 /***/ function(module, exports) {
 
 	module.exports = function(exec){
@@ -94,7 +140,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 5 */
+/* 7 */
 /***/ function(module, exports) {
 
 	// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
@@ -103,12 +149,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
 
 /***/ },
-/* 6 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var anObject       = __webpack_require__(16)
-	  , IE8_DOM_DEFINE = __webpack_require__(21)
-	  , toPrimitive    = __webpack_require__(23)
+	var anObject       = __webpack_require__(17)
+	  , IE8_DOM_DEFINE = __webpack_require__(22)
+	  , toPrimitive    = __webpack_require__(24)
 	  , dP             = Object.defineProperty;
 
 	exports.f = __webpack_require__(1) ? Object.defineProperty : function defineProperty(O, P, Attributes){
@@ -124,9 +170,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 7 */,
-/* 8 */,
-/* 9 */
+/* 9 */,
+/* 10 */,
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -135,11 +181,183 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: true
 	});
 
-	var _classCallCheck2 = __webpack_require__(12);
+	var _classCallCheck2 = __webpack_require__(3);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _createClass2 = __webpack_require__(13);
+	var _createClass2 = __webpack_require__(4);
+
+	var _createClass3 = _interopRequireDefault(_createClass2);
+
+	var _chess = __webpack_require__(30);
+
+	var _chess2 = _interopRequireDefault(_chess);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Canvas = function () {
+	    function Canvas(canvasId) {
+	        (0, _classCallCheck3.default)(this, Canvas);
+
+	        this.canvas = document.querySelector('#' + canvasId);
+	        this.ctx = canvas.getContext('2d');
+	        this.begin = false;
+	        this.canvas.setAttribute('width', document.querySelector('.game-box').offsetWidth + 'px');
+	        this.canvas.setAttribute('height', document.querySelector('.game-box').offsetHeight - 140 + 'px');
+	        this.chess = {
+	            size: 30,
+	            previewChess: '',
+	            allChess: []
+	        };
+	        this.selectEnd = true;
+	        this.handleClick = this.handleClick.bind(this);
+	        this.previewChess = this.previewChess.bind(this);
+	        this.listenerEvent();
+	        this.updata();
+	    }
+
+	    (0, _createClass3.default)(Canvas, [{
+	        key: 'listenerEvent',
+	        value: function listenerEvent() {
+	            this.canvas.addEventListener("click", this.handleClick, false);
+	        }
+	    }, {
+	        key: 'removeListenerEvent',
+	        value: function removeListenerEvent() {
+	            this.canvas.removeEventListener("dblclick", this.setChess);
+	        }
+	    }, {
+	        key: 'updata',
+	        value: function updata() {
+	            var _this = this;
+
+	            this.clear();
+	            this.chess.allChess.forEach(function (chess) {
+	                _this.drawChess(chess);
+	            });
+	            this.drawChess(this.chess.previewChess);
+	            requestAnimationFrame(function () {
+	                return _this.updata();
+	            });
+	        }
+	    }, {
+	        key: 'clear',
+	        value: function clear() {
+	            var w = arguments.length <= 0 || arguments[0] === undefined ? this.canvas.width : arguments[0];
+	            var h = arguments.length <= 1 || arguments[1] === undefined ? this.canvas.height : arguments[1];
+
+	            this.ctx.clearRect(0, 0, w, h);
+	        }
+	    }, {
+	        key: 'saveChess',
+	        value: function saveChess(chess) {
+	            this.chess.allChess.push(chess);
+	        }
+	    }, {
+	        key: 'handleClick',
+	        value: function handleClick(e) {
+	            var type = document.querySelector('.room').value;
+	            switch (type) {
+	                case '1':
+	                    this.selectChess(e);
+	                    break;
+	                case '2':
+	                    this.setChess(e);
+	                    break;
+	                default:
+	                    break;
+	            }
+	        }
+	    }, {
+	        key: 'selectChess',
+	        value: function selectChess(e) {
+	            var _this2 = this;
+
+	            if (this.selectEnd) {
+	                var newChess = this.chess.allChess.filter(function (chess) {
+	                    if (chess.isYou(e.offsetX, e.offsetY)) {
+	                        _this2.chess.previewChess = chess;
+	                        _this2.selectEnd = false;
+	                        _this2.canvas.addEventListener("mousemove", _this2.previewChess, false);
+	                        return false;
+	                    } else {
+	                        return true;
+	                    }
+	                });
+	                this.chess.allChess = newChess;
+	            } else {
+	                this.selectEnd = true;
+	                this.canvas.removeEventListener("mousemove", this.previewChess);
+	                this.chess.allChess.push(this.chess.previewChess);
+	                this.chess.previewChess = '';
+	            }
+	        }
+	    }, {
+	        key: 'setChess',
+	        value: function setChess(e) {
+	            var para = {
+	                x: e.offsetX,
+	                y: e.offsetY,
+	                size: this.chess.size,
+	                type: 1,
+	                reside: 1
+	            },
+	                chess = new _chess2.default(para);
+	            this.saveChess(chess);
+	        }
+	    }, {
+	        key: 'previewChess',
+	        value: function previewChess(e) {
+	            this.chess.previewChess.move(e.offsetX, e.offsetY);
+	        }
+	    }, {
+	        key: 'drawChess',
+	        value: function drawChess(chess) {
+	            var x = chess.x;
+	            var y = chess.y;
+	            var size = chess.size;
+	            var ctx = this.ctx;
+	            // ctx.save();
+	            // ctx.lineWidth = 1;
+	            // ctx.strokeStyle = "#000";
+	            //绘制棋子
+	            ctx.beginPath();
+	            ctx.moveTo(x, y);
+	            ctx.moveTo(x + size, y + Math.sqrt(3) * size);
+	            ctx.lineTo(x + size * 2, y);
+	            ctx.lineTo(x + size, y - Math.sqrt(3) * size);
+	            ctx.lineTo(x - size, y - Math.sqrt(3) * size);
+	            ctx.lineTo(x - size * 2, y);
+	            ctx.lineTo(x - size, y + Math.sqrt(3) * size);
+	            ctx.closePath();
+	            ctx.stroke();
+
+	            ctx.beginPath();
+	            ctx.arc(x, y, Math.sqrt(3) * size, 0, 2 * Math.PI);
+	            ctx.closePath();
+	            ctx.stroke();
+	        }
+	    }]);
+	    return Canvas;
+	}();
+
+	exports.default = Canvas;
+
+/***/ },
+/* 12 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _classCallCheck2 = __webpack_require__(3);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _createClass2 = __webpack_require__(4);
 
 	var _createClass3 = _interopRequireDefault(_createClass2);
 
@@ -196,22 +414,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = new Io();
 
 /***/ },
-/* 10 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _socketC = __webpack_require__(9);
+	var _socketC = __webpack_require__(12);
 
 	var _socketC2 = _interopRequireDefault(_socketC);
 
-	var _canvas = __webpack_require__(29);
+	var _canvas = __webpack_require__(11);
 
 	var _canvas2 = _interopRequireDefault(_canvas);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var socket = _socketC2.default;
+	var socket = _socketC2.default,
+	    canvas = new _canvas2.default('canvas');
 
 	document.querySelector('.talk').addEventListener('keydown', function (e) {
 	    if (e.keyCode === 13) {
@@ -220,8 +439,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	document.querySelector('.room').addEventListener('keydown', function (e) {
 	    if (e.keyCode === 13) {
-	        _canvas2.default.clear();
-	        // Canvas.removeListenerEvent();
+	        canvas.clear();
+	        // canvas.removeListenerEvent();
 	    }
 	});
 	document.querySelector('.name').addEventListener('keydown', function (e) {
@@ -231,72 +450,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	});
 
-	_canvas2.default.init();
-
-/***/ },
-/* 11 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = { "default": __webpack_require__(14), __esModule: true };
-
-/***/ },
-/* 12 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	exports.__esModule = true;
-
-	exports.default = function (instance, Constructor) {
-	  if (!(instance instanceof Constructor)) {
-	    throw new TypeError("Cannot call a class as a function");
-	  }
-	};
-
-/***/ },
-/* 13 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	exports.__esModule = true;
-
-	var _defineProperty = __webpack_require__(11);
-
-	var _defineProperty2 = _interopRequireDefault(_defineProperty);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	exports.default = function () {
-	  function defineProperties(target, props) {
-	    for (var i = 0; i < props.length; i++) {
-	      var descriptor = props[i];
-	      descriptor.enumerable = descriptor.enumerable || false;
-	      descriptor.configurable = true;
-	      if ("value" in descriptor) descriptor.writable = true;
-	      (0, _defineProperty2.default)(target, descriptor.key, descriptor);
-	    }
-	  }
-
-	  return function (Constructor, protoProps, staticProps) {
-	    if (protoProps) defineProperties(Constructor.prototype, protoProps);
-	    if (staticProps) defineProperties(Constructor, staticProps);
-	    return Constructor;
-	  };
-	}();
-
 /***/ },
 /* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(24);
-	var $Object = __webpack_require__(3).Object;
+	module.exports = { "default": __webpack_require__(15), __esModule: true };
+
+/***/ },
+/* 15 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(25);
+	var $Object = __webpack_require__(5).Object;
 	module.exports = function defineProperty(it, key, desc){
 	  return $Object.defineProperty(it, key, desc);
 	};
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports) {
 
 	module.exports = function(it){
@@ -305,7 +476,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var isObject = __webpack_require__(2);
@@ -315,11 +486,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 17 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// optional / simple context binding
-	var aFunction = __webpack_require__(15);
+	var aFunction = __webpack_require__(16);
 	module.exports = function(fn, that, length){
 	  aFunction(fn);
 	  if(that === undefined)return fn;
@@ -340,11 +511,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 18 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var isObject = __webpack_require__(2)
-	  , document = __webpack_require__(5).document
+	  , document = __webpack_require__(7).document
 	  // in old IE typeof document.createElement is 'object'
 	  , is = isObject(document) && isObject(document.createElement);
 	module.exports = function(it){
@@ -352,13 +523,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 19 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var global    = __webpack_require__(5)
-	  , core      = __webpack_require__(3)
-	  , ctx       = __webpack_require__(17)
-	  , hide      = __webpack_require__(20)
+	var global    = __webpack_require__(7)
+	  , core      = __webpack_require__(5)
+	  , ctx       = __webpack_require__(18)
+	  , hide      = __webpack_require__(21)
 	  , PROTOTYPE = 'prototype';
 
 	var $export = function(type, name, source){
@@ -418,11 +589,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = $export;
 
 /***/ },
-/* 20 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var dP         = __webpack_require__(6)
-	  , createDesc = __webpack_require__(22);
+	var dP         = __webpack_require__(8)
+	  , createDesc = __webpack_require__(23);
 	module.exports = __webpack_require__(1) ? function(object, key, value){
 	  return dP.f(object, key, createDesc(1, value));
 	} : function(object, key, value){
@@ -431,15 +602,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 21 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = !__webpack_require__(1) && !__webpack_require__(4)(function(){
-	  return Object.defineProperty(__webpack_require__(18)('div'), 'a', {get: function(){ return 7; }}).a != 7;
+	module.exports = !__webpack_require__(1) && !__webpack_require__(6)(function(){
+	  return Object.defineProperty(__webpack_require__(19)('div'), 'a', {get: function(){ return 7; }}).a != 7;
 	});
 
 /***/ },
-/* 22 */
+/* 23 */
 /***/ function(module, exports) {
 
 	module.exports = function(bitmap, value){
@@ -452,7 +623,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 23 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// 7.1.1 ToPrimitive(input [, PreferredType])
@@ -469,19 +640,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 24 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $export = __webpack_require__(19);
+	var $export = __webpack_require__(20);
 	// 19.1.2.4 / 15.2.3.6 Object.defineProperty(O, P, Attributes)
-	$export($export.S + $export.F * !__webpack_require__(1), 'Object', {defineProperty: __webpack_require__(6).f});
+	$export($export.S + $export.F * !__webpack_require__(1), 'Object', {defineProperty: __webpack_require__(8).f});
 
 /***/ },
-/* 25 */,
 /* 26 */,
 /* 27 */,
 /* 28 */,
-/* 29 */
+/* 29 */,
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -490,95 +661,50 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: true
 	});
 
-	var _classCallCheck2 = __webpack_require__(12);
+	var _classCallCheck2 = __webpack_require__(3);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _createClass2 = __webpack_require__(13);
+	var _createClass2 = __webpack_require__(4);
 
 	var _createClass3 = _interopRequireDefault(_createClass2);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var Canvas = function () {
-	    function Canvas() {
-	        (0, _classCallCheck3.default)(this, Canvas);
+	var Chess = function () {
+	    function Chess(chess) {
+	        (0, _classCallCheck3.default)(this, Chess);
 
-	        this.canvas = document.querySelector('#canvas');
-	        this.ctx = canvas.getContext('2d');
-	        this.begin = false;
-	        this.canvas.setAttribute('width', document.querySelector('.game-box').offsetWidth + 'px');
-	        this.canvas.setAttribute('height', document.querySelector('.game-box').offsetHeight - 140 + 'px');
-	        this.ctx.strokeStyle = "#000";
-	        this.ctx.lineWidth = 1;
-	        this.chess = {
-	            size: 30
-	        };
-	        this.drawBegin = this.drawBegin.bind(this);
-	        this.moveTo = this.moveTo.bind(this);
-	        this.drawEnd = this.drawEnd.bind(this);
+	        this.type = chess.type || 1;
+	        this.size = chess.size || 30;
+	        this.x = chess.x || 0;
+	        this.y = chess.y || 0;
+	        this.color = chess.color || '#000';
+	        this.reside = chess.reside || 0;
 	    }
 
-	    (0, _createClass3.default)(Canvas, [{
-	        key: 'init',
-	        value: function init() {
-	            this.listenerEvent();
+	    (0, _createClass3.default)(Chess, [{
+	        key: 'move',
+	        value: function move(x, y) {
+	            this.x = x;
+	            this.y = y;
 	        }
 	    }, {
-	        key: 'listenerEvent',
-	        value: function listenerEvent() {
-	            this.canvas.addEventListener("mouseup", this.drawEnd, false);
+	        key: 'setColor',
+	        value: function setColor(color) {
+	            this.color = color;
 	        }
 	    }, {
-	        key: 'removeListenerEvent',
-	        value: function removeListenerEvent() {
-	            this.canvas.removeEventListener("mouseup", this.drawEnd);
-	        }
-	    }, {
-	        key: 'clear',
-	        value: function clear() {
-	            var w = arguments.length <= 0 || arguments[0] === undefined ? this.canvas.width : arguments[0];
-	            var h = arguments.length <= 1 || arguments[1] === undefined ? this.canvas.height : arguments[1];
-
-	            this.ctx.clearRect(0, 0, w, h);
-	        }
-	    }, {
-	        key: 'moveTo',
-	        value: function moveTo(e) {
-	            if (this.begin) {
-	                this.ctx.lineTo(e.offsetX, e.offsetY);
-	                this.ctx.stroke();
-	            }
-	        }
-	    }, {
-	        key: 'drawBegin',
-	        value: function drawBegin(e) {
-	            this.begin = true;
-	            this.ctx.beginPath();
-	            this.ctx.moveTo(e.offsetX, e.offsetY);
-	        }
-	    }, {
-	        key: 'drawEnd',
-	        value: function drawEnd(e) {
-	            var x = e.offsetX,
-	                y = e.offsetY,
-	                size = this.chess.size;
-	            this.ctx.beginPath();
-	            this.ctx.moveTo(x, y);
-	            this.ctx.moveTo(x + size, y + Math.sqrt(3) * size);
-	            this.ctx.lineTo(x + size * 2, y);
-	            this.ctx.lineTo(x + size, y - Math.sqrt(3) * size);
-	            this.ctx.lineTo(x - size, y - Math.sqrt(3) * size);
-	            this.ctx.lineTo(x - size * 2, y);
-	            this.ctx.lineTo(x - size, y + Math.sqrt(3) * size);
-	            this.ctx.closePath();
-	            this.ctx.stroke();
+	        key: 'isYou',
+	        value: function isYou(x, y) {
+	            var radius = Math.sqrt(3) * this.size - 10;
+	            return x <= this.x + radius && x >= this.x - radius && y <= this.y + radius && y >= this.y - radius;
 	        }
 	    }]);
-	    return Canvas;
+	    return Chess;
 	}();
 
-	exports.default = new Canvas();
+	exports.default = Chess;
 
 /***/ }
 /******/ ])
