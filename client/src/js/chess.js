@@ -1,7 +1,7 @@
 export default class Chess {
     constructor(chess) {
         this.type = chess.type || 1;
-        this.size = chess.size || 30;
+        this.size = chess.size || 15;
         this.x = chess.x || 0;
         this.y = chess.y || 0;
         this.color = chess.color || '#000';
