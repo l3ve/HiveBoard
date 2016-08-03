@@ -10,12 +10,12 @@ class Canvas {
         this.chess = {
             previewChess: '',
             firstPosition: {
-                x:0,
-                y:0
+                x: 0,
+                y: 0
             },
-            allChess: []
+            allChess: [],
+            layout: []
         };
-        this.layout = [];
         this.selectEnd = true;
         this.handleClick = this.handleClick.bind(this);
         this.previewChess = this.previewChess.bind(this);
@@ -34,6 +34,9 @@ class Canvas {
         this.clear();
         this.chess.allChess.forEach((chess) => {
             this.drawChess(chess);
+        });
+        this.chess.layout.forEach((layout) => {
+            this.drawChess(layout, true);
         });
         this.drawChess(this.chess.previewChess);
         requestAnimationFrame(() => this.updata());
@@ -68,7 +71,6 @@ class Canvas {
                     };
                     this.chess.previewChess = chess;
                     this.selectEnd = false;
-                    console.log(1);
                     this.canvas.addEventListener("mousemove", this.previewChess, false);
                     this.canvas.addEventListener("contextmenu", this.reset, false);
                     return false;
@@ -91,6 +93,7 @@ class Canvas {
         },
             chess = new Chess(para);
         this.saveChess(chess);
+        this.getLayout(chess);
     }
     previewChess(e) {
         this.chess.previewChess.move(e.offsetX, e.offsetY);
@@ -99,17 +102,18 @@ class Canvas {
         this.removeListenerEvent();
         this.selectEnd = true;
         if (b) {
-            this.chess.previewChess.move(this.chess.firstPosition.x,this.chess.firstPosition.y);
+            this.chess.previewChess.move(this.chess.firstPosition.x, this.chess.firstPosition.y);
             this.chess.allChess.push(this.chess.previewChess);
         }
         this.chess.previewChess = '';
     }
-    drawChess(chess) {
+    drawChess(chess, isLayout = false) {
         const {x, y, size} = chess,
             ctx = this.ctx;
-        // ctx.save();
-        // ctx.lineWidth = 1;
-        // ctx.strokeStyle = "#000";
+        ctx.save();
+        if (isLayout) {
+            ctx.strokeStyle = "#ccc";
+        }
         //绘制棋子
         ctx.beginPath();
         ctx.moveTo(x, y);
@@ -121,13 +125,44 @@ class Canvas {
         ctx.lineTo(x - size, y + Math.sqrt(3) * size);
         ctx.closePath();
         ctx.stroke();
+        ctx.restore();
         //调试判断面积的圆
-        ctx.beginPath();
-        ctx.arc(x, y, Math.sqrt(3) * size, 0, 2 * Math.PI);
-        ctx.closePath();
-        ctx.stroke();
+        // ctx.beginPath();
+        // ctx.arc(x, y, Math.sqrt(3) * size, 0, 2 * Math.PI);
+        // ctx.closePath();
+        // ctx.stroke();
     }
-
+    getLayout(chess) {
+        const {x, y, size} = chess,
+            newLayout = [
+                {
+                    x: x,
+                    y: y + Math.sqrt(3) * 2 * size,
+                    size: size
+                }, {
+                    x: x + 3 * size,
+                    y: y + Math.sqrt(3) * size,
+                    size: size
+                }, {
+                    x: x + 3 * size,
+                    y: y - Math.sqrt(3) * size,
+                    size: size
+                }, {
+                    x: x,
+                    y: y - Math.sqrt(3) * 2 * size,
+                    size: size
+                }, {
+                    x: x - 3 * size,
+                    y: y - Math.sqrt(3) * size,
+                    size: size
+                }, {
+                    x: x - 3 * size,
+                    y: y + Math.sqrt(3) * size,
+                    size: size
+                }
+            ];
+        this.chess.layout = this.chess.layout.concat(newLayout);
+    }
 }
 
 

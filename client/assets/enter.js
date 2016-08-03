@@ -210,9 +210,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                x: 0,
 	                y: 0
 	            },
-	            allChess: []
+	            allChess: [],
+	            layout: []
 	        };
-	        this.layout = [];
 	        this.selectEnd = true;
 	        this.handleClick = this.handleClick.bind(this);
 	        this.previewChess = this.previewChess.bind(this);
@@ -240,6 +240,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            this.clear();
 	            this.chess.allChess.forEach(function (chess) {
 	                _this.drawChess(chess);
+	            });
+	            this.chess.layout.forEach(function (layout) {
+	                _this.drawChess(layout, true);
 	            });
 	            this.drawChess(this.chess.previewChess);
 	            requestAnimationFrame(function () {
@@ -289,7 +292,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        };
 	                        _this2.chess.previewChess = chess;
 	                        _this2.selectEnd = false;
-	                        console.log(1);
 	                        _this2.canvas.addEventListener("mousemove", _this2.previewChess, false);
 	                        _this2.canvas.addEventListener("contextmenu", _this2.reset, false);
 	                        return false;
@@ -314,6 +316,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            },
 	                chess = new _chess2.default(para);
 	            this.saveChess(chess);
+	            this.getLayout(chess);
 	        }
 	    }, {
 	        key: 'previewChess',
@@ -336,13 +339,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'drawChess',
 	        value: function drawChess(chess) {
+	            var isLayout = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
 	            var x = chess.x;
 	            var y = chess.y;
 	            var size = chess.size;
 	            var ctx = this.ctx;
-	            // ctx.save();
-	            // ctx.lineWidth = 1;
-	            // ctx.strokeStyle = "#000";
+	            ctx.save();
+	            if (isLayout) {
+	                ctx.strokeStyle = "#ccc";
+	            }
 	            //绘制棋子
 	            ctx.beginPath();
 	            ctx.moveTo(x, y);
@@ -354,11 +359,45 @@ return /******/ (function(modules) { // webpackBootstrap
 	            ctx.lineTo(x - size, y + Math.sqrt(3) * size);
 	            ctx.closePath();
 	            ctx.stroke();
+	            ctx.restore();
 	            //调试判断面积的圆
-	            ctx.beginPath();
-	            ctx.arc(x, y, Math.sqrt(3) * size, 0, 2 * Math.PI);
-	            ctx.closePath();
-	            ctx.stroke();
+	            // ctx.beginPath();
+	            // ctx.arc(x, y, Math.sqrt(3) * size, 0, 2 * Math.PI);
+	            // ctx.closePath();
+	            // ctx.stroke();
+	        }
+	    }, {
+	        key: 'getLayout',
+	        value: function getLayout(chess) {
+	            var x = chess.x;
+	            var y = chess.y;
+	            var size = chess.size;
+	            var newLayout = [{
+	                x: x,
+	                y: y + Math.sqrt(3) * 2 * size,
+	                size: size
+	            }, {
+	                x: x + 3 * size,
+	                y: y + Math.sqrt(3) * size,
+	                size: size
+	            }, {
+	                x: x + 3 * size,
+	                y: y - Math.sqrt(3) * size,
+	                size: size
+	            }, {
+	                x: x,
+	                y: y - Math.sqrt(3) * 2 * size,
+	                size: size
+	            }, {
+	                x: x - 3 * size,
+	                y: y - Math.sqrt(3) * size,
+	                size: size
+	            }, {
+	                x: x - 3 * size,
+	                y: y + Math.sqrt(3) * size,
+	                size: size
+	            }];
+	            this.chess.layout = this.chess.layout.concat(newLayout);
 	        }
 	    }]);
 	    return Canvas;
