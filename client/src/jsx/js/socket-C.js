@@ -34,4 +34,4 @@ class Io {
 }
 
 
-export default new Io();
+export default Io;

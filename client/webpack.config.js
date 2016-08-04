@@ -23,12 +23,11 @@ var webpack = require('webpack'),
 module.exports = {
     //入口文件
     entry: {
-        base: ['css/animation', 'css/talk'],
+        base: ['css/animation','jsx/js/tool'],
         enter: [
-            'js/talk'
+            './build'
         ]
     },
-    target: 'node',
     //输出
     output: {
         path: 'assets',
@@ -67,14 +66,9 @@ module.exports = {
         ],
         loaders: [
             {
-                test: /\.json$/,
-                loader: 'json'
-            },
-            {
                 test: /\.(js|jsx)$/,
                 loaders: ['babel'],
-                exclude: /(node_modules)/,
-                include: path.join(__dirname, 'src')
+                exclude: /(node_modules)/
             },
             {
                 test: /\.(less|css)$/,

@@ -55,13 +55,13 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(28);
-	module.exports = __webpack_require__(29);
+	__webpack_require__(99);
+	module.exports = __webpack_require__(52);
 
 
 /***/ },
 
-/***/ 9:
+/***/ 31:
 /***/ function(module, exports) {
 
 	/*
@@ -118,7 +118,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 
-/***/ 10:
+/***/ 33:
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -371,10 +371,43 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 
-/***/ 26:
+/***/ 52:
+/***/ function(module, exports) {
+
+	"use strict";
+
+	CanvasRenderingContext2D.prototype.dashedLineTo = function (fromX, fromY, toX, toY, pattern) {
+	    // default interval distance -> 5px
+	    if (typeof pattern === "undefined") {
+	        pattern = 5;
+	    }
+
+	    // calculate the delta x and delta y
+	    var dx = toX - fromX;
+	    var dy = toY - fromY;
+	    var distance = Math.floor(Math.sqrt(dx * dx + dy * dy));
+	    var dashlineInteveral = pattern <= 0 ? distance : distance / pattern;
+	    var deltay = dy / distance * pattern;
+	    var deltax = dx / distance * pattern;
+
+	    // draw dash line
+	    this.beginPath();
+	    for (var dl = 0; dl < dashlineInteveral; dl++) {
+	        if (dl % 2) {
+	            this.lineTo(fromX + dl * deltax, fromY + dl * deltay);
+	        } else {
+	            this.moveTo(fromX + dl * deltax, fromY + dl * deltay);
+	        }
+	    }
+	    this.stroke();
+	};
+
+/***/ },
+
+/***/ 96:
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(9)();
+	exports = module.exports = __webpack_require__(31)();
 	// imports
 
 
@@ -386,31 +419,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 
-/***/ 27:
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(9)();
-	// imports
-
-
-	// module
-	exports.push([module.id, "* {\n    padding: 0;\n    margin: 0;\n    box-sizing: border-box;\n}\nhtml, body {\n    height: 100%;\n    background: #eee;\n    font-family:'\\5FAE\\8F6F\\96C5\\9ED1';\n    font-size: 16px;\n}\nli {\n    list-style-type: none;\n}\ninput {\n    padding: 0 5px;\n    border: none\n}\ninput::-webkit-input-placeholder {\n    color: black;\n}\ninput:focus {\n    outline: none;\n}\n.setting {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -ms-flex-pack: distribute;\n        justify-content: space-around;\n    position: fixed;\n    z-index: 1000;\n    top: 0;\n    width: 100%;\n    height: 50px;\n    background: #8c9eff;\n    box-shadow: 0 0 10px black;\n}\n.setting input {\n    width: 170px;\n    height: 30px;\n    position: relative;\n    top: 10px;\n}\n.game-box {\n    box-sizing: border-box;\n    height: 100%;\n    padding: 70px 0;\n    overflow: hidden;\n}\n.footer {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    position: fixed;\n    bottom: 7px;\n    width: 100%;\n    height: 40px;\n}\n.footer input {\n    -webkit-transition: border 1s ease;\n    transition: border 1s ease;\n    position: relative;\n    width: 50%;\n    height: 30px;\n    background-color: rgba(0,0,0,0);\n    border: 2px solid #b388ff\n}\n.footer input:focus {\n    border: 2px solid #7c4dff;\n}", ""]);
-
-	// exports
-
-
-/***/ },
-
-/***/ 28:
+/***/ 99:
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(26);
+	var content = __webpack_require__(96);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(10)(content, {});
+	var update = __webpack_require__(33)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -418,33 +436,6 @@ return /******/ (function(modules) { // webpackBootstrap
 		if(!content.locals) {
 			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./animation.css", function() {
 				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./animation.css");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-
-/***/ 29:
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(27);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(10)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./talk.less", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./talk.less");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
