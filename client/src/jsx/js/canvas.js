@@ -162,31 +162,56 @@ class Canvas {
         // ctx.stroke();
     }
     getLayout(chess) {
-        const {x, y, size} = chess,
+        const {x, y, size, id} = chess,
             newLayout = [
                 {
                     x: x,
-                    y: y + Math.sqrt(3) * 2 * size
+                    y: y + Math.sqrt(3) * 2 * size,
+                    num: 1,
+                    reside: [id]
                 }, {
                     x: x + 3 * size,
-                    y: y + Math.sqrt(3) * size
+                    y: y + Math.sqrt(3) * size,
+                    num: 2,
+                    reside: [id]
                 }, {
                     x: x + 3 * size,
-                    y: y - Math.sqrt(3) * size
+                    y: y - Math.sqrt(3) * size,
+                    num: 3,
+                    reside: [id]
                 }, {
                     x: x,
-                    y: y - Math.sqrt(3) * 2 * size
+                    y: y - Math.sqrt(3) * 2 * size,
+                    num: 4,
+                    reside: [id]
                 }, {
                     x: x - 3 * size,
-                    y: y - Math.sqrt(3) * size
+                    y: y - Math.sqrt(3) * size,
+                    num: 5,
+                    reside: [id]
                 }, {
                     x: x - 3 * size,
-                    y: y + Math.sqrt(3) * size
+                    y: y + Math.sqrt(3) * size,
+                    num: 6,
+                    reside: [id]
                 }
             ];
-        newLayout.forEach((layout) => {
+        let layout = this.filterLayout(newLayout);
+        layout.forEach((layout) => {
             this.chess.layout.push(this.createChess(layout));
         });
+    }
+    filterLayout(newLayout) {
+        let _index = [],
+            deviation = 2;
+            console.log(newLayout,this.chess.layout);
+        newLayout.forEach((nl) => {
+            _index.push(this.chess.layout.findIndex((ol) => {
+                return nl.x <= ol.x + deviation && nl.x >= ol.x - deviation && nl.y <= ol.y + deviation && nl.y >= ol.y - deviation;
+            }))
+        });
+        console.log(_index);
+        return newLayout;
     }
     setLimit(x, y) {
         this.chess.layout.forEach((layout) => {

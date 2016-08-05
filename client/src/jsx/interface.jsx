@@ -51,7 +51,7 @@ class Interface extends Component {
         this.changeName = this.changeName.bind(this);
     }
     componentDidMount() {
-        this.socket = new Io();
+        // this.socket = new Io();
         this.canvas = new Canvas('canvas');
     }
     changeName(e) {

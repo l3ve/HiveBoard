@@ -1196,7 +1196,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    (0, _createClass3.default)(Interface, [{
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
-	            this.socket = new _socketC2.default();
+	            // this.socket = new Io();
 	            this.canvas = new _canvas2.default('canvas');
 	        }
 	    }, {
@@ -1520,37 +1520,67 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var x = chess.x;
 	            var y = chess.y;
 	            var size = chess.size;
+	            var id = chess.id;
 	            var newLayout = [{
 	                x: x,
-	                y: y + Math.sqrt(3) * 2 * size
+	                y: y + Math.sqrt(3) * 2 * size,
+	                num: 1,
+	                reside: [id]
 	            }, {
 	                x: x + 3 * size,
-	                y: y + Math.sqrt(3) * size
+	                y: y + Math.sqrt(3) * size,
+	                num: 2,
+	                reside: [id]
 	            }, {
 	                x: x + 3 * size,
-	                y: y - Math.sqrt(3) * size
+	                y: y - Math.sqrt(3) * size,
+	                num: 3,
+	                reside: [id]
 	            }, {
 	                x: x,
-	                y: y - Math.sqrt(3) * 2 * size
+	                y: y - Math.sqrt(3) * 2 * size,
+	                num: 4,
+	                reside: [id]
 	            }, {
 	                x: x - 3 * size,
-	                y: y - Math.sqrt(3) * size
+	                y: y - Math.sqrt(3) * size,
+	                num: 5,
+	                reside: [id]
 	            }, {
 	                x: x - 3 * size,
-	                y: y + Math.sqrt(3) * size
+	                y: y + Math.sqrt(3) * size,
+	                num: 6,
+	                reside: [id]
 	            }];
-	            newLayout.forEach(function (layout) {
+	            var layout = this.filterLayout(newLayout);
+	            layout.forEach(function (layout) {
 	                _this3.chess.layout.push(_this3.createChess(layout));
 	            });
 	        }
 	    }, {
+	        key: 'filterLayout',
+	        value: function filterLayout(newLayout) {
+	            var _this4 = this;
+
+	            var _index = [],
+	                deviation = 2;
+	            console.log(newLayout, this.chess.layout);
+	            newLayout.forEach(function (nl) {
+	                _index.push(_this4.chess.layout.findIndex(function (ol) {
+	                    return nl.x <= ol.x + deviation && nl.x >= ol.x - deviation && nl.y <= ol.y + deviation && nl.y >= ol.y - deviation;
+	                }));
+	            });
+	            console.log(_index);
+	            return newLayout;
+	        }
+	    }, {
 	        key: 'setLimit',
 	        value: function setLimit(x, y) {
-	            var _this4 = this;
+	            var _this5 = this;
 
 	            this.chess.layout.forEach(function (layout) {
 	                if (layout.isYou(x, y, 15)) {
-	                    _this4.chess.previewChess.move(layout.x, layout.y);
+	                    _this5.chess.previewChess.move(layout.x, layout.y);
 
 	                    // this.setChess(this.chess.previewChess);
 	                }
@@ -1580,12 +1610,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _createClass3 = _interopRequireDefault(_createClass2);
 
+	var _uuid = __webpack_require__(101);
+
+	var _uuid2 = _interopRequireDefault(_uuid);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Chess = function () {
 	    function Chess(chess) {
 	        (0, _classCallCheck3.default)(this, Chess);
 
+	        this.id = (0, _uuid2.default)();
 	        this.type = chess.type || '99';
 	        this.size = chess.size || 15;
 	        this.x = chess.x || 0;
@@ -2590,6 +2625,31 @@ return /******/ (function(modules) { // webpackBootstrap
 		// When the module is disposed, remove the <style> tags
 		module.hot.dispose(function() { update(); });
 	}
+
+/***/ },
+/* 101 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = uuid;
+	function uuid() {
+	    var i, random;
+	    var result = '';
+
+	    for (i = 0; i < 32; i++) {
+	        random = Math.random() * 16 | 0;
+	        if (i === 8 || i === 12 || i === 16 || i === 20) {
+	            result += '-';
+	        }
+	        result += (i === 12 ? 4 : i === 16 ? random & 3 | 8 : random).toString(16);
+	    }
+
+	    return result;
+	};
 
 /***/ }
 /******/ ])

@@ -1,5 +1,8 @@
+import uuid from './uuid';
+
 export default class Chess {
     constructor(chess) {
+        this.id = uuid();
         this.type = chess.type || '99';
         this.size = chess.size || 15;
         this.x = chess.x || 0;
