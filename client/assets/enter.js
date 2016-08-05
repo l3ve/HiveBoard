@@ -1147,43 +1147,103 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    function Interface() {
 	        (0, _classCallCheck3.default)(this, Interface);
-	        return (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(Interface).apply(this, arguments));
+
+	        var _this = (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(Interface).call(this));
+
+	        _this.state = {
+	            cur: '0'
+	        };
+	        _this.chessType = [{
+	            name: '蜂后',
+	            num: '1',
+	            type: '1'
+	        }, {
+	            name: '蚂蚁',
+	            num: '3',
+	            type: '2'
+	        }, {
+	            name: '甲虫',
+	            num: '2',
+	            type: '3'
+	        }, {
+	            name: '蟋蟀',
+	            num: '3',
+	            type: '4'
+	        }, {
+	            name: '蜘蛛',
+	            num: '2',
+	            type: '5'
+	        }, {
+	            name: '蚊子',
+	            num: '1',
+	            type: '6'
+	        }, {
+	            name: '瓢虫',
+	            num: '1',
+	            type: '7'
+	        }, {
+	            name: '鼠妇',
+	            num: '1',
+	            type: '8'
+	        }];
+	        _this.socket = '';
+	        _this.canvas = '';
+	        _this.talk = _this.talk.bind(_this);
+	        _this.changeName = _this.changeName.bind(_this);
+	        return _this;
 	    }
 
 	    (0, _createClass3.default)(Interface, [{
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
-	            var socket = new _socketC2.default(),
-	                canvas = new _canvas2.default('canvas');
+	            this.socket = new _socketC2.default();
+	            this.canvas = new _canvas2.default('canvas');
+	        }
+	    }, {
+	        key: 'changeName',
+	        value: function changeName(e) {
+	            if (e.keyCode === 13) {
+	                window.localStorage.name = this.refs.name.value;
+	                this.socket.send('changeName', this.refs.name.value);
+	            }
+	        }
+	    }, {
+	        key: 'talk',
+	        value: function talk(e) {
+	            if (e.keyCode === 13) {
+	                // canvas.clear();
+	                // canvas.removeListenerEvent();
+	                this.socket.send('talk', this.refs.talk.value);
+	                this.refs.talk.value = '';
+	            }
+	        }
+	    }, {
+	        key: 'chooseType',
+	        value: function chooseType(type) {
+	            var cur = this.state.cur;
 
-	            document.querySelector('.talk').addEventListener('keydown', function (e) {
-	                if (e.keyCode === 13) {
-	                    socket.send('talk', e.path[0].value);
-	                }
+	            if (cur == type) {
+	                type = '0';
+	            }
+	            this.setState({
+	                cur: type
 	            });
-	            document.querySelector('.room').addEventListener('keydown', function (e) {
-	                if (e.keyCode === 13) {
-	                    canvas.clear();
-	                    // canvas.removeListenerEvent();
-	                }
-	            });
-	            document.querySelector('.name').addEventListener('keydown', function (e) {
-	                if (e.keyCode === 13) {
-	                    window.localStorage.name = e.path[0].value;
-	                    socket.send('changeName', e.path[0].value);
-	                }
-	            });
+	            this.canvas.switchType(type);
 	        }
 	    }, {
 	        key: 'render',
 	        value: function render() {
+	            var _this2 = this;
+
+	            var cur = this.state.cur;
+
 	            return _react2.default.createElement(
 	                'div',
 	                { className: 'interface' },
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'setting' },
-	                    _react2.default.createElement('input', { type: 'text', className: 'name', placeholder: '名字' }),
+	                    _react2.default.createElement('input', { type: 'text', ref: 'name', className: 'name', onKeyDown: this.changeName, placeholder: '名字' }),
 	                    _react2.default.createElement('input', { type: 'text', className: 'room', placeholder: '房间号' })
 	                ),
 	                _react2.default.createElement(
@@ -1193,8 +1253,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	                ),
 	                _react2.default.createElement(
 	                    'div',
+	                    { className: 'chess-type-box' },
+	                    this.chessType.map(function (chess) {
+	                        var cls = '';
+	                        if (cur == chess.type) {
+	                            cls = 'cur';
+	                        }
+	                        return _react2.default.createElement(
+	                            'div',
+	                            { className: 'chess-type ' + cls, onClick: function onClick() {
+	                                    return _this2.chooseType(chess.type);
+	                                } },
+	                            chess.name
+	                        );
+	                    })
+	                ),
+	                _react2.default.createElement(
+	                    'div',
 	                    { className: 'footer' },
-	                    _react2.default.createElement('input', { type: 'text', className: 'talk', placeholder: '说点什么屁话吧~' })
+	                    _react2.default.createElement('input', { type: 'text', ref: 'talk', className: 'talk', onKeyDown: this.talk, placeholder: '说点什么屁话吧~' })
 	                )
 	            );
 	        }
@@ -1224,9 +1301,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _createClass3 = _interopRequireDefault(_createClass2);
 
-	var _chess = __webpack_require__(50);
+	var _chess2 = __webpack_require__(50);
 
-	var _chess2 = _interopRequireDefault(_chess);
+	var _chess3 = _interopRequireDefault(_chess2);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1237,10 +1314,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.canvas = document.querySelector('#' + canvasId);
 	        this.ctx = canvas.getContext('2d');
 	        this.yourTurn = true;
+	        this.chessType = '0';
 	        this.canvas.setAttribute('width', document.querySelector('.game-box').offsetWidth + 'px');
 	        this.canvas.setAttribute('height', document.querySelector('.game-box').offsetHeight - 140 + 'px');
 	        this.chess = {
 	            previewChess: '',
+	            fixPosition: {
+	                x: 0,
+	                y: 0
+	            },
 	            firstPosition: {
 	                x: 0,
 	                y: 0
@@ -1273,11 +1355,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var _this = this;
 
 	            this.clear();
+	            this.chess.layout.forEach(function (layout) {
+	                _this.drawChess(layout);
+	            });
 	            this.chess.allChess.forEach(function (chess) {
 	                _this.drawChess(chess);
-	            });
-	            this.chess.layout.forEach(function (layout) {
-	                _this.drawChess(layout, true);
 	            });
 	            this.drawChess(this.chess.previewChess);
 	            requestAnimationFrame(function () {
@@ -1298,34 +1380,52 @@ return /******/ (function(modules) { // webpackBootstrap
 	            this.chess.allChess.push(chess);
 	        }
 	    }, {
+	        key: 'switchType',
+	        value: function switchType(type) {
+	            this.chessType = type;
+	            if (type == 0) {
+	                //无选中的情况(可以点击移动棋子)
+	                this.reset(null, false);
+	            } else {
+	                //选中的情况(可放子)
+	                this.chess.previewChess = this.createChess({
+	                    x: -999,
+	                    y: -999,
+	                    type: type
+	                });
+	                this.canvas.addEventListener("mousemove", this.previewChess, false);
+	            }
+	        }
+	    }, {
 	        key: 'handleClick',
 	        value: function handleClick(e) {
-	            var type = document.querySelector('.room').value;
-	            switch (type) {
-	                case '1':
-	                    this.selectChess(e);
-	                    break;
-	                case '2':
-	                    this.setChess(e);
+	            var chess = {
+	                x: e.offsetX,
+	                y: e.offsetY,
+	                type: this.chessType
+	            };
+	            switch (chess.type) {
+	                case '0':
+	                    this.selectChess(chess);
 	                    break;
 	                default:
-	                    this.setChess(e);
+	                    this.setChess();
 	                    break;
 	            }
 	        }
 	    }, {
 	        key: 'selectChess',
-	        value: function selectChess(e) {
+	        value: function selectChess(chess) {
 	            var _this2 = this;
 
 	            if (this.selectEnd) {
-	                var newChess = this.chess.allChess.filter(function (chess) {
-	                    if (chess.isYou(e.offsetX, e.offsetY)) {
+	                var newChess = this.chess.allChess.filter(function (_chess) {
+	                    if (_chess.isYou(chess.x, chess.y)) {
 	                        _this2.chess.firstPosition = {
-	                            x: e.offsetX,
-	                            y: e.offsetY
+	                            x: _chess.x,
+	                            y: _chess.y
 	                        };
-	                        _this2.chess.previewChess = chess;
+	                        _this2.chess.previewChess = _chess;
 	                        _this2.selectEnd = false;
 	                        _this2.canvas.addEventListener("mousemove", _this2.previewChess, false);
 	                        _this2.canvas.addEventListener("contextmenu", _this2.reset, false);
@@ -1342,21 +1442,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    }, {
 	        key: 'setChess',
-	        value: function setChess(e) {
-	            var para = {
-	                x: e.offsetX,
-	                y: e.offsetY,
-	                type: 1,
-	                reside: 1
-	            },
-	                chess = new _chess2.default(para);
-	            this.saveChess(chess);
-	            this.getLayout(chess);
+	        value: function setChess() {
+	            var _chess = this.createChess(this.chess.previewChess);
+	            this.saveChess(_chess);
+	            this.getLayout(_chess);
+	            this.reset(null, false);
 	        }
 	    }, {
 	        key: 'previewChess',
 	        value: function previewChess(e) {
 	            this.chess.previewChess.move(e.offsetX, e.offsetY);
+	            this.setLimit(e.offsetX, e.offsetY);
+	        }
+	    }, {
+	        key: 'createChess',
+	        value: function createChess(position) {
+	            var para = {
+	                x: position.x || -999,
+	                y: position.y || -999,
+	                type: position.type || '',
+	                reside: 1
+	            };
+	            return new _chess3.default(para);
 	        }
 	    }, {
 	        key: 'reset',
@@ -1374,16 +1481,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'drawChess',
 	        value: function drawChess(chess) {
-	            var isLayout = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
 	            var x = chess.x;
 	            var y = chess.y;
 	            var size = chess.size;
+	            var type = chess.type;
+	            var color = chess.color;
 	            var ctx = this.ctx;
 	            ctx.save();
-	            if (isLayout) {
-	                ctx.strokeStyle = "#ccc";
+	            if (type == '99') {
+	                //网格区域样式
+	                ctx.strokeStyle = color;
+	                ctx.setLineDash([3, 3]);
+	                ctx.lineDashOffset = -10;
 	            }
-	            //绘制棋子
+	            //绘制棋子或者网格区域
 	            ctx.beginPath();
 	            ctx.moveTo(x, y);
 	            ctx.moveTo(x + size, y + Math.sqrt(3) * size);
@@ -1404,35 +1515,46 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'getLayout',
 	        value: function getLayout(chess) {
+	            var _this3 = this;
+
 	            var x = chess.x;
 	            var y = chess.y;
 	            var size = chess.size;
 	            var newLayout = [{
 	                x: x,
-	                y: y + Math.sqrt(3) * 2 * size,
-	                size: size
+	                y: y + Math.sqrt(3) * 2 * size
 	            }, {
 	                x: x + 3 * size,
-	                y: y + Math.sqrt(3) * size,
-	                size: size
+	                y: y + Math.sqrt(3) * size
 	            }, {
 	                x: x + 3 * size,
-	                y: y - Math.sqrt(3) * size,
-	                size: size
+	                y: y - Math.sqrt(3) * size
 	            }, {
 	                x: x,
-	                y: y - Math.sqrt(3) * 2 * size,
-	                size: size
+	                y: y - Math.sqrt(3) * 2 * size
 	            }, {
 	                x: x - 3 * size,
-	                y: y - Math.sqrt(3) * size,
-	                size: size
+	                y: y - Math.sqrt(3) * size
 	            }, {
 	                x: x - 3 * size,
-	                y: y + Math.sqrt(3) * size,
-	                size: size
+	                y: y + Math.sqrt(3) * size
 	            }];
-	            this.chess.layout = this.chess.layout.concat(newLayout);
+	            newLayout.forEach(function (layout) {
+	                _this3.chess.layout.push(_this3.createChess(layout));
+	            });
+	        }
+	    }, {
+	        key: 'setLimit',
+	        value: function setLimit(x, y) {
+	            var _this4 = this;
+
+	            this.chess.layout.forEach(function (layout) {
+	                if (layout.isYou(x, y, 15)) {
+	                    _this4.chess.previewChess.move(layout.x, layout.y);
+
+	                    // this.setChess(this.chess.previewChess);
+	                }
+	            });
 	        }
 	    }]);
 	    return Canvas;
@@ -1464,11 +1586,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    function Chess(chess) {
 	        (0, _classCallCheck3.default)(this, Chess);
 
-	        this.type = chess.type || 1;
+	        this.type = chess.type || '99';
 	        this.size = chess.size || 15;
 	        this.x = chess.x || 0;
 	        this.y = chess.y || 0;
-	        this.color = chess.color || '#000';
+	        this.color = this.type == '99' ? 'rgba(140,158,255,0.7)' : 'rgba(0,0,0,1)';
 	        this.reside = chess.reside || 0;
 	    }
 
@@ -1486,7 +1608,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'isYou',
 	        value: function isYou(x, y) {
-	            var radius = Math.sqrt(3) * this.size - 10;
+	            var deviation = arguments.length <= 2 || arguments[2] === undefined ? 10 : arguments[2];
+
+	            var radius = Math.sqrt(3) * this.size - deviation;
 	            return x <= this.x + radius && x >= this.x - radius && y <= this.y + radius && y >= this.y - radius;
 	        }
 	    }]);
@@ -2418,7 +2542,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	// module
-	exports.push([module.id, "* {\n    padding: 0;\n    margin: 0;\n    box-sizing: border-box;\n}\nhtml, body {\n    height: 100%;\n    background: #eee;\n    font-family:'\\5FAE\\8F6F\\96C5\\9ED1';\n    font-size: 16px;\n}\nli {\n    list-style-type: none;\n}\ninput {\n    padding: 0 5px;\n    border: none\n}\ninput::-webkit-input-placeholder {\n    color: black;\n}\ninput:focus {\n    outline: none;\n}\n.setting {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -ms-flex-pack: distribute;\n        justify-content: space-around;\n    position: fixed;\n    z-index: 1000;\n    top: 0;\n    width: 100%;\n    height: 50px;\n    background: #8c9eff;\n    box-shadow: 0 0 10px black;\n}\n.setting input {\n    width: 170px;\n    height: 30px;\n    position: relative;\n    top: 10px;\n}\n.game-box {\n    box-sizing: border-box;\n    height: 100%;\n    padding: 70px 0;\n    overflow: hidden;\n}\n.footer {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    position: fixed;\n    bottom: 7px;\n    width: 100%;\n    height: 40px;\n}\n.footer input {\n    -webkit-transition: border 1s ease;\n    transition: border 1s ease;\n    position: relative;\n    width: 50%;\n    height: 30px;\n    background-color: rgba(0,0,0,0);\n    border: 2px solid #b388ff\n}\n.footer input:focus {\n    border: 2px solid #7c4dff;\n}", ""]);
+	exports.push([module.id, "* {\n    padding: 0;\n    margin: 0;\n    box-sizing: border-box;\n}\nhtml, body {\n    height: 100%;\n    background: #eee;\n    font-family:'\\5FAE\\8F6F\\96C5\\9ED1';\n    font-size: 16px;\n}\nli {\n    list-style-type: none;\n}\ninput {\n    padding: 0 5px;\n    border: none\n}\ninput::-webkit-input-placeholder {\n    color: black;\n}\ninput:focus {\n    outline: none;\n}\n.interface {\n    height: 100%;\n}\n.setting {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -ms-flex-pack: distribute;\n        justify-content: space-around;\n    position: fixed;\n    z-index: 1000;\n    top: 0;\n    width: 100%;\n    height: 50px;\n    background: #8c9eff;\n    box-shadow: 0 0 10px black;\n}\n.setting input {\n    width: 170px;\n    height: 30px;\n    position: relative;\n    top: 10px;\n}\n.game-box {\n    height: 100%;\n    padding: 70px 0;\n    overflow: hidden;\n}\n.chess-type-box {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    position: fixed;\n    z-index: 100000;\n    bottom: 80px;\n    width: 100%;\n}\n.chess-type-box .chess-type {\n    width: 60px;\n    height: 60px;\n    line-height: 60px;\n    margin: 0 10px;\n    text-align: center;\n    border-radius: 50%;\n    cursor: pointer;\n    background-color: #8c9eff;\n    -webkit-transition: all .3s ease-in;\n    transition: all .3s ease-in\n}\n.chess-type-box .chess-type.cur {\n    box-shadow: 0 0 10px #000;\n}\n.footer {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    position: fixed;\n    bottom: 7px;\n    width: 100%;\n    height: 40px;\n}\n.footer input {\n    -webkit-transition: border 1s ease;\n    transition: border 1s ease;\n    position: relative;\n    width: 50%;\n    height: 30px;\n    background-color: rgba(0,0,0,0);\n    border: 2px solid #b388ff\n}\n.footer input:focus {\n    border: 2px solid #7c4dff;\n}", ""]);
 
 	// exports
 

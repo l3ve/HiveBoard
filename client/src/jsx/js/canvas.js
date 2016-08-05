@@ -5,10 +5,15 @@ class Canvas {
         this.canvas = document.querySelector(`#${canvasId}`);
         this.ctx = canvas.getContext('2d');
         this.yourTurn = true;
+        this.chessType = '0';
         this.canvas.setAttribute('width', document.querySelector('.game-box').offsetWidth + 'px');
         this.canvas.setAttribute('height', document.querySelector('.game-box').offsetHeight - 140 + 'px');
         this.chess = {
             previewChess: '',
+            fixPosition: {
+                x: 0,
+                y: 0
+            },
             firstPosition: {
                 x: 0,
                 y: 0
@@ -32,11 +37,11 @@ class Canvas {
     }
     updata() {
         this.clear();
+        this.chess.layout.forEach((layout) => {
+            this.drawChess(layout);
+        });
         this.chess.allChess.forEach((chess) => {
             this.drawChess(chess);
-        });
-        this.chess.layout.forEach((layout) => {
-            this.drawChess(layout, true);
         });
         this.drawChess(this.chess.previewChess);
         requestAnimationFrame(() => this.updata());
@@ -47,29 +52,45 @@ class Canvas {
     saveChess(chess) {
         this.chess.allChess.push(chess)
     }
+    switchType(type) {
+        this.chessType = type;
+        if (type == 0) {
+            //无选中的情况(可以点击移动棋子)
+            this.reset(null, false);
+        } else {
+            //选中的情况(可放子)
+            this.chess.previewChess = this.createChess({
+                x: -999,
+                y: -999,
+                type: type
+            });
+            this.canvas.addEventListener("mousemove", this.previewChess, false);
+        }
+    }
     handleClick(e) {
-        const type = document.querySelector('.room').value;
-        switch (type) {
-            case '1':
-                this.selectChess(e);
-                break;
-            case '2':
-                this.setChess(e);
+        const chess = {
+            x: e.offsetX,
+            y: e.offsetY,
+            type: this.chessType
+        };
+        switch (chess.type) {
+            case '0':
+                this.selectChess(chess);
                 break;
             default:
-                this.setChess(e);
+                this.setChess();
                 break;
         }
     }
-    selectChess(e) {
+    selectChess(chess) {
         if (this.selectEnd) {
-            const newChess = this.chess.allChess.filter((chess) => {
-                if (chess.isYou(e.offsetX, e.offsetY)) {
+            const newChess = this.chess.allChess.filter((_chess) => {
+                if (_chess.isYou(chess.x, chess.y)) {
                     this.chess.firstPosition = {
-                        x: e.offsetX,
-                        y: e.offsetY
+                        x: _chess.x,
+                        y: _chess.y
                     };
-                    this.chess.previewChess = chess;
+                    this.chess.previewChess = _chess;
                     this.selectEnd = false;
                     this.canvas.addEventListener("mousemove", this.previewChess, false);
                     this.canvas.addEventListener("contextmenu", this.reset, false);
@@ -84,19 +105,24 @@ class Canvas {
             this.reset(null, false);
         }
     }
-    setChess(e) {
-        const para = {
-            x: e.offsetX,
-            y: e.offsetY,
-            type: 1,
-            reside: 1
-        },
-            chess = new Chess(para);
-        this.saveChess(chess);
-        this.getLayout(chess);
+    setChess() {
+        const _chess = this.createChess(this.chess.previewChess);
+        this.saveChess(_chess);
+        this.getLayout(_chess);
+        this.reset(null, false);
     }
     previewChess(e) {
         this.chess.previewChess.move(e.offsetX, e.offsetY);
+        this.setLimit(e.offsetX, e.offsetY)
+    }
+    createChess(position) {
+        const para = {
+            x: position.x || -999,
+            y: position.y || -999,
+            type: position.type || '',
+            reside: 1
+        };
+        return new Chess(para);
     }
     reset(e, b = true) {
         this.removeListenerEvent();
@@ -107,14 +133,17 @@ class Canvas {
         }
         this.chess.previewChess = '';
     }
-    drawChess(chess, isLayout = false) {
-        const {x, y, size} = chess,
+    drawChess(chess) {
+        const {x, y, size, type, color} = chess,
             ctx = this.ctx;
         ctx.save();
-        if (isLayout) {
-            ctx.strokeStyle = "#ccc";
+        if (type == '99') {
+            //网格区域样式
+            ctx.strokeStyle = color;
+            ctx.setLineDash([3, 3]);
+            ctx.lineDashOffset = -10;
         }
-        //绘制棋子
+        //绘制棋子或者网格区域
         ctx.beginPath();
         ctx.moveTo(x, y);
         ctx.moveTo(x + size, y + Math.sqrt(3) * size);
@@ -137,31 +166,37 @@ class Canvas {
             newLayout = [
                 {
                     x: x,
-                    y: y + Math.sqrt(3) * 2 * size,
-                    size: size
+                    y: y + Math.sqrt(3) * 2 * size
                 }, {
                     x: x + 3 * size,
-                    y: y + Math.sqrt(3) * size,
-                    size: size
+                    y: y + Math.sqrt(3) * size
                 }, {
                     x: x + 3 * size,
-                    y: y - Math.sqrt(3) * size,
-                    size: size
+                    y: y - Math.sqrt(3) * size
                 }, {
                     x: x,
-                    y: y - Math.sqrt(3) * 2 * size,
-                    size: size
+                    y: y - Math.sqrt(3) * 2 * size
                 }, {
                     x: x - 3 * size,
-                    y: y - Math.sqrt(3) * size,
-                    size: size
+                    y: y - Math.sqrt(3) * size
                 }, {
                     x: x - 3 * size,
-                    y: y + Math.sqrt(3) * size,
-                    size: size
+                    y: y + Math.sqrt(3) * size
                 }
             ];
-        this.chess.layout = this.chess.layout.concat(newLayout);
+        newLayout.forEach((layout) => {
+            this.chess.layout.push(this.createChess(layout));
+        });
+    }
+    setLimit(x, y) {
+        this.chess.layout.forEach((layout) => {
+            if (layout.isYou(x, y, 15)) {
+                this.chess.previewChess.move(layout.x, layout.y);
+
+                // this.setChess(this.chess.previewChess);
+            }
+        });
+
     }
 }
 
