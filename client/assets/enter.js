@@ -1653,26 +1653,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	                num: 6,
 	                reside: id
 	            }];
-	            var layout = this.filterLayout(newLayout);
+	            var layout = this.filterLayout(newLayout, id);
 	            layout.forEach(function (layout) {
 	                _this4.chess.layout.push(_this4.createChess(layout));
 	            });
 	        }
 	    }, {
 	        key: 'filterLayout',
-	        value: function filterLayout(newLayout) {
+	        value: function filterLayout(newLayout, id) {
 	            var _this5 = this;
 
 	            //删除移动棋子的旧布局
 	            this.chess.layout = this.chess.layout.filter(function (ol) {
-	                return !(ol.reside.length == 1 && ol.reside[0] == newLayout[0].reside);
-	            });
-	            this.chess.layout.forEach(function (ol) {
-	                newLayout.forEach(function (nl) {
-	                    if (ol.isResideBe(nl.reside)) {
-	                        ol.filterResideLayout(nl.reside);
-	                    }
-	                });
+	                var _findIndex = ol.isResideBe(id);
+	                //删除已存在的
+	                if (_findIndex >= 0 && ol.reside.length > 1) {
+	                    ol.filterResideLayout(id);
+	                    return true;
+	                } else if (_findIndex == 0 && ol.reside.length == 1) {
+	                    return false;
+	                } else {
+	                    return true;
+	                }
 	            });
 	            //过滤新棋子
 	            var _filterLayout = newLayout.filter(function (nl) {
@@ -2811,7 +2813,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'isResideBe',
 	        value: function isResideBe(nlr) {
-	            return this.reside.find(function (olr) {
+	            return this.reside.findIndex(function (olr) {
 	                return olr == nlr;
 	            });
 	        }

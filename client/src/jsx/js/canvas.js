@@ -220,22 +220,24 @@ class Canvas {
                     reside: id
                 }
             ];
-        let layout = this.filterLayout(newLayout);
+        let layout = this.filterLayout(newLayout,id);
         layout.forEach((layout) => {
             this.chess.layout.push(this.createChess(layout));
         });
     }
-    filterLayout(newLayout) {
+    filterLayout(newLayout,id) {
         //删除移动棋子的旧布局
         this.chess.layout = this.chess.layout.filter((ol)=>{
-            return !(ol.reside.length == 1 && ol.reside[0] == newLayout[0].reside);
-        });
-        this.chess.layout.forEach((ol)=>{
-            newLayout.forEach((nl)=>{
-                if (ol.isResideBe(nl.reside)) {
-                    ol.filterResideLayout(nl.reside);
-                }
-            })
+            let _findIndex = ol.isResideBe(id);
+            //删除已存在的
+            if (_findIndex >= 0 && ol.reside.length > 1) {
+                ol.filterResideLayout(id);
+                return true;
+            } else if (_findIndex == 0 && ol.reside.length == 1) {
+                return false;
+            } else {
+                return true;
+            }
         });
         //过滤新棋子
         let _filterLayout = newLayout.filter((nl) => {

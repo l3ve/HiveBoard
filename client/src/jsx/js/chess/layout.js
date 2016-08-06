@@ -10,7 +10,7 @@ export default class Layout extends ChessClass {
         return this.x <= newChess.x + deviation && this.x >= newChess.x - deviation && this.y <= newChess.y + deviation && this.y >= newChess.y - deviation;
     }
     isResideBe(nlr) {
-        return this.reside.find((olr) => {
+        return this.reside.findIndex((olr) => {
             return olr == nlr;
         })
     }
