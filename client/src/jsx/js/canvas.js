@@ -1,4 +1,5 @@
-import Chess from './chess';
+import Chess from './chess/chess';
+import Layout from './chess/layout';
 
 class Canvas {
     constructor(canvasId) {
@@ -115,14 +116,12 @@ class Canvas {
         this.chess.previewChess.move(e.offsetX, e.offsetY);
         this.setLimit(e.offsetX, e.offsetY)
     }
-    createChess(position) {
-        const para = {
-            x: position.x || -999,
-            y: position.y || -999,
-            type: position.type || '',
-            reside: 1
-        };
-        return new Chess(para);
+    createChess(chess) {
+        if (chess.type) {
+            return new Chess(chess);
+        } else {
+            return new Layout(chess);
+        }
     }
     reset(e, b = true) {
         this.removeListenerEvent();
@@ -202,12 +201,13 @@ class Canvas {
         });
     }
     filterLayout(newLayout) {
-        let _index = [],
-            deviation = 2;
-            console.log(newLayout,this.chess.layout);
+        let _index = [];
         newLayout.forEach((nl) => {
             _index.push(this.chess.layout.findIndex((ol) => {
-                return nl.x <= ol.x + deviation && nl.x >= ol.x - deviation && nl.y <= ol.y + deviation && nl.y >= ol.y - deviation;
+                if (ol.isSame(nl)) {
+                    console.log(nl,ol);
+                }
+                return ol.isSame(nl);
             }))
         });
         console.log(_index);
@@ -217,8 +217,6 @@ class Canvas {
         this.chess.layout.forEach((layout) => {
             if (layout.isYou(x, y, 15)) {
                 this.chess.previewChess.move(layout.x, layout.y);
-
-                // this.setChess(this.chess.previewChess);
             }
         });
 
