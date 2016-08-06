@@ -12,9 +12,15 @@
 6. babel
 7. webpack
 
+`npm install 安装所有依赖`
+
+`npm run app 启动Electron`
+
 ####后端:
 1. koa
 2. socket.io
+
+`npm run start 启动服务器`
 
 ##TODO:
 

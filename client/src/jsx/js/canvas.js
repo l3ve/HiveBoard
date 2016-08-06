@@ -231,11 +231,14 @@ class Canvas {
             let _findIndex = ol.isResideBe(id);
             //删除已存在的
             if (_findIndex >= 0 && ol.reside.length > 1) {
+                //存在,且与其他共存
                 ol.filterResideLayout(id);
                 return true;
             } else if (_findIndex == 0 && ol.reside.length == 1) {
+                //单独存在
                 return false;
             } else {
+                //不存在
                 return true;
             }
         });
@@ -243,7 +246,7 @@ class Canvas {
         let _filterLayout = newLayout.filter((nl) => {
             let res = true;
             this.chess.layout.forEach((ol) => {
-                //位置相同,是存入reside
+                //位置相同,存入reside
                 if (ol.isSame(nl)) {
                     ol.reside.push(nl.reside);
                     res =  false;
