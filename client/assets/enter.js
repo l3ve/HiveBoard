@@ -1269,18 +1269,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	        key: 'changeName',
 	        value: function changeName(e) {
 	            if (e.keyCode === 13) {
-	                window.localStorage.name = this.refs.name.value;
-	                this.socket.send('changeName', this.refs.name.value);
+	                // window.localStorage.name = this.refs.name.value;
+	                // this.socket.send('changeName', this.refs.name.value);
+	                this.canvas.stop();
 	            }
 	        }
 	    }, {
 	        key: 'talk',
 	        value: function talk(e) {
 	            if (e.keyCode === 13) {
+	                this.canvas.debugDrawlauyout();
 	                // canvas.clear();
 	                // canvas.removeListenerEvent();
-	                this.socket.send('talk', this.refs.talk.value);
-	                this.refs.talk.value = '';
+	                // this.socket.send('talk', this.refs.talk.value);
+	                // this.refs.talk.value = '';
 	            }
 	        }
 	    }, {
@@ -1383,7 +1385,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        this.canvas = document.querySelector('#' + canvasId);
 	        this.ctx = canvas.getContext('2d');
+	        this.stopUpdata = false;
 	        this.yourTurn = true;
+	        this.correctPosition = false;
 	        this.chessType = '0';
 	        this.canvas.setAttribute('width', document.querySelector('.game-box').offsetWidth + 'px');
 	        this.canvas.setAttribute('height', document.querySelector('.game-box').offsetHeight - 140 + 'px');
@@ -1424,6 +1428,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function updata() {
 	            var _this = this;
 
+	            if (this.stopUpdata) {
+	                return false;
+	            }
 	            this.clear();
 	            this.chess.layout.forEach(function (layout) {
 	                _this.drawChess(layout);
@@ -1445,6 +1452,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	            this.ctx.clearRect(0, 0, w, h);
 	        }
 	    }, {
+	        key: 'stop',
+	        value: function stop() {
+	            this.stopUpdata = true;
+	            this.clear();
+	        }
+	    }, {
+	        key: 'debugDrawlauyout',
+	        value: function debugDrawlauyout() {
+	            var _this2 = this;
+
+	            this.chess.layout.forEach(function (layout, i) {
+	                setTimeout(function () {
+	                    _this2.drawChess(layout);
+	                }, 3000 * i);
+	            });
+	        }
+	    }, {
 	        key: 'saveChess',
 	        value: function saveChess(chess) {
 	            this.chess.allChess.push(chess);
@@ -1458,6 +1482,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                this.reset(null, false);
 	            } else {
 	                //选中的情况(可放子)
+	                //创建预览棋子
 	                this.chess.previewChess = this.createChess({
 	                    x: -999,
 	                    y: -999,
@@ -1469,14 +1494,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'handleClick',
 	        value: function handleClick(e) {
-	            var chess = {
+	            // 是否允许放棋
+	            // 条件: 1.是否为第一次放棋.
+	            //      2.本轮是否为自己的轮次.
+	            //      3.当前位置是否为放棋的位置.
+	            if (this.chess.allChess.length != 0 && (!this.yourTurn || !this.correctPosition)) {
+	                return false;
+	            }
+	            var mousePosition = {
 	                x: e.offsetX,
-	                y: e.offsetY,
-	                type: this.chessType
+	                y: e.offsetY
 	            };
-	            switch (chess.type) {
+	            switch (this.chessType) {
 	                case '0':
-	                    this.selectChess(chess);
+	                    this.selectChess(mousePosition);
 	                    break;
 	                default:
 	                    this.setChess();
@@ -1485,20 +1516,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    }, {
 	        key: 'selectChess',
-	        value: function selectChess(chess) {
-	            var _this2 = this;
+	        value: function selectChess(mousePosition) {
+	            var _this3 = this;
 
 	            if (this.selectEnd) {
 	                var newChess = this.chess.allChess.filter(function (_chess) {
-	                    if (_chess.isYou(chess.x, chess.y)) {
-	                        _this2.chess.firstPosition = {
+	                    if (_chess.isYou(mousePosition.x, mousePosition.y)) {
+	                        _this3.chess.firstPosition = {
 	                            x: _chess.x,
 	                            y: _chess.y
 	                        };
-	                        _this2.chess.previewChess = _chess;
-	                        _this2.selectEnd = false;
-	                        _this2.canvas.addEventListener("mousemove", _this2.previewChess, false);
-	                        _this2.canvas.addEventListener("contextmenu", _this2.reset, false);
+	                        _this3.chess.previewChess = _chess;
+	                        _this3.selectEnd = false;
+	                        _this3.canvas.addEventListener("mousemove", _this3.previewChess, false);
+	                        _this3.canvas.addEventListener("contextmenu", _this3.reset, false);
 	                        return false;
 	                    } else {
 	                        return true;
@@ -1506,6 +1537,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                });
 	                this.chess.allChess = newChess;
 	            } else {
+	                this.getLayout(this.chess.previewChess);
 	                this.chess.allChess.push(this.chess.previewChess);
 	                this.reset(null, false);
 	            }
@@ -1521,6 +1553,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'previewChess',
 	        value: function previewChess(e) {
+	            this.correctPosition = false;
 	            this.chess.previewChess.move(e.offsetX, e.offsetY);
 	            this.setLimit(e.offsetX, e.offsetY);
 	        }
@@ -1583,7 +1616,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'getLayout',
 	        value: function getLayout(chess) {
-	            var _this3 = this;
+	            var _this4 = this;
 
 	            var x = chess.x;
 	            var y = chess.y;
@@ -1593,63 +1626,77 @@ return /******/ (function(modules) { // webpackBootstrap
 	                x: x,
 	                y: y + Math.sqrt(3) * 2 * size,
 	                num: 1,
-	                reside: [id]
+	                reside: id
 	            }, {
 	                x: x + 3 * size,
 	                y: y + Math.sqrt(3) * size,
 	                num: 2,
-	                reside: [id]
+	                reside: id
 	            }, {
 	                x: x + 3 * size,
 	                y: y - Math.sqrt(3) * size,
 	                num: 3,
-	                reside: [id]
+	                reside: id
 	            }, {
 	                x: x,
 	                y: y - Math.sqrt(3) * 2 * size,
 	                num: 4,
-	                reside: [id]
+	                reside: id
 	            }, {
 	                x: x - 3 * size,
 	                y: y - Math.sqrt(3) * size,
 	                num: 5,
-	                reside: [id]
+	                reside: id
 	            }, {
 	                x: x - 3 * size,
 	                y: y + Math.sqrt(3) * size,
 	                num: 6,
-	                reside: [id]
+	                reside: id
 	            }];
 	            var layout = this.filterLayout(newLayout);
 	            layout.forEach(function (layout) {
-	                _this3.chess.layout.push(_this3.createChess(layout));
+	                _this4.chess.layout.push(_this4.createChess(layout));
 	            });
 	        }
 	    }, {
 	        key: 'filterLayout',
 	        value: function filterLayout(newLayout) {
-	            var _this4 = this;
+	            var _this5 = this;
 
-	            var _index = [];
-	            newLayout.forEach(function (nl) {
-	                _index.push(_this4.chess.layout.findIndex(function (ol) {
-	                    if (ol.isSame(nl)) {
-	                        console.log(nl, ol);
-	                    }
-	                    return ol.isSame(nl);
-	                }));
+	            //删除移动棋子的旧布局
+	            this.chess.layout = this.chess.layout.filter(function (ol) {
+	                return !(ol.reside.length == 1 && ol.reside[0] == newLayout[0].reside);
 	            });
-	            console.log(_index);
-	            return newLayout;
+	            this.chess.layout.forEach(function (ol) {
+	                newLayout.forEach(function (nl) {
+	                    if (ol.isResideBe(nl.reside)) {
+	                        ol.filterResideLayout(nl.reside);
+	                    }
+	                });
+	            });
+	            //过滤新棋子
+	            var _filterLayout = newLayout.filter(function (nl) {
+	                var res = true;
+	                _this5.chess.layout.forEach(function (ol) {
+	                    //位置相同,是存入reside
+	                    if (ol.isSame(nl)) {
+	                        ol.reside.push(nl.reside);
+	                        res = false;
+	                    }
+	                });
+	                return res;
+	            });
+	            return _filterLayout;
 	        }
 	    }, {
 	        key: 'setLimit',
 	        value: function setLimit(x, y) {
-	            var _this5 = this;
+	            var _this6 = this;
 
 	            this.chess.layout.forEach(function (layout) {
 	                if (layout.isYou(x, y, 15)) {
-	                    _this5.chess.previewChess.move(layout.x, layout.y);
+	                    _this6.chess.previewChess.move(layout.x, layout.y);
+	                    _this6.correctPosition = true;
 	                }
 	            });
 	        }
@@ -2741,30 +2788,45 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var Chess = function (_ChessClass) {
-	    (0, _inherits3.default)(Chess, _ChessClass);
+	var Layout = function (_ChessClass) {
+	    (0, _inherits3.default)(Layout, _ChessClass);
 
-	    function Chess(chess) {
-	        (0, _classCallCheck3.default)(this, Chess);
+	    function Layout(chess) {
+	        (0, _classCallCheck3.default)(this, Layout);
 
-	        var _this = (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(Chess).call(this, chess));
+	        var _this = (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(Layout).call(this, chess));
 
 	        _this.color = 'rgba(140,158,255,0.7)';
+	        _this.reside = [chess.reside] || ['0'];
 	        return _this;
 	    }
 
-	    (0, _createClass3.default)(Chess, [{
+	    (0, _createClass3.default)(Layout, [{
 	        key: 'isSame',
 	        value: function isSame(newChess) {
 	            var deviation = arguments.length <= 1 || arguments[1] === undefined ? 2 : arguments[1];
 
 	            return this.x <= newChess.x + deviation && this.x >= newChess.x - deviation && this.y <= newChess.y + deviation && this.y >= newChess.y - deviation;
 	        }
+	    }, {
+	        key: 'isResideBe',
+	        value: function isResideBe(nlr) {
+	            return this.reside.find(function (olr) {
+	                return olr == nlr;
+	            });
+	        }
+	    }, {
+	        key: 'filterResideLayout',
+	        value: function filterResideLayout(nlr) {
+	            this.reside = this.reside.filter(function (or) {
+	                return or != nlr;
+	            });
+	        }
 	    }]);
-	    return Chess;
+	    return Layout;
 	}(_chessClass2.default);
 
-	exports.default = Chess;
+	exports.default = Layout;
 
 /***/ }
 /******/ ])

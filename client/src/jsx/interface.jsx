@@ -56,16 +56,18 @@ class Interface extends Component {
     }
     changeName(e) {
         if (e.keyCode === 13) {
-            window.localStorage.name = this.refs.name.value;
-            this.socket.send('changeName', this.refs.name.value);
+            // window.localStorage.name = this.refs.name.value;
+            // this.socket.send('changeName', this.refs.name.value);
+            this.canvas.stop();
         }
     }
     talk(e) {
         if (e.keyCode === 13) {
+            this.canvas.debugDrawlauyout();
             // canvas.clear();
             // canvas.removeListenerEvent();
-            this.socket.send('talk', this.refs.talk.value);
-            this.refs.talk.value = '';
+            // this.socket.send('talk', this.refs.talk.value);
+            // this.refs.talk.value = '';
         }
     }
     chooseType(type) {
