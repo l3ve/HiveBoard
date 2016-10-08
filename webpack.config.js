@@ -23,7 +23,7 @@ var webpack = require('webpack'),
 module.exports = {
     //入口文件
     entry: {
-        base: ['css/animation','jsx/js/tool'],
+        base: ['css/animation'],
         enter: [
             './build'
         ]

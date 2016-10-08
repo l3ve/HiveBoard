@@ -55,13 +55,12 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(101);
-	module.exports = __webpack_require__(56);
+	module.exports = __webpack_require__(96);
 
 
 /***/ },
 
-/***/ 31:
+/***/ 29:
 /***/ function(module, exports) {
 
 	/*
@@ -118,7 +117,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 
-/***/ 33:
+/***/ 31:
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -371,43 +370,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 
-/***/ 56:
-/***/ function(module, exports) {
-
-	"use strict";
-
-	CanvasRenderingContext2D.prototype.dashedLineTo = function (fromX, fromY, toX, toY, pattern) {
-	    // default interval distance -> 5px
-	    if (typeof pattern === "undefined") {
-	        pattern = 5;
-	    }
-
-	    // calculate the delta x and delta y
-	    var dx = toX - fromX;
-	    var dy = toY - fromY;
-	    var distance = Math.floor(Math.sqrt(dx * dx + dy * dy));
-	    var dashlineInteveral = pattern <= 0 ? distance : distance / pattern;
-	    var deltay = dy / distance * pattern;
-	    var deltax = dx / distance * pattern;
-
-	    // draw dash line
-	    this.beginPath();
-	    for (var dl = 0; dl < dashlineInteveral; dl++) {
-	        if (dl % 2) {
-	            this.lineTo(fromX + dl * deltax, fromY + dl * deltay);
-	        } else {
-	            this.moveTo(fromX + dl * deltax, fromY + dl * deltay);
-	        }
-	    }
-	    this.stroke();
-	};
-
-/***/ },
-
-/***/ 98:
+/***/ 93:
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(31)();
+	exports = module.exports = __webpack_require__(29)();
 	// imports
 
 
@@ -419,16 +385,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 
-/***/ 101:
+/***/ 96:
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(98);
+	var content = __webpack_require__(93);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(33)(content, {});
+	var update = __webpack_require__(31)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {

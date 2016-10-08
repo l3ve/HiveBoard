@@ -1,5 +1,4 @@
-var app = require('app');
-var BrowserWindow = require('browser-window');
+var {app,BrowserWindow} = require('electron');
 
 var mainWindow = null;
 
