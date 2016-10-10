@@ -4,16 +4,21 @@ import fetch from 'node-fetch';
 module.exports = function () {
     return function (ctx, next) {
         const _url = url.parse(ctx.request.url).href,
-            _ment = _url.split('.').pop(),
+            _ment = _url.split('.').pop().split('?')[0],
             _type = changeContentType(_ment),
             _userAgent = ctx.request.header['user-agent'];
+
         if (_ment == 'js' || _ment == 'css') {
-            return fetch(`${ctx.request.url}`)
+            return fetch(`${ctx.request.url}`, {
+                headers: {
+                    "user-agent": _userAgent
+                }
+            })
                 .then(res => res.text())
                 .then(html => {
-                    ctx.set({
-                        'User-Agent': _userAgent
-                    });
+                    // ctx.set({
+                    //     'User-Agent': _userAgent
+                    // });
                     ctx.type = _type;
                     ctx.body = html;
                     next();
