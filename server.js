@@ -1,41 +1,41 @@
-import Koa from 'koa';
-import send from 'koa-send';
-import bodyParser from 'koa-bodyparser';
-import path from 'path';
+var http = require('http');
+var net = require('net');
+var url = require('url');
 
-import proxy from './proxy/proxy';
-import router from './proxy/router';
+function request(cReq, cRes) {
+    console.log(cReq.url);
+    var u = url.parse(cReq.url);
+    var options = {
+        hostname : u.hostname,
+        port     : u.port || 80,
+        path     : u.path,
+        method     : cReq.method,
+        headers     : cReq.headers
+    };
+    var pReq = http.request(options, function(pRes) {
+        cRes.writeHead(pRes.statusCode, pRes.headers);
+        pRes.pipe(cRes);
+    }).on('error', function(e) {
+        cRes.end();
+    });
 
-const app = new Koa();
-// 全局错误处理
-app.use(async (ctx, next) => {
-    try {
-        await next();
-    } catch (err) {
-        ctx.body = err;
-        ctx.status = err.status || 500;
-    }
-});
+    cReq.pipe(pReq);
+}
 
-// body解析
-app.use(bodyParser());
+function connect(cReq, cSock) {
+    var u = url.parse('http://' + cReq.url);
+    var pSock = net.connect(u.port, u.hostname, function() {
+        cSock.write('HTTP/1.1 200 Connection Established\r\n\r\n');
+        pSock.pipe(cSock);
+    }).on('error', function(e) {
+        cSock.end();
+    });
 
-// 发送文件，如HTML
-app.use(async (ctx, next) => {
-    ctx.send = send;
-    await next();
-});
+    cSock.pipe(pSock);
+}
 
-app.use(proxy());
-// 路由
-app.use(router.routes());
-
-app.listen(process.env.PORT || 3344);
-console.log(`Server up and running! On port ${process.env.PORT || 3344}!`);
-
-//捕获异常
-process.on('uncaughtException', function (err) {
-    console.error('Unexpected exception: ' + err)
-    console.error('Unexpected exception stack: ' + err.stack)
-    // process.exit(1)
-});
+http.createServer()
+    .on('request', request)
+    .on('connect', connect)
+    .listen(3344, '0.0.0.0');
+console.log(`Server up and running! On port 3344!`);

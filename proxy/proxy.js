@@ -1,3 +1,4 @@
+import http from 'http';
 import url from 'url';
 import fetch from 'node-fetch';
 
@@ -7,37 +8,35 @@ module.exports = function () {
             _ment = _url.split('.').pop().split('?')[0],
             _type = changeContentType(_ment),
             _userAgent = ctx.request.header['user-agent'];
-
-        if (_ment == 'js' || _ment == 'css') {
-            return fetch(`${ctx.request.url}`, {
-                headers: {
-                    "user-agent": _userAgent
-                }
-            })
-                .then(res => res.text())
-                .then(html => {
-                    // ctx.set({
-                    //     'User-Agent': _userAgent
-                    // });
-                    ctx.type = _type;
-                    ctx.body = html;
-                    next();
-                })
-        } else if (_ment == 'ico' || _ment == 'png' || _ment == 'jpg') {
-            ctx.type = _type;
-            ctx.body = ctx.request.url;
-            next();
-        } else {
-            return fetch(`${ctx.request.url}`)
-                .then(res => res.text())
-                .then(html => {
-                    ctx.type = _type;
-                    ctx.body = html;
-                    next();
-                })
-        }
+            request(ctx,ctx);
+        // if (_ment == 'js' || _ment == 'css'||_ment == 'ico' || _ment == 'png' || _ment == 'jpg') {
+        //     return fetch(`${ctx.request.url}`, {
+        //         headers: {
+        //             "user-agent": _userAgent
+        //         }
+        //     })
+        //         .then(res => res.text())
+        //         .then(html => {
+        //             // ctx.set({
+        //             //     'User-Agent': _userAgent
+        //             // });
+        //             ctx.type = _type;
+        //             ctx.body = html;
+        //             next();
+        //         })
+        // }  else {
+        //     return fetch(`${ctx.request.url}`)
+        //         .then(res => res.text())
+        //         .then(html => {
+        //             ctx.type = _type;
+        //             ctx.body = html;
+        //             next();
+        //         })
+        // }
     }
 }
+
+
 
 
 function changeContentType(_ment) {
