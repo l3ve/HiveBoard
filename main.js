@@ -1,5 +1,5 @@
 var {app, BrowserWindow} = require('electron');
-
+var {start} = require('./run.js');
 var mainWindow = null;
 
 app.on('window-all-closed', () => {
@@ -34,7 +34,9 @@ function createWindow() {
     mainWindow.loadURL(`file://${__dirname}/index.html`);
     // 启用开发工具。
     mainWindow.openDevTools();
-
+    // 开启代理
+    start();
+    console.log(process.version);
     mainWindow.on('closed', () => {
         mainWindow = null;
         app.quit();
