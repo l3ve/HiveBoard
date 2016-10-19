@@ -28,6 +28,7 @@
     "precss": "^1.4.0",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
+    "socket.io": "^1.5.0",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "utility": "^1.7.1",
@@ -37,8 +38,10 @@
   },
   "scripts": {
     "app": "./node_modules/.bin/electron  .",
-    "dev": "BUILD_DEV=true webpack --watch",
-    "start": "pm2 start run.js --name httpDebug --watch",
-    "deploy": "webpack -p"
+    "build": "./node_modules/.bin/electron-rebuild",
+    "dev": "BUILD_DEV=true webpack --watch"
+  },
+  "devDependencies": {
+    "electron-rebuild": "^1.2.1"
   }
 }

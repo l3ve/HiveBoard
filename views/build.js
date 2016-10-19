@@ -6,3 +6,11 @@
 //     <Interface />,
 //     document.querySelector('.interface')
 // )
+
+import io from 'socket.io-client';
+
+io('http://localhost:3333',()=>{
+
+});
+
+// io.on('')

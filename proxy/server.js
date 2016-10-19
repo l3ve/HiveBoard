@@ -29,12 +29,12 @@ function connect(cReq, cSock) {
     }).on('error', function (e) {
         cSock.end();
     });
-
     cSock.pipe(pSock);
 }
-
+//  代理服务器
 http.createServer()
     .on('request', request)
     .on('connect', connect)
     .listen(3344, '0.0.0.0');
 console.log(`Server up and running! On port 3344!`);
+

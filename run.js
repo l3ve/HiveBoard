@@ -1,4 +1,5 @@
 exports.start = function () {
     require('babel-register')
-    require('./server.js')
+    require('./proxy/server.js')
+    require('./socket/socket.js')
 }

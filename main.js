@@ -36,7 +36,7 @@ function createWindow() {
     mainWindow.openDevTools();
     // 开启代理
     start();
-    console.log(process.version);
+    console.log(`当前node版本 : ${process.version}`);
     mainWindow.on('closed', () => {
         mainWindow = null;
         app.quit();
