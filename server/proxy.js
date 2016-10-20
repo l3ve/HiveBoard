@@ -1,9 +1,12 @@
-var http = require('http');
-var net = require('net');
-var url = require('url');
+import http from 'http';
+import net from 'net';
+import url from 'url';
+import Io from './socket.js';
 
+const socket = new Io();
+
+//HTTP代理
 function request(cReq, cRes) {
-    console.log(cReq.url);
     var u = url.parse(cReq.url);
     var options = {
         hostname: u.hostname,
@@ -15,12 +18,15 @@ function request(cReq, cRes) {
     var pReq = http.request(options, function (pRes) {
         cRes.writeHead(pRes.statusCode, pRes.headers);
         pRes.pipe(cRes);
-    }).on('error', function (e) {
+        socket.sendRequestInfo(options);
+        socket.sendRespondInfo(pRes.headers);
+    }).on('error', (e) => {
         cRes.end();
     });
     cReq.pipe(pReq);
 }
 
+//TCP代理
 function connect(cReq, cSock) {
     var u = url.parse('http://' + cReq.url);
     var pSock = net.connect(u.port, u.hostname, function () {
@@ -37,4 +43,3 @@ http.createServer()
     .on('connect', connect)
     .listen(3344, '0.0.0.0');
 console.log(`Server up and running! On port 3344!`);
-

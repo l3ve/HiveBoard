@@ -25,7 +25,7 @@ module.exports = {
     entry: {
         base: ['css/animation'],
         enter: [
-            './build'
+            './views/build'
         ]
     },
     //输出
