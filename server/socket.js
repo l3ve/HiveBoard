@@ -11,11 +11,8 @@ class Io {
             client.emit('sys-msg',{msg:'已经连接上代理服务器'})
         });
     }
-    sendRequestInfo(info) {
-        io.emit('reqInfo',info);
-    }
-    sendRespondInfo(info) {
-        io.emit('resInfo',info);
+    sendReqAndRes(info) {
+        io.emit('req&res-Info',info);
     }
 }
 

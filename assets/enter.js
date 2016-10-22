@@ -4340,6 +4340,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _socket2 = _interopRequireDefault(_socket);
 
+	var _notification = __webpack_require__(138);
+
+	var _notification2 = _interopRequireDefault(_notification);
+
 	__webpack_require__(132);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -4353,9 +4357,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var _this = (0, _possibleConstructorReturn3.default)(this, (Interface.__proto__ || Object.getPrototypeOf(Interface)).call(this));
 
 	        _this.state = {
-	            sysMsg: '初始化状态',
-	            reqInfo: [],
-	            resInfo: []
+	            info: []
 	        };
 	        _this.io = (0, _socket2.default)('http://localhost:3333');
 	        return _this;
@@ -4367,22 +4369,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var _this2 = this;
 
 	            this.io.on('sys-msg', function (res) {
-	                _this2.setState({
-	                    sysMsg: res.msg
-	                });
+	                _notification2.default.show(res.msg);
 	            });
-	            this.io.on('reqInfo', function (res) {
-	                var reqInfo = _this2.state.reqInfo;
+	            this.io.on('req&res-Info', function (res) {
+	                var info = _this2.state.info;
 
 	                _this2.setState({
-	                    reqInfo: reqInfo.concat(res)
-	                });
-	            });
-	            this.io.on('resInfo', function (res) {
-	                var resInfo = _this2.state.resInfo;
-
-	                _this2.setState({
-	                    resInfo: resInfo.concat(res)
+	                    info: info.concat(res)
 	                });
 	            });
 	        }
@@ -4396,11 +4389,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function render() {
 	            var _state = this.state;
 	            var sysMsg = _state.sysMsg;
-	            var reqInfo = _state.reqInfo;
-	            var resInfo = _state.resInfo;
+	            var info = _state.info;
 
-	            console.log('req:', reqInfo);
-	            console.log('res:', resInfo);
+	            console.log('info:', info);
 	            return _react2.default.createElement(
 	                'div',
 	                null,
@@ -4409,19 +4400,74 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    null,
 	                    sysMsg
 	                ),
-	                reqInfo.map(function (info) {
+	                info.map(function (info) {
 	                    return _react2.default.createElement(
 	                        'div',
-	                        { className: 'one' },
+	                        { className: 'proxy-info' },
 	                        _react2.default.createElement(
 	                            'p',
 	                            null,
-	                            info.hostname
+	                            _react2.default.createElement(
+	                                'span',
+	                                null,
+	                                'hostname:'
+	                            ),
+	                            ' ',
+	                            info.req.hostname
 	                        ),
 	                        _react2.default.createElement(
 	                            'p',
 	                            null,
-	                            info.path
+	                            _react2.default.createElement(
+	                                'span',
+	                                null,
+	                                'path:'
+	                            ),
+	                            ' ',
+	                            info.req.path
+	                        ),
+	                        _react2.default.createElement(
+	                            'p',
+	                            null,
+	                            _react2.default.createElement(
+	                                'span',
+	                                null,
+	                                'method:'
+	                            ),
+	                            ' ',
+	                            info.req.method
+	                        ),
+	                        _react2.default.createElement(
+	                            'p',
+	                            null,
+	                            _react2.default.createElement(
+	                                'span',
+	                                null,
+	                                'host:'
+	                            ),
+	                            ' ',
+	                            info.req.headers.host
+	                        ),
+	                        _react2.default.createElement(
+	                            'p',
+	                            null,
+	                            _react2.default.createElement(
+	                                'span',
+	                                null,
+	                                'accept:'
+	                            ),
+	                            ' ',
+	                            info.req.headers.accept
+	                        ),
+	                        _react2.default.createElement(
+	                            'p',
+	                            null,
+	                            _react2.default.createElement(
+	                                'span',
+	                                null,
+	                                'type:'
+	                            ),
+	                            info.type
 	                        )
 	                    );
 	                })
@@ -5584,7 +5630,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	// module
-	exports.push([module.id, ".one {\n    border-bottom: 1px solid #000;\n}", ""]);
+	exports.push([module.id, ".proxy-info {\n    width: 100%;\n    border-bottom: 1px solid #000;\n}\n.proxy-info p {\n    word-wrap: break-word;\n    word-break: normal;\n}\n.proxy-info p span {\n    font-weight: bolder;\n    font-size: 20px;\n}", ""]);
 
 	// exports
 
@@ -9257,6 +9303,46 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	/* (ignored) */
+
+/***/ },
+/* 138 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _classCallCheck2 = __webpack_require__(72);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _createClass2 = __webpack_require__(73);
+
+	var _createClass3 = _interopRequireDefault(_createClass2);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Tips = function () {
+	    function Tips() {
+	        (0, _classCallCheck3.default)(this, Tips);
+	    }
+
+	    (0, _createClass3.default)(Tips, [{
+	        key: 'show',
+	        value: function show(tit, txt) {
+	            var _options = {
+	                body: txt,
+	                icon: ''
+	            };
+	            new Notification(tit, _options);
+	        }
+	    }]);
+	    return Tips;
+	}();
+
+	exports.default = new Tips();
 
 /***/ }
 /******/ ])

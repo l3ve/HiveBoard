@@ -2,6 +2,7 @@ import http from 'http';
 import net from 'net';
 import url from 'url';
 import Io from './socket.js';
+import {classify} from './tool';
 
 const socket = new Io();
 
@@ -18,8 +19,11 @@ function request(cReq, cRes) {
     var pReq = http.request(options, function (pRes) {
         cRes.writeHead(pRes.statusCode, pRes.headers);
         pRes.pipe(cRes);
-        socket.sendRequestInfo(options);
-        socket.sendRespondInfo(pRes.headers);
+        socket.sendReqAndRes({
+            type:classify(options,pRes.headers),
+            req:options,
+            res:pRes.headers
+        });
     }).on('error', (e) => {
         cRes.end();
     });
