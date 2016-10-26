@@ -25,7 +25,7 @@ module.exports = {
     entry: {
         base: ['css/animation'],
         enter: [
-            './views/build'
+            'build'
         ]
     },
     //输出
@@ -40,7 +40,7 @@ module.exports = {
     plugins: plugin,
     resolve: {
         //根目录遍历
-        root: [process.cwd() + '/src', process.cwd() + '/node_modules'],
+        root: [process.cwd() + '/views', process.cwd() + '/node_modules'],
         alias: {
             'react': path.join(__dirname, '/node_modules/react/dist/react.min'),
             'react-dom': path.join(__dirname, '/node_modules/react-dom/dist/react-dom.min')

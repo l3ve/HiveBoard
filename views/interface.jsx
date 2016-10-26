@@ -22,29 +22,28 @@ class Interface extends Component {
             this.setState({
                 info: info.concat(res)
             });
-         })
+        })
     }
     send(_data) {
         this.io.emit('set', _data);
     }
     render() {
-        let {sysMsg, info} = this.state;
-        console.log(`info:`,info);
+        let {info} = this.state;
+        console.log(`info:`, info);
         return (
-            <div>
-                <h1>{sysMsg}</h1>
-                {info.map((info) => {
-                    return (
-                        <div className='proxy-info'>
-                            <p><span>hostname:</span> {info.req.hostname}</p>
-                            <p><span>path:</span> {info.req.path}</p>
-                            <p><span>method:</span> {info.req.method}</p>
-                            <p><span>host:</span> {info.req.headers.host}</p>
-                            <p><span>accept:</span> {info.req.headers.accept}</p>
-                            <p><span>type:</span>{info.type}</p>
-                        </div>
-                    )
-                })}
+            <div className='main-body'>
+                <nav className='top-nav'></nav>
+                <div className='proxy-info'>
+                    {info.map((info) => {
+                        return (
+                            <p>
+                                <span className='type'>[{info.type}] </span>
+                                <span>{info.req.method} : </span>
+                                <span>http://{info.req.headers.host}{info.req.path}</span>
+                            </p>
+                        )
+                    })}
+                </div>
             </div>
         );
     }
