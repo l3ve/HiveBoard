@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import io from 'socket.io-client';
 import Tips from './notification';
 
-import './interface.less';
+import './css/interface.less';
 
 
 class Interface extends Component {
@@ -36,10 +36,10 @@ class Interface extends Component {
                 <div className='proxy-info'>
                     {info.map((info) => {
                         return (
-                            <p>
-                                <span className='type'>[{info.type}] </span>
-                                <span>{info.req.method} : </span>
-                                <span>http://{info.req.headers.host}{info.req.path}</span>
+                            <p className='the-one'>
+                                <span className='method'>{info.req.method}:</span>
+                                <span className='url'>http://{info.req.headers.host}{info.req.path}</span>
+                                <span className={'type '+info.type}>{info.type}</span>
                             </p>
                         )
                     })}
