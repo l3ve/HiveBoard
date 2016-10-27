@@ -4435,7 +4435,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function render() {
 	            var info = this.state.info;
 
-	            console.log('info:', info);
 	            return _react2.default.createElement(
 	                'div',
 	                { className: 'main-body' },
@@ -4467,7 +4466,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	                            )
 	                        );
 	                    })
-	                )
+	                ),
+	                _react2.default.createElement('div', null)
 	            );
 	        }
 	    }]);
@@ -5621,7 +5621,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	// module
-	exports.push([module.id, "html, body {\n    width: 100%;\n    height: 100%;\n}\n.main-body {\n    position: relative;\n    top: 63px;\n    min-height: 100%;\n    background-color: rgb(250,250,250);\n}\n.top-nav {\n    position: fixed;\n    z-index: 1000;\n    top: 0;\n    width: 100%;\n    height: 63px;\n    line-height: 63px;\n    background-color: rgb(157,42,172);\n    color: #fff;\n    box-shadow: 0 2px 5px  rgba(0,0,0,0.26);\n}\n.proxy-info {\n    // width: 340px;\n}\n.proxy-info .the-one {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -ms-flex-wrap: wrap;\n        flex-wrap: wrap;\n    -webkit-box-pack: start;\n        -ms-flex-pack: start;\n            justify-content: flex-start;\n    position: relative;\n    margin: 0;\n    padding: 10px 70px 10px 5px;\n    -webkit-transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;\n    transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;\n    background: none;\n    cursor: pointer;\n}\n.proxy-info .the-one .method {\n    font-weight: bolder;\n    color: #9C27B0;\n}\n.proxy-info .the-one .url {\n    width: 100%;\n    word-wrap: break-word;\n}\n.proxy-info .the-one .type {\n    display: inline-block;\n    -ms-flex-item-align: center;\n        -ms-grid-row-align: center;\n        align-self: center;\n    font-size: 13px;\n    line-height: 13px;\n    border-radius: 3px;\n    padding: 5px 8px;\n    position: absolute;\n    right: 10px;\n    color: #000;\n    font-weight: bolder;\n    box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px\n}\n.proxy-info .the-one .type.js {\n    background-color: #FF9800;\n}\n.proxy-info .the-one .type.css {\n    background-color: #AEEA00;\n}\n.proxy-info .the-one .type.img {\n    background-color: #82B1FF;\n}\n.proxy-info .the-one .type.other {\n    background-color: #9E9E9E;\n}\n.proxy-info .the-one:hover {\n    background-color: rgba(0,0,0,0.098);\n}", ""]);
+	exports.push([module.id, "html, body {\n    width: 100%;\n    height: 100%;\n    overflow: hidden;\n}\n.main-body {\n    position: relative;\n    top: 63px;\n    height: 100%;\n    background-color: rgb(250,250,250);\n}\n.top-nav {\n    position: fixed;\n    z-index: 1000;\n    top: 0;\n    width: 100%;\n    height: 63px;\n    line-height: 63px;\n    background-color: rgb(157,42,172);\n    color: #fff;\n    box-shadow: 0 2px 5px  rgba(0,0,0,0.26);\n}\n.proxy-info {\n    height: 100%;\n    overflow-y: scroll;\n}\n.proxy-info .the-one {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -ms-flex-wrap: wrap;\n        flex-wrap: wrap;\n    -webkit-box-pack: start;\n        -ms-flex-pack: start;\n            justify-content: flex-start;\n    position: relative;\n    margin: 0;\n    padding: 10px 90px 10px 5px;\n    -webkit-transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;\n    transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;\n    background: none;\n    cursor: pointer;\n}\n.proxy-info .the-one .method {\n    font-weight: bolder;\n    color: #9C27B0;\n}\n.proxy-info .the-one .url {\n    width: 100%;\n    word-wrap: break-word;\n}\n.proxy-info .the-one .type {\n    display: inline-block;\n    -ms-flex-item-align: center;\n        -ms-grid-row-align: center;\n        align-self: center;\n    font-size: 13px;\n    line-height: 13px;\n    border-radius: 3px;\n    padding: 5px 8px;\n    position: absolute;\n    right: 20px;\n    color: #000;\n    font-weight: bolder;\n    box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px\n}\n.proxy-info .the-one .type.js {\n    background-color: #FF9800;\n}\n.proxy-info .the-one .type.css {\n    background-color: #AEEA00;\n}\n.proxy-info .the-one .type.img {\n    background-color: #82B1FF;\n}\n.proxy-info .the-one .type.other {\n    background-color: #9E9E9E;\n}\n.proxy-info .the-one:hover {\n    background-color: rgba(0,0,0,0.098);\n}", ""]);
 
 	// exports
 

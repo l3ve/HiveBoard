@@ -29,7 +29,6 @@ class Interface extends Component {
     }
     render() {
         let {info} = this.state;
-        console.log(`info:`, info);
         return (
             <div className='main-body'>
                 <nav className='top-nav'></nav>
@@ -44,6 +43,7 @@ class Interface extends Component {
                         )
                     })}
                 </div>
+                <div></div>
             </div>
         );
     }
