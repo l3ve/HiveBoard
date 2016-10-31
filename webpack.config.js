@@ -66,6 +66,10 @@ module.exports = {
         ],
         loaders: [
             {
+                test: /\.json$/,
+                loader: 'json'
+            },
+            {
                 test: /\.(js|jsx)$/,
                 loaders: ['babel'],
                 exclude: /(node_modules)/

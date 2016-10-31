@@ -43,7 +43,9 @@ class Interface extends Component {
                         )
                     })}
                 </div>
-                <div></div>
+                <div className='save-info'>
+                123
+                </div>
             </div>
         );
     }

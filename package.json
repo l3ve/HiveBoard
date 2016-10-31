@@ -1,5 +1,5 @@
 {
-  "name": "HiveBoard",
+  "name": "httpDebug",
   "version": "0.1.0",
   "main": "main.js",
   "dependencies": {
@@ -21,6 +21,7 @@
     "exports-loader": "^0.6.3",
     "file-loader": "^0.9.0",
     "imports-loader": "^0.6.5",
+    "json-loader": "^0.5.4",
     "net": "^1.0.2",
     "node-fetch": "^1.6.3",
     "node-libs-browser": "^1.0.0",
