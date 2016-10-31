@@ -11,6 +11,8 @@
 4. ES6
 5. babel
 6. webpack
+7. nedb
+8. socket
 
 `npm install 安装所有依赖`
 
