@@ -5,7 +5,7 @@ html,body {
 }
 .main-body {
     position: relative;
-    top: 63px;
+    padding-top: 63px;
     height: 100%;
     background-color: rgb(250,250,250);
 }
@@ -45,7 +45,6 @@ html,body {
             word-wrap: break-word;
         }
         .type {
-            box-sizing: border-box;
             display: inline-block;
             width: 50px;
             align-self: center;
@@ -72,5 +71,30 @@ html,body {
                 background-color: #9E9E9E;
             }
         }
+    }
+}
+.save-info {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 63px 0 0 60px;
+    &.show {
+        display: block;
+    }
+    .body {
+        position: relative;
+        height: 100%;
+        background-color: #fff;
+        box-shadow: -2px 0 6px rgba(0,0,0,0.11);
+    }
+    .shadow {
+        position: absolute;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.087);
     }
 }
