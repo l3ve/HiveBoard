@@ -4433,15 +4433,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	            });
 	        }
 	    }, {
-	        key: 'send',
-	        value: function send(_data) {
-	            this.io.emit('set', _data);
+	        key: 'saveInfo',
+	        value: function saveInfo(info) {
+	            this.io.emit('save-info', info);
 	        }
 	    }, {
 	        key: 'showInfo',
 	        value: function showInfo() {
 	            this.setState({
 	                switchCls: 'bounceInRight show'
+	            });
+	            this.saveInfo({
+	                aaa: 1111
 	            });
 	        }
 	    }, {

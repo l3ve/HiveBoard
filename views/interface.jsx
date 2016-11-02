@@ -31,13 +31,16 @@ class Interface extends Component {
             });
         })
     }
-    send(_data) {
-        this.io.emit('set', _data);
+    saveInfo(info) {
+        this.io.emit('save-info', info);
     }
     showInfo() {
         this.setState({
             switchCls: 'bounceInRight show'
         });
+        this.saveInfo({
+            aaa:1111
+        })
     }
     hideInfo(e) {
         this.setState({

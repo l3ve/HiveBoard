@@ -8,6 +8,7 @@ import { classify } from './tool';
 
 const socket = new Io();
 let isNeedProxy = true,
+    realPath2 = '/Users/L3ve/backstage/static/backsite/assets/base.js',
     realPath = '/Users/L3ve/backstage/static/backsite/assets/enter.js';
 
 //HTTP代理
@@ -21,8 +22,9 @@ function request(cReq, cRes) {
         headers: cReq.headers
     };
     var pReq = http.request(options, function (pRes) {
-        if (isNeedProxy && u.path == '/backsite/assets/enter.js') {
-            fs.stat(realPath, (err, stats) => {
+        if (u.path == '/backsite/assets/enter.js') {
+            const _path = '/Users/L3ve/backstage/static' + u.path;
+            fs.stat(_path, (err, stats) => {
                 if (!stats) {
                     cRes.writeHead(404, { 'Content-Type': 'text/plain' });
                     cRes.end();

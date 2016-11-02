@@ -29,10 +29,16 @@ class Io {
         io.on('connection', (client) => {
             client.emit('sys-msg', { msg: '已经连接上代理服务器' });
             this.client = client;
+            this.saveInfo(client);
         })
     }
     msg(msg) {
         this.client.emit('user-msg', { msg: msg });
+    }
+    saveInfo(client) {
+        client.on('save-info',(info)=>{
+            console.log(info);
+        })
     }
     sendReqAndRes(info) {
         io.emit('req&res-Info', info);
