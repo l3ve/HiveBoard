@@ -4403,8 +4403,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var _this = (0, _possibleConstructorReturn3.default)(this, (Interface.__proto__ || Object.getPrototypeOf(Interface)).call(this));
 
 	        _this.state = {
-	            info: [],
-	            switchCls: ''
+	            allProxy: [],
+	            selectProxy: {
+	                req: {},
+	                res: {}
+	            },
+	            infoCls: ''
 	        };
 	        _this.io = (0, _socket2.default)('http://localhost:3333');
 
@@ -4425,33 +4429,36 @@ return /******/ (function(modules) { // webpackBootstrap
 	                _notification2.default.show(res.msg);
 	            });
 	            this.io.on('req&res-Info', function (res) {
-	                var info = _this2.state.info;
+	                var allProxy = _this2.state.allProxy;
 
 	                _this2.setState({
-	                    info: info.concat(res)
+	                    allProxy: allProxy.concat(res)
 	                });
 	            });
 	        }
 	    }, {
 	        key: 'saveInfo',
-	        value: function saveInfo(info) {
-	            this.io.emit('save-info', info);
+	        value: function saveInfo(e, i) {
+	            e.stopPropagation();
+	            var allProxy = this.state.allProxy;
+
+	            this.io.emit('save-info', allProxy[i]);
 	        }
 	    }, {
 	        key: 'showInfo',
-	        value: function showInfo() {
+	        value: function showInfo(i) {
+	            var allProxy = this.state.allProxy;
+
 	            this.setState({
-	                switchCls: 'bounceInRight show'
-	            });
-	            this.saveInfo({
-	                aaa: 1111
+	                infoCls: 'bounceInRight show',
+	                selectProxy: allProxy[i]
 	            });
 	        }
 	    }, {
 	        key: 'hideInfo',
 	        value: function hideInfo(e) {
 	            this.setState({
-	                switchCls: 'bounceOutRight show'
+	                infoCls: 'bounceOutRight show'
 	            });
 	        }
 	    }, {
@@ -4460,9 +4467,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var _this3 = this;
 
 	            var _state = this.state;
-	            var info = _state.info;
-	            var switchCls = _state.switchCls;
+	            var allProxy = _state.allProxy;
+	            var selectProxy = _state.selectProxy;
+	            var infoCls = _state.infoCls;
 
+	            var keyForReqHeader = selectProxy.req.headers ? Object.keys(selectProxy.req.headers) : [],
+	                keyForResHeader = Object.keys(selectProxy.res);
 	            return _react2.default.createElement(
 	                'div',
 	                { className: 'main-body' },
@@ -4470,10 +4480,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'proxy-info' },
-	                    info.map(function (info) {
+	                    allProxy.map(function (info, i) {
 	                        return _react2.default.createElement(
 	                            'p',
-	                            { className: 'the-one', onClick: _this3.showInfo },
+	                            { className: 'the-one', onClick: function onClick() {
+	                                    return _this3.showInfo(i);
+	                                } },
 	                            _react2.default.createElement(
 	                                'span',
 	                                { className: 'method' },
@@ -4491,15 +4503,86 @@ return /******/ (function(modules) { // webpackBootstrap
 	                                'span',
 	                                { className: 'type ' + info.type },
 	                                info.type
-	                            )
+	                            ),
+	                            _react2.default.createElement('span', { className: 'fn-btn', onClick: function onClick(e) {
+	                                    return _this3.saveInfo(e, i);
+	                                } })
 	                        );
 	                    })
 	                ),
 	                _react2.default.createElement(
 	                    'div',
-	                    { className: 'save-info  animated ' + switchCls },
+	                    { className: 'detail-info  animated ' + infoCls },
 	                    _react2.default.createElement('div', { className: 'shadow', onClick: this.hideInfo }),
-	                    _react2.default.createElement('div', { className: 'body' })
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'body' },
+	                        _react2.default.createElement(
+	                            'div',
+	                            { className: 'req' },
+	                            _react2.default.createElement(
+	                                'p',
+	                                { className: 'header' },
+	                                'Request'
+	                            ),
+	                            _react2.default.createElement(
+	                                'p',
+	                                null,
+	                                _react2.default.createElement(
+	                                    'span',
+	                                    null,
+	                                    'method:'
+	                                ),
+	                                selectProxy.req.method
+	                            ),
+	                            _react2.default.createElement(
+	                                'p',
+	                                null,
+	                                _react2.default.createElement(
+	                                    'span',
+	                                    null,
+	                                    'url:'
+	                                ),
+	                                selectProxy.req.hostname,
+	                                selectProxy.req.path
+	                            ),
+	                            keyForReqHeader.map(function (key) {
+	                                return _react2.default.createElement(
+	                                    'p',
+	                                    null,
+	                                    _react2.default.createElement(
+	                                        'span',
+	                                        null,
+	                                        key,
+	                                        ':'
+	                                    ),
+	                                    selectProxy.req.headers[key]
+	                                );
+	                            })
+	                        ),
+	                        _react2.default.createElement(
+	                            'div',
+	                            { className: 'res' },
+	                            _react2.default.createElement(
+	                                'p',
+	                                { className: 'header' },
+	                                'Response'
+	                            ),
+	                            keyForResHeader.map(function (key) {
+	                                return _react2.default.createElement(
+	                                    'p',
+	                                    null,
+	                                    _react2.default.createElement(
+	                                        'span',
+	                                        null,
+	                                        key,
+	                                        ':'
+	                                    ),
+	                                    selectProxy.res[key]
+	                                );
+	                            })
+	                        )
+	                    )
 	                )
 	            );
 	        }
@@ -5654,7 +5737,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	// module
-	exports.push([module.id, "html, body {\n    width: 100%;\n    height: 100%;\n    overflow: hidden;\n}\n.main-body {\n    position: relative;\n    padding-top: 63px;\n    height: 100%;\n    background-color: rgb(250,250,250);\n}\n.top-nav {\n    position: fixed;\n    z-index: 1000;\n    top: 0;\n    width: 100%;\n    height: 63px;\n    line-height: 63px;\n    background-color: rgb(157,42,172);\n    color: #fff;\n    box-shadow: 0 2px 5px  rgba(0,0,0,0.26);\n}\n.proxy-info {\n    height: 100%;\n    overflow-y: scroll;\n}\n.proxy-info .the-one {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -ms-flex-wrap: wrap;\n        flex-wrap: wrap;\n    -webkit-box-pack: start;\n        -ms-flex-pack: start;\n            justify-content: flex-start;\n    position: relative;\n    margin: 0;\n    padding: 10px 200px 10px 5px;\n    -webkit-transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;\n    transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;\n    background: none;\n    cursor: pointer;\n}\n.proxy-info .the-one .method {\n    font-weight: bolder;\n    color: #9C27B0;\n}\n.proxy-info .the-one .url {\n    width: 100%;\n    word-wrap: break-word;\n}\n.proxy-info .the-one .type {\n    display: inline-block;\n    width: 50px;\n    -ms-flex-item-align: center;\n        -ms-grid-row-align: center;\n        align-self: center;\n    font-size: 13px;\n    line-height: 13px;\n    border-radius: 3px;\n    padding: 5px 8px;\n    position: absolute;\n    right: 130px;\n    color: #000;\n    text-align: center;\n    font-weight: bolder;\n    box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px\n}\n.proxy-info .the-one .type.js {\n    background-color: #FF9800;\n}\n.proxy-info .the-one .type.css {\n    background-color: #AEEA00;\n}\n.proxy-info .the-one .type.img {\n    background-color: #82B1FF;\n}\n.proxy-info .the-one .type.other {\n    background-color: #9E9E9E;\n}\n.proxy-info .the-one:hover {\n    background-color: rgba(0,0,0,0.098);\n}\n.save-info {\n    display: none;\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    padding: 63px 0 0 60px;\n}\n.save-info .body {\n    position: relative;\n    height: 100%;\n    background-color: #fff;\n    box-shadow: -2px 0 6px rgba(0,0,0,0.11);\n}\n.save-info .shadow {\n    position: absolute;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    background-color: rgba(0,0,0,0.087);\n}\n.save-info.show {\n    display: block;\n}", ""]);
+	exports.push([module.id, "html, body {\n    width: 100%;\n    height: 100%;\n    overflow: hidden;\n}\n.main-body {\n    position: relative;\n    padding-top: 63px;\n    height: 100%;\n    background-color: rgb(250,250,250);\n}\n.top-nav {\n    position: fixed;\n    z-index: 1000;\n    top: 0;\n    width: 100%;\n    height: 63px;\n    line-height: 63px;\n    background-color: rgb(157,42,172);\n    color: #fff;\n    box-shadow: 0 2px 5px  rgba(0,0,0,0.26);\n}\n.proxy-info {\n    height: 100%;\n    overflow-y: scroll;\n}\n.proxy-info .the-one {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -ms-flex-wrap: wrap;\n        flex-wrap: wrap;\n    -webkit-box-pack: start;\n        -ms-flex-pack: start;\n            justify-content: flex-start;\n    position: relative;\n    margin: 0;\n    padding: 10px 200px 10px 5px;\n    -webkit-transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;\n    transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;\n    background: none;\n    cursor: pointer;\n}\n.proxy-info .the-one .method {\n    font-weight: bolder;\n    color: #9C27B0;\n}\n.proxy-info .the-one .url {\n    width: 100%;\n    word-wrap: break-word;\n}\n.proxy-info .the-one .type {\n    position: absolute;\n    right: 130px;\n    display: inline-block;\n    width: 50px;\n    padding: 5px 8px;\n    font-size: 13px;\n    line-height: 13px;\n    -ms-flex-item-align: center;\n        -ms-grid-row-align: center;\n        align-self: center;\n    color: #000;\n    text-align: center;\n    border-radius: 3px;\n    font-weight: bolder;\n    box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px\n}\n.proxy-info .the-one .type.js {\n    background-color: #FF9800;\n}\n.proxy-info .the-one .type.css {\n    background-color: #AEEA00;\n}\n.proxy-info .the-one .type.img {\n    background-color: #82B1FF;\n}\n.proxy-info .the-one .type.other {\n    background-color: #9E9E9E;\n}\n.proxy-info .the-one .fn-btn {\n    position: absolute;\n    right: 70px;\n    -ms-flex-item-align: center;\n        -ms-grid-row-align: center;\n        align-self: center;\n    display: inline-block;\n    width: 25px;\n    height: 25px;\n    background: url(" + __webpack_require__(141) + ") center no-repeat;\n    background-size: 25px;\n    cursor: pointer\n}\n.proxy-info .the-one .fn-btn:hover {\n    background-color: red;\n}\n.proxy-info .the-one:hover {\n    background-color: rgba(0,0,0,0.098);\n}\n.detail-info {\n    display: none;\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    padding: 63px 0 0 60px;\n}\n.detail-info .body {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    position: relative;\n    padding: 1px 20px;\n    height: 100%;\n    background-color: #fff;\n    box-shadow: -2px 0 6px rgba(0,0,0,0.11);\n}\n.detail-info .body .header {\n    font-size: 20px;\n    font-weight: bolder;\n}\n.detail-info .body p {\n    font-size: 12px;\n    word-break:break-word;\n}\n.detail-info .body p span {\n    font-size: 14px;\n    font-weight: bolder;\n}\n.detail-info .body .req, .detail-info .body .res {\n    overflow-y: scroll;\n    -webkit-box-flex: 1;\n        -ms-flex: 1;\n            flex: 1;\n}\n.detail-info .shadow {\n    position: absolute;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    background-color: rgba(0,0,0,0.087);\n}\n.detail-info.show {\n    display: block;\n}", ""]);
 
 	// exports
 
@@ -9329,6 +9412,12 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	/* (ignored) */
+
+/***/ },
+/* 141 */
+/***/ function(module, exports) {
+
+	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAQAAAD41aSMAAADIklEQVR4AezBgQAAAACAoP2pF6kCAAAAAAAAAAAAAABm386RmwqiKAyf1M9iQ+D1OHLK4FlAQMhuMMXgScAqKLwHewGXjE5cXPGqm9NS/+fGL/n+QKrS06Nje7rQQn1tqWhyXfI/KLQaJEGn/DFMgm75R0nQMf8YCbrmHyFB1/wDJOiMf8AEPfEPmaAf/kET9MI/bAL7LhSKgRPYt9Bq6ATmkcA8EphHgiojwaQ7XwASTLpUzA1AAid/SCRw8odEAid/SCRw8odEAid/SCRw8odEAid/aMZIMOlK4QpAgpr8IZGgJf/PPAAJ2vFfa1fP8wAkaMcvSS/yACRoxp8mEAna8Ze9zAOQoAV/2as8AAnq8+cJ0pFg0nUFfkk6zAOQoAV/2VEegAQt+MuO8wAkqMefJxAJavPnO8kDkKAFf9lpCUCCFvz5zqwBDAn2tf52m/OXBBojwTsPf7JzhTRAAid/sqW0BQms/KwkMPKTwM5PAjs/Cez8JJjNf1OJnwR2fhK4+Umw34z/Zi4/gx9+Bj/8DH744b9tz8/gh5/BDz+DH362gH8AfgY//Ax++Bn88MO/gn87+Q+0ELPxv1folgRO/iBBPf7bGfzlSWbgJ4Gd3//dCX4S+Pn9r6rDT4LC/83CXxJMhj9qw18pwVIB/+M7UKx9V5pm8wf8ySdLkwSFP+Cvk+DyHxO8/vMk/IYEhT/gr5fgq6Z1+Tc5wJP5/I4ECX/AXzvBjv62N4okAPx1EyT8AX/jBAl/wN8iwZeSIOEP+P9PgreKJAD8lRN81k7Or4C/aYKUPzaB/3sdfkOCT9pJ+AP+tgl+KZKDv2mC/OA3J9ga/oWSdZoAfnMC+M0J4DcngN+cAH5zgs74f3j5DQng9yaAv1aCO18A+KVDhS8A/EcKfwD4LQHgP1ZsdoCPQ/OH7Huq+43lP1G0CGBIMCx/SP0n6JP/dLt+D3im+yH5Q+o/QX/8Z4r2ARwJHobjD6nvBP3xnysMAQwJxuAPqd8E/fEvFdsfQNrTwzD8IfWZ4MMg/KHh97s9OBAAAAAAAPJ/bQRVVVVVVVVVVVVVVRVRFTSBWnQ//gAAAABJRU5ErkJggg=="
 
 /***/ }
 /******/ ])

@@ -17,13 +17,9 @@ class Io {
         //     , infos: { name: 'nedb' }
         // };
         // db.find({ n: 5 }, (err, res) => {
-            // console.log(res);
+        // console.log(res);
         // })
-        // db.insert(doc, function (err, newDoc) {   // Callback is optional
-        //     // newDoc is the newly inserted document, including its _id
-        //     // newDoc has no key called notToBeSaved since its value was undefined
-        //     console.log(newDoc);
-        // });
+
     }
     start() {
         io.on('connection', (client) => {
@@ -36,8 +32,10 @@ class Io {
         this.client.emit('user-msg', { msg: msg });
     }
     saveInfo(client) {
-        client.on('save-info',(info)=>{
-            console.log(info);
+        client.on('save-info', (info) => {
+            db.insert(info, function (err, newDoc) {
+                console.log(newDoc);
+            });
         })
     }
     sendReqAndRes(info) {
