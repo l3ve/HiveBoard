@@ -30,8 +30,8 @@ module.exports = {
     },
     //输出
     output: {
-        path: 'assets',
-        publicPath: 'assets',
+        path: 'assets/',
+        publicPath: 'assets/',
         libraryTarget: 'umd',  //打包成模块(库),可加装
         umdNamedDefine: true,  //同上
         filename: "[name].js"

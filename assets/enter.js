@@ -44,7 +44,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.c = installedModules;
 
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "assets";
+/******/ 	__webpack_require__.p = "assets/";
 
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
@@ -508,7 +508,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var hasBinary = __webpack_require__(57);
 	var sliceBuffer = __webpack_require__(66);
 	var after = __webpack_require__(65);
-	var utf8 = __webpack_require__(139);
+	var utf8 = __webpack_require__(141);
 
 	var base64encoder;
 	if (global.ArrayBuffer) {
@@ -4404,11 +4404,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        _this.state = {
 	            allProxy: [],
+	            localFileList: [],
 	            selectProxy: {
 	                req: {},
 	                res: {}
 	            },
-	            infoCls: ''
+	            infoCls: 'hidden'
 	        };
 	        _this.io = (0, _socket2.default)('http://localhost:3333');
 
@@ -4435,6 +4436,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    allProxy: allProxy.concat(res)
 	                });
 	            });
+	            this.io.on('new-local-file-list', function (res) {
+	                var localFileList = _this2.state.localFileList;
+
+	                localFileList.push(res);
+	                _this2.setState({
+	                    localFileList: localFileList
+	                });
+	            });
+	            this.io.on('all-local-file-list', function (res) {
+	                _this2.setState({
+	                    localFileList: res
+	                });
+	            });
 	        }
 	    }, {
 	        key: 'saveInfo',
@@ -4450,7 +4464,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var allProxy = this.state.allProxy;
 
 	            this.setState({
-	                infoCls: 'bounceInRight show',
+	                infoCls: 'show',
 	                selectProxy: allProxy[i]
 	            });
 	        }
@@ -4458,15 +4472,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	        key: 'hideInfo',
 	        value: function hideInfo(e) {
 	            this.setState({
-	                infoCls: 'bounceOutRight show'
+	                infoCls: 'hidden'
 	            });
 	        }
+	    }, {
+	        key: 'openLocalFileList',
+	        value: function openLocalFileList() {}
 	    }, {
 	        key: 'render',
 	        value: function render() {
 	            var _this3 = this;
 
 	            var _state = this.state;
+	            var localFileList = _state.localFileList;
 	            var allProxy = _state.allProxy;
 	            var selectProxy = _state.selectProxy;
 	            var infoCls = _state.infoCls;
@@ -4476,7 +4494,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return _react2.default.createElement(
 	                'div',
 	                { className: 'main-body' },
-	                _react2.default.createElement('nav', { className: 'top-nav' }),
+	                _react2.default.createElement(
+	                    'nav',
+	                    { className: 'top-nav' },
+	                    _react2.default.createElement('i', { className: 'local-file-btn', onClick: this.openLocalFileList })
+	                ),
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'proxy-info' },
@@ -4504,7 +4526,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                                { className: 'type ' + info.type },
 	                                info.type
 	                            ),
-	                            _react2.default.createElement('span', { className: 'fn-btn', onClick: function onClick(e) {
+	                            _react2.default.createElement('span', { className: 'fn-btn tada animated', onClick: function onClick(e) {
 	                                    return _this3.saveInfo(e, i);
 	                                } })
 	                        );
@@ -4512,11 +4534,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	                ),
 	                _react2.default.createElement(
 	                    'div',
-	                    { className: 'detail-info  animated ' + infoCls },
+	                    { className: 'local-file' },
+	                    localFileList.map(function (file) {
+	                        return _react2.default.createElement(
+	                            'p',
+	                            null,
+	                            _react2.default.createElement(
+	                                'span',
+	                                null,
+	                                file.path
+	                            ),
+	                            _react2.default.createElement(
+	                                'span',
+	                                null,
+	                                file.localPath
+	                            )
+	                        );
+	                    })
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'detail-info ' + infoCls },
 	                    _react2.default.createElement('div', { className: 'shadow', onClick: this.hideInfo }),
 	                    _react2.default.createElement(
 	                        'div',
-	                        { className: 'body' },
+	                        { className: 'body animated bounceInRight' },
 	                        _react2.default.createElement(
 	                            'div',
 	                            { className: 'req' },
@@ -5737,7 +5779,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	// module
-	exports.push([module.id, "html, body {\n    width: 100%;\n    height: 100%;\n    overflow: hidden;\n}\n.main-body {\n    position: relative;\n    padding-top: 63px;\n    height: 100%;\n    background-color: rgb(250,250,250);\n}\n.top-nav {\n    position: fixed;\n    z-index: 1000;\n    top: 0;\n    width: 100%;\n    height: 63px;\n    line-height: 63px;\n    background-color: rgb(157,42,172);\n    color: #fff;\n    box-shadow: 0 2px 5px  rgba(0,0,0,0.26);\n}\n.proxy-info {\n    height: 100%;\n    overflow-y: scroll;\n}\n.proxy-info .the-one {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -ms-flex-wrap: wrap;\n        flex-wrap: wrap;\n    -webkit-box-pack: start;\n        -ms-flex-pack: start;\n            justify-content: flex-start;\n    position: relative;\n    margin: 0;\n    padding: 10px 200px 10px 5px;\n    -webkit-transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;\n    transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;\n    background: none;\n    cursor: pointer;\n}\n.proxy-info .the-one .method {\n    font-weight: bolder;\n    color: #9C27B0;\n}\n.proxy-info .the-one .url {\n    width: 100%;\n    word-wrap: break-word;\n}\n.proxy-info .the-one .type {\n    position: absolute;\n    right: 130px;\n    display: inline-block;\n    width: 50px;\n    padding: 5px 8px;\n    font-size: 13px;\n    line-height: 13px;\n    -ms-flex-item-align: center;\n        -ms-grid-row-align: center;\n        align-self: center;\n    color: #000;\n    text-align: center;\n    border-radius: 3px;\n    font-weight: bolder;\n    box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px\n}\n.proxy-info .the-one .type.js {\n    background-color: #FF9800;\n}\n.proxy-info .the-one .type.css {\n    background-color: #AEEA00;\n}\n.proxy-info .the-one .type.img {\n    background-color: #82B1FF;\n}\n.proxy-info .the-one .type.other {\n    background-color: #9E9E9E;\n}\n.proxy-info .the-one .fn-btn {\n    position: absolute;\n    right: 70px;\n    -ms-flex-item-align: center;\n        -ms-grid-row-align: center;\n        align-self: center;\n    display: inline-block;\n    width: 25px;\n    height: 25px;\n    background: url(" + __webpack_require__(141) + ") center no-repeat;\n    background-size: 25px;\n    cursor: pointer\n}\n.proxy-info .the-one .fn-btn:hover {\n    background-color: red;\n}\n.proxy-info .the-one:hover {\n    background-color: rgba(0,0,0,0.098);\n}\n.detail-info {\n    display: none;\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    padding: 63px 0 0 60px;\n}\n.detail-info .body {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    position: relative;\n    padding: 1px 20px;\n    height: 100%;\n    background-color: #fff;\n    box-shadow: -2px 0 6px rgba(0,0,0,0.11);\n}\n.detail-info .body .header {\n    font-size: 20px;\n    font-weight: bolder;\n}\n.detail-info .body p {\n    font-size: 12px;\n    word-break:break-word;\n}\n.detail-info .body p span {\n    font-size: 14px;\n    font-weight: bolder;\n}\n.detail-info .body .req, .detail-info .body .res {\n    overflow-y: scroll;\n    -webkit-box-flex: 1;\n        -ms-flex: 1;\n            flex: 1;\n}\n.detail-info .shadow {\n    position: absolute;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    background-color: rgba(0,0,0,0.087);\n}\n.detail-info.show {\n    display: block;\n}", ""]);
+	exports.push([module.id, "html, body {\n    width: 100%;\n    height: 100%;\n    overflow: hidden;\n}\n.main-body {\n    position: relative;\n    padding-top: 63px;\n    height: 100%;\n    background-color: rgb(250,250,250);\n}\n.top-nav {\n    position: fixed;\n    z-index: 1000;\n    top: 0;\n    width: 100%;\n    height: 63px;\n    line-height: 63px;\n    background-color: rgb(157,42,172);\n    color: #fff;\n    box-shadow: 0 2px 5px  rgba(0,0,0,0.26);\n}\n.top-nav .local-file-btn {\n    display: block;\n    width: 30px;\n    height: 30px;\n    position: absolute;\n    top: 18px;\n    right: 30px;\n    background: url(" + __webpack_require__(137) + ") center no-repeat;\n    background-size: 30px;\n    cursor: pointer;\n}\n.proxy-info {\n    height: 100%;\n    overflow-y: scroll;\n}\n.proxy-info .the-one {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -ms-flex-wrap: wrap;\n        flex-wrap: wrap;\n    -webkit-box-pack: start;\n        -ms-flex-pack: start;\n            justify-content: flex-start;\n    position: relative;\n    margin: 0;\n    padding: 10px 200px 10px 5px;\n    -webkit-transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;\n    transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;\n    background: none;\n    cursor: pointer;\n}\n.proxy-info .the-one .method {\n    font-weight: bolder;\n    color: #9C27B0;\n}\n.proxy-info .the-one .url {\n    width: 100%;\n    word-wrap: break-word;\n}\n.proxy-info .the-one .type {\n    position: absolute;\n    right: 130px;\n    display: inline-block;\n    width: 50px;\n    padding: 5px 8px;\n    font-size: 13px;\n    line-height: 13px;\n    -ms-flex-item-align: center;\n        -ms-grid-row-align: center;\n        align-self: center;\n    color: #000;\n    text-align: center;\n    border-radius: 3px;\n    font-weight: bolder;\n    box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px\n}\n.proxy-info .the-one .type.js {\n    background-color: #FF9800;\n}\n.proxy-info .the-one .type.css {\n    background-color: #AEEA00;\n}\n.proxy-info .the-one .type.img {\n    background-color: #82B1FF;\n}\n.proxy-info .the-one .type.other {\n    background-color: #9E9E9E;\n}\n.proxy-info .the-one .fn-btn {\n    position: absolute;\n    right: 70px;\n    -ms-flex-item-align: center;\n        -ms-grid-row-align: center;\n        align-self: center;\n    display: inline-block;\n    width: 25px;\n    height: 25px;\n    background: url(" + __webpack_require__(138) + ") center no-repeat;\n    background-size: 25px;\n    cursor: pointer\n}\n.proxy-info .the-one .fn-btn:hover {\n    background-color: red;\n}\n.proxy-info .the-one:hover {\n    //: rgba(0,0,0,0.098);\n}\n.detail-info {\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    padding: 63px 0 0 60px;\n}\n.detail-info .body {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    position: relative;\n    padding: 1px 20px;\n    height: 100%;\n    background-color: #fff;\n    box-shadow: -2px 0 6px rgba(0,0,0,0.11);\n}\n.detail-info .body .header {\n    font-size: 20px;\n    font-weight: bolder;\n}\n.detail-info .body p {\n    font-size: 12px;\n    word-break:break-word;\n}\n.detail-info .body p span {\n    font-size: 14px;\n    font-weight: bolder;\n}\n.detail-info .body .req, .detail-info .body .res {\n    overflow-y: scroll;\n    -webkit-box-flex: 1;\n        -ms-flex: 1;\n            flex: 1;\n}\n.detail-info .shadow {\n    position: absolute;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    background-color: rgba(0,0,0,0.087);\n}\n.detail-info.show {\n    display: block;\n}\n\n.local-file {\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    padding: 63px 30px;\n}", ""]);
 
 	// exports
 
@@ -7378,7 +7420,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var WebSocket = BrowserWebSocket;
 	if (!WebSocket && typeof window === 'undefined') {
 	  try {
-	    WebSocket = __webpack_require__(140);
+	    WebSocket = __webpack_require__(142);
 	  } catch (e) { }
 	}
 
@@ -7710,7 +7752,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  // Detect the `define` function exposed by asynchronous module loaders. The
 	  // strict `define` check is necessary for compatibility with `r.js`.
-	  var isLoader = "function" === "function" && __webpack_require__(137);
+	  var isLoader = "function" === "function" && __webpack_require__(139);
 
 	  // Detect native implementations.
 	  var nativeJSON = typeof JSON == "object" && JSON;
@@ -9146,6 +9188,18 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 137 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "52aaad4418bb36119dcca3fd82e14912.png";
+
+/***/ },
+/* 138 */
+/***/ function(module, exports) {
+
+	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAQAAAD41aSMAAADIklEQVR4AezBgQAAAACAoP2pF6kCAAAAAAAAAAAAAABm386RmwqiKAyf1M9iQ+D1OHLK4FlAQMhuMMXgScAqKLwHewGXjE5cXPGqm9NS/+fGL/n+QKrS06Nje7rQQn1tqWhyXfI/KLQaJEGn/DFMgm75R0nQMf8YCbrmHyFB1/wDJOiMf8AEPfEPmaAf/kET9MI/bAL7LhSKgRPYt9Bq6ATmkcA8EphHgiojwaQ7XwASTLpUzA1AAid/SCRw8odEAid/SCRw8odEAid/SCRw8odEAid/aMZIMOlK4QpAgpr8IZGgJf/PPAAJ2vFfa1fP8wAkaMcvSS/yACRoxp8mEAna8Ze9zAOQoAV/2as8AAnq8+cJ0pFg0nUFfkk6zAOQoAV/2VEegAQt+MuO8wAkqMefJxAJavPnO8kDkKAFf9lpCUCCFvz5zqwBDAn2tf52m/OXBBojwTsPf7JzhTRAAid/sqW0BQms/KwkMPKTwM5PAjs/Cez8JJjNf1OJnwR2fhK4+Umw34z/Zi4/gx9+Bj/8DH744b9tz8/gh5/BDz+DH362gH8AfgY//Ax++Bn88MO/gn87+Q+0ELPxv1folgRO/iBBPf7bGfzlSWbgJ4Gd3//dCX4S+Pn9r6rDT4LC/83CXxJMhj9qw18pwVIB/+M7UKx9V5pm8wf8ySdLkwSFP+Cvk+DyHxO8/vMk/IYEhT/gr5fgq6Z1+Tc5wJP5/I4ECX/AXzvBjv62N4okAPx1EyT8AX/jBAl/wN8iwZeSIOEP+P9PgreKJAD8lRN81k7Or4C/aYKUPzaB/3sdfkOCT9pJ+AP+tgl+KZKDv2mC/OA3J9ga/oWSdZoAfnMC+M0J4DcngN+cAH5zgs74f3j5DQng9yaAv1aCO18A+KVDhS8A/EcKfwD4LQHgP1ZsdoCPQ/OH7Huq+43lP1G0CGBIMCx/SP0n6JP/dLt+D3im+yH5Q+o/QX/8Z4r2ARwJHobjD6nvBP3xnysMAQwJxuAPqd8E/fEvFdsfQNrTwzD8IfWZ4MMg/KHh97s9OBAAAAAAAPJ/bQRVVVVVVVVVVVVVVRVRFTSBWnQ//gAAAABJRU5ErkJggg=="
+
+/***/ },
+/* 139 */
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(__webpack_amd_options__) {module.exports = __webpack_amd_options__;
@@ -9153,7 +9207,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* WEBPACK VAR INJECTION */}.call(exports, {}))
 
 /***/ },
-/* 138 */
+/* 140 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -9169,7 +9223,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 139 */
+/* 141 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module, global) {/*! https://mths.be/wtf8 v1.0.0 by @mathias */
@@ -9405,19 +9459,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	}(this));
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(138)(module), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(140)(module), (function() { return this; }())))
 
 /***/ },
-/* 140 */
+/* 142 */
 /***/ function(module, exports) {
 
 	/* (ignored) */
-
-/***/ },
-/* 141 */
-/***/ function(module, exports) {
-
-	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAQAAAD41aSMAAADIklEQVR4AezBgQAAAACAoP2pF6kCAAAAAAAAAAAAAABm386RmwqiKAyf1M9iQ+D1OHLK4FlAQMhuMMXgScAqKLwHewGXjE5cXPGqm9NS/+fGL/n+QKrS06Nje7rQQn1tqWhyXfI/KLQaJEGn/DFMgm75R0nQMf8YCbrmHyFB1/wDJOiMf8AEPfEPmaAf/kET9MI/bAL7LhSKgRPYt9Bq6ATmkcA8EphHgiojwaQ7XwASTLpUzA1AAid/SCRw8odEAid/SCRw8odEAid/SCRw8odEAid/aMZIMOlK4QpAgpr8IZGgJf/PPAAJ2vFfa1fP8wAkaMcvSS/yACRoxp8mEAna8Ze9zAOQoAV/2as8AAnq8+cJ0pFg0nUFfkk6zAOQoAV/2VEegAQt+MuO8wAkqMefJxAJavPnO8kDkKAFf9lpCUCCFvz5zqwBDAn2tf52m/OXBBojwTsPf7JzhTRAAid/sqW0BQms/KwkMPKTwM5PAjs/Cez8JJjNf1OJnwR2fhK4+Umw34z/Zi4/gx9+Bj/8DH744b9tz8/gh5/BDz+DH362gH8AfgY//Ax++Bn88MO/gn87+Q+0ELPxv1folgRO/iBBPf7bGfzlSWbgJ4Gd3//dCX4S+Pn9r6rDT4LC/83CXxJMhj9qw18pwVIB/+M7UKx9V5pm8wf8ySdLkwSFP+Cvk+DyHxO8/vMk/IYEhT/gr5fgq6Z1+Tc5wJP5/I4ECX/AXzvBjv62N4okAPx1EyT8AX/jBAl/wN8iwZeSIOEP+P9PgreKJAD8lRN81k7Or4C/aYKUPzaB/3sdfkOCT9pJ+AP+tgl+KZKDv2mC/OA3J9ga/oWSdZoAfnMC+M0J4DcngN+cAH5zgs74f3j5DQng9yaAv1aCO18A+KVDhS8A/EcKfwD4LQHgP1ZsdoCPQ/OH7Huq+43lP1G0CGBIMCx/SP0n6JP/dLt+D3im+yH5Q+o/QX/8Z4r2ARwJHobjD6nvBP3xnysMAQwJxuAPqd8E/fEvFdsfQNrTwzD8IfWZ4MMg/KHh97s9OBAAAAAAAPJ/bQRVVVVVVVVVVVVVVRVRFTSBWnQ//gAAAABJRU5ErkJggg=="
 
 /***/ }
 /******/ ])

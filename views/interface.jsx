@@ -10,11 +10,12 @@ class Interface extends Component {
         super();
         this.state = {
             allProxy: [],
+            localFileList: [],
             selectProxy: {
                 req: {},
                 res: {}
             },
-            infoCls: ''
+            infoCls: 'hidden'
         }
         this.io = io('http://localhost:3333');
 
@@ -34,6 +35,18 @@ class Interface extends Component {
                 allProxy: allProxy.concat(res)
             });
         })
+        this.io.on('new-local-file-list', (res) => {
+            let {localFileList} = this.state;
+            localFileList.push(res);
+            this.setState({
+                localFileList: localFileList
+            });
+        })
+        this.io.on('all-local-file-list', (res) => {
+            this.setState({
+                localFileList: res
+            });
+        })
     }
     saveInfo(e,i) {
         e.stopPropagation();
@@ -43,22 +56,27 @@ class Interface extends Component {
     showInfo(i) {
         const {allProxy} = this.state;
         this.setState({
-            infoCls: 'bounceInRight show',
+            infoCls: 'show',
             selectProxy: allProxy[i]
         });
     }
     hideInfo(e) {
         this.setState({
-            infoCls: 'bounceOutRight show'
+            infoCls: 'hidden'
         });
     }
+    openLocalFileList() {
+
+    }
     render() {
-        let {allProxy,selectProxy,infoCls} = this.state;
+        let {localFileList,allProxy,selectProxy,infoCls} = this.state;
         const keyForReqHeader = selectProxy.req.headers?Object.keys(selectProxy.req.headers):[],
             keyForResHeader = Object.keys(selectProxy.res);
         return (
             <div className='main-body'>
-                <nav className='top-nav'></nav>
+                <nav className='top-nav'>
+                    <i className='local-file-btn' onClick={this.openLocalFileList}></i>
+                </nav>
                 <div className='proxy-info'>
                     {allProxy.map((info,i) => {
                         return (
@@ -66,14 +84,26 @@ class Interface extends Component {
                                 <span className='method'>{info.req.method}:</span>
                                 <span className='url'>http://{info.req.headers.host}{info.req.path}</span>
                                 <span className={'type '+info.type}>{info.type}</span>
-                                <span className='fn-btn' onClick={(e)=>this.saveInfo(e,i)}></span>
+                                <span className='fn-btn tada animated' onClick={(e)=>this.saveInfo(e,i)}></span>
                             </p>
                         )
                     })}
                 </div>
-                <div className={'detail-info  animated '+ infoCls} >
+                <div className='local-file'>
+                    {
+                        localFileList.map((file)=>{
+                            return (
+                                <p>
+                                    <span>{file.path}</span>
+                                    <span>{file.localPath}</span>
+                                </p>
+                            )
+                        })
+                    }
+                </div>
+                <div className={'detail-info '+ infoCls} >
                     <div className='shadow' onClick={this.hideInfo}></div>
-                    <div className='body'>
+                    <div className={'body animated bounceInRight'}>
                         <div className='req'>
                             <p className='header'>Request</p>
                             <p><span>method:</span>{selectProxy.req.method}</p>
