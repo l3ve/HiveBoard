@@ -15,12 +15,14 @@ class Interface extends Component {
                 req: {},
                 res: {}
             },
-            infoCls: 'hidden'
+            infoCls: ''
         }
         this.io = io('http://localhost:3333');
 
         this.showInfo = this.showInfo.bind(this);
-        this.hideInfo = this.hideInfo.bind(this);
+        this.hideAll = this.hideAll.bind(this);
+        this.openLocalFileList = this.openLocalFileList.bind(this);
+        this.removeLocalFile = this.removeLocalFile.bind(this);
     }
     componentWillMount() {
         this.io.on('sys-msg', (res) => {
@@ -48,68 +50,91 @@ class Interface extends Component {
             });
         })
     }
-    saveInfo(e,i) {
+    saveInfo(e, info) {
         e.stopPropagation();
-        const {allProxy} = this.state;
-        this.io.emit('save-info', allProxy[i]);
+        this.io.emit('save-info', info);
     }
-    showInfo(i) {
-        const {allProxy} = this.state;
+    showInfo(info) {
         this.setState({
-            infoCls: 'show',
-            selectProxy: allProxy[i]
+            infoCls: 'showInfo',
+            selectProxy: info
         });
     }
-    hideInfo(e) {
+    hideAll(e) {
         this.setState({
-            infoCls: 'hidden'
+            infoCls: ''
         });
     }
     openLocalFileList() {
-
+        if (this.state.infoCls) {
+            this.setState({
+                infoCls: ''
+            });
+        } else {
+            this.setState({
+                infoCls: 'openFile'
+            });
+        }
+    }
+    removeLocalFile(info) {
+        this.io.emit('remove-info', info);
+    }
+    updateInfo(e ,info, host, path, localPath) {
+        const _newInfo = {
+            host: host || info.host,
+            path: path || info.path,
+            localPath: e.target.value || localPath || info.localPath
+        }
+        this.io.emit('update-info', {
+            info: info,
+            newInfo: _newInfo
+        });
     }
     render() {
-        let {localFileList,allProxy,selectProxy,infoCls} = this.state;
-        const keyForReqHeader = selectProxy.req.headers?Object.keys(selectProxy.req.headers):[],
+        let {localFileList, allProxy, selectProxy, infoCls} = this.state;
+        const keyForReqHeader = selectProxy.req.headers ? Object.keys(selectProxy.req.headers) : [],
             keyForResHeader = Object.keys(selectProxy.res);
         return (
-            <div className='main-body'>
+            <div className={'main-body ' + infoCls}>
                 <nav className='top-nav'>
                     <i className='local-file-btn' onClick={this.openLocalFileList}></i>
                 </nav>
                 <div className='proxy-info'>
-                    {allProxy.map((info,i) => {
+                    {allProxy.map((info, i) => {
                         return (
-                            <p className='the-one' onClick={()=>this.showInfo(i)}>
+                            <p className='the-one' onClick={() => this.showInfo(info)}>
                                 <span className='method'>{info.req.method}:</span>
                                 <span className='url'>http://{info.req.headers.host}{info.req.path}</span>
-                                <span className={'type '+info.type}>{info.type}</span>
-                                <span className='fn-btn tada animated' onClick={(e)=>this.saveInfo(e,i)}></span>
+                                <span className={'type ' + info.type}>{info.type}</span>
+                                <span className='fn-btn tada animated' onClick={(e) => this.saveInfo(e, info)}></span>
                             </p>
                         )
                     })}
                 </div>
-                <div className='local-file'>
+                <div className='local-file animated zoomIn'>
                     {
-                        localFileList.map((file)=>{
+                        localFileList.map((file) => {
+                            const _host = file.host;
                             return (
                                 <p>
-                                    <span>{file.path}</span>
-                                    <span>{file.localPath}</span>
+                                    <input type='text' defaultValue={_host} />
+                                    <input type='text' defaultValue={file.path} />
+                                    <input type='text' defaultValue={file.localPath} onChange={(e)=>this.updateInfo(e,file)} />
+                                    <i className='remove-info' onClick={() => this.removeLocalFile(file)}>删除</i>
                                 </p>
                             )
                         })
                     }
                 </div>
-                <div className={'detail-info '+ infoCls} >
-                    <div className='shadow' onClick={this.hideInfo}></div>
-                    <div className={'body animated bounceInRight'}>
+                <div className='detail-info' >
+                    <div className='shadow' onClick={this.hideAll}></div>
+                    <div className={'body animated slideInRight'}>
                         <div className='req'>
                             <p className='header'>Request</p>
                             <p><span>method:</span>{selectProxy.req.method}</p>
                             <p><span>url:</span>{selectProxy.req.hostname}{selectProxy.req.path}</p>
                             {
-                                keyForReqHeader.map((key)=>{
+                                keyForReqHeader.map((key) => {
                                     return <p><span>{key}:</span>{selectProxy.req.headers[key]}</p>
                                 })
                             }
@@ -117,7 +142,7 @@ class Interface extends Component {
                         <div className='res'>
                             <p className='header'>Response</p>
                             {
-                                keyForResHeader.map((key)=>{
+                                keyForResHeader.map((key) => {
                                     return <p><span>{key}:</span>{selectProxy.res[key]}</p>
                                 })
                             }
