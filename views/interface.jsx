@@ -83,7 +83,7 @@ class Interface extends Component {
         const _newInfo = {
             host: host || info.host,
             path: path || info.path,
-            localPath: e.target.value || localPath || info.localPath
+            localPath: e.target.innerHTML || localPath || info.localPath
         }
         this.io.emit('update-info', {
             info: info,
@@ -116,11 +116,11 @@ class Interface extends Component {
                         localFileList.map((file) => {
                             const _host = file.host;
                             return (
-                                <p>
-                                    <input type='text' defaultValue={_host} />
-                                    <input type='text' defaultValue={file.path} />
-                                    <input type='text' defaultValue={file.localPath} onChange={(e)=>this.updateInfo(e,file)} />
-                                    <i className='remove-info' onClick={() => this.removeLocalFile(file)}>删除</i>
+                                <p className='one'>
+                                    <span>{_host}</span>
+                                    <span className='http-file-path' contentEditable="true" >{file.path}</span>
+                                    <span className='local-file-path' contentEditable="true" onBlur={(e)=>this.updateInfo(e,file)}>{file.localPath}</span>
+                                    <i className='remove-info' onClick={() => this.removeLocalFile(file)}></i>
                                 </p>
                             )
                         })

@@ -4497,7 +4497,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var _newInfo = {
 	                host: host || info.host,
 	                path: path || info.path,
-	                localPath: e.target.value || localPath || info.localPath
+	                localPath: e.target.innerHTML || localPath || info.localPath
 	            };
 	            this.io.emit('update-info', {
 	                info: info,
@@ -4565,19 +4565,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        var _host = file.host;
 	                        return _react2.default.createElement(
 	                            'p',
-	                            null,
-	                            _react2.default.createElement('input', { type: 'text', defaultValue: _host }),
-	                            _react2.default.createElement('input', { type: 'text', defaultValue: file.path }),
-	                            _react2.default.createElement('input', { type: 'text', defaultValue: file.localPath, onChange: function onChange(e) {
-	                                    return _this3.updateInfo(e, file);
-	                                } }),
+	                            { className: 'one' },
 	                            _react2.default.createElement(
-	                                'i',
-	                                { className: 'remove-info', onClick: function onClick() {
-	                                        return _this3.removeLocalFile(file);
+	                                'span',
+	                                null,
+	                                _host
+	                            ),
+	                            _react2.default.createElement(
+	                                'span',
+	                                { className: 'http-file-path', contentEditable: 'true' },
+	                                file.path
+	                            ),
+	                            _react2.default.createElement(
+	                                'span',
+	                                { className: 'local-file-path', contentEditable: 'true', onBlur: function onBlur(e) {
+	                                        return _this3.updateInfo(e, file);
 	                                    } },
-	                                '\u5220\u9664'
-	                            )
+	                                file.localPath
+	                            ),
+	                            _react2.default.createElement('i', { className: 'remove-info', onClick: function onClick() {
+	                                    return _this3.removeLocalFile(file);
+	                                } })
 	                        );
 	                    })
 	                ),
@@ -5808,7 +5816,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	// module
-	exports.push([module.id, "html, body {\n    width: 100%;\n    height: 100%;\n    overflow: hidden;\n}\n.main-body {\n    position: relative;\n    padding-top: 63px;\n    height: 100%;\n    background-color: rgb(250,250,250)\n}\n.main-body.showInfo .detail-info {\n    display: block;\n}\n.main-body.openFile .local-file {\n    display: block;\n}\n.top-nav {\n    position: fixed;\n    z-index: 1000;\n    top: 0;\n    width: 100%;\n    height: 63px;\n    line-height: 63px;\n    background-color: rgb(157,42,172);\n    color: #fff;\n    box-shadow: 0 2px 5px  rgba(0,0,0,0.26);\n}\n.top-nav .local-file-btn {\n    display: block;\n    width: 30px;\n    height: 30px;\n    position: absolute;\n    top: 18px;\n    right: 30px;\n    background: url(" + __webpack_require__(137) + ") center no-repeat;\n    background-size: 30px;\n    cursor: pointer;\n}\n.proxy-info {\n    height: 100%;\n    overflow-y: scroll;\n}\n.proxy-info .the-one {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -ms-flex-wrap: wrap;\n        flex-wrap: wrap;\n    -webkit-box-pack: start;\n        -ms-flex-pack: start;\n            justify-content: flex-start;\n    position: relative;\n    margin: 0;\n    padding: 10px 200px 10px 5px;\n    -webkit-transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;\n    transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;\n    background: none;\n    cursor: pointer;\n}\n.proxy-info .the-one .method {\n    font-weight: bolder;\n    color: #9C27B0;\n}\n.proxy-info .the-one .url {\n    width: 100%;\n    word-wrap: break-word;\n}\n.proxy-info .the-one .type {\n    position: absolute;\n    right: 130px;\n    display: inline-block;\n    width: 50px;\n    padding: 5px 8px;\n    font-size: 13px;\n    line-height: 13px;\n    -ms-flex-item-align: center;\n        -ms-grid-row-align: center;\n        align-self: center;\n    color: #000;\n    text-align: center;\n    border-radius: 3px;\n    font-weight: bolder;\n    box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px\n}\n.proxy-info .the-one .type.js {\n    background-color: #FF9800;\n}\n.proxy-info .the-one .type.css {\n    background-color: #AEEA00;\n}\n.proxy-info .the-one .type.img {\n    background-color: #82B1FF;\n}\n.proxy-info .the-one .type.other {\n    background-color: #9E9E9E;\n}\n.proxy-info .the-one .fn-btn {\n    position: absolute;\n    right: 70px;\n    -ms-flex-item-align: center;\n        -ms-grid-row-align: center;\n        align-self: center;\n    display: inline-block;\n    width: 25px;\n    height: 25px;\n    background: url(" + __webpack_require__(138) + ") center no-repeat;\n    background-size: 25px;\n    cursor: pointer\n}\n.proxy-info .the-one .fn-btn:hover {\n    background-color: red;\n}\n.proxy-info .the-one:hover {\n    background-color: rgba(0,0,0,0.098);\n}\n.detail-info {\n    display: none;\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    padding: 63px 0 0 60px;\n}\n.detail-info .body {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    position: relative;\n    padding: 1px 20px;\n    height: 100%;\n    background-color: #fff;\n    box-shadow: -2px 0 6px rgba(0,0,0,0.11);\n    -webkit-animation-duration: 0.3s;\n            animation-duration: 0.3s;\n}\n.detail-info .body .header {\n    font-size: 20px;\n    font-weight: bolder;\n}\n.detail-info .body p {\n    font-size: 12px;\n    word-break:break-word;\n}\n.detail-info .body p span {\n    font-size: 14px;\n    font-weight: bolder;\n}\n.detail-info .body .req, .detail-info .body .res {\n    overflow-y: scroll;\n    -webkit-box-flex: 1;\n        -ms-flex: 1;\n            flex: 1;\n}\n.detail-info .shadow {\n    position: absolute;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    background-color: rgba(0,0,0,0.3);\n}\n.local-file {\n    display: none;\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    padding: 63px 30px;\n    background-color: #fff;\n    -webkit-animation-duration: 0.3s;\n            animation-duration: 0.3s;\n}\n.local-file input {\n    font-size: 16px;\n    border: none;\n    border-bottom: 1px solid rgb(224,224,224)\n}\n.local-file input:focus {\n    outline: none;\n}", ""]);
+	exports.push([module.id, "html, body {\n    width: 100%;\n    height: 100%;\n    overflow: hidden;\n}\n.main-body {\n    position: relative;\n    padding-top: 63px;\n    height: 100%;\n    background-color: rgb(250,250,250)\n}\n.main-body.showInfo .detail-info {\n    display: block;\n}\n.main-body.openFile .local-file {\n    display: block;\n}\n.top-nav {\n    position: fixed;\n    z-index: 1000;\n    top: 0;\n    width: 100%;\n    height: 63px;\n    line-height: 63px;\n    background-color: rgb(157,42,172);\n    color: #fff;\n    box-shadow: 0 2px 5px  rgba(0,0,0,0.26);\n}\n.top-nav .local-file-btn {\n    display: block;\n    width: 30px;\n    height: 30px;\n    position: absolute;\n    top: 18px;\n    right: 30px;\n    background: url(" + __webpack_require__(137) + ") center no-repeat;\n    background-size: 30px;\n    cursor: pointer;\n}\n.proxy-info {\n    height: 100%;\n    overflow-y: scroll;\n}\n.proxy-info .the-one {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -ms-flex-wrap: wrap;\n        flex-wrap: wrap;\n    -webkit-box-pack: start;\n        -ms-flex-pack: start;\n            justify-content: flex-start;\n    position: relative;\n    margin: 0;\n    padding: 10px 200px 10px 5px;\n    -webkit-transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;\n    transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;\n    background: none;\n    cursor: pointer;\n}\n.proxy-info .the-one .method {\n    font-weight: bolder;\n    color: #9C27B0;\n}\n.proxy-info .the-one .url {\n    width: 100%;\n    word-wrap: break-word;\n}\n.proxy-info .the-one .type {\n    position: absolute;\n    right: 130px;\n    display: inline-block;\n    width: 50px;\n    padding: 5px 8px;\n    font-size: 13px;\n    line-height: 13px;\n    -ms-flex-item-align: center;\n        -ms-grid-row-align: center;\n        align-self: center;\n    color: #000;\n    text-align: center;\n    border-radius: 3px;\n    font-weight: bolder;\n    box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px\n}\n.proxy-info .the-one .type.js {\n    background-color: #FF9800;\n}\n.proxy-info .the-one .type.css {\n    background-color: #AEEA00;\n}\n.proxy-info .the-one .type.img {\n    background-color: #82B1FF;\n}\n.proxy-info .the-one .type.other {\n    background-color: #9E9E9E;\n}\n.proxy-info .the-one .fn-btn {\n    position: absolute;\n    right: 70px;\n    -ms-flex-item-align: center;\n        -ms-grid-row-align: center;\n        align-self: center;\n    display: inline-block;\n    width: 25px;\n    height: 25px;\n    background: url(" + __webpack_require__(138) + ") center no-repeat;\n    background-size: 25px;\n    cursor: pointer\n}\n.proxy-info .the-one .fn-btn:hover {\n    background-color: red;\n}\n.proxy-info .the-one:hover {\n    background-color: rgba(0,0,0,0.098);\n}\n.detail-info {\n    display: none;\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    padding: 63px 0 0 60px;\n}\n.detail-info .body {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    position: relative;\n    padding: 1px 20px;\n    height: 100%;\n    background-color: #fff;\n    box-shadow: -2px 0 6px rgba(0,0,0,0.11);\n    -webkit-animation-duration: 0.3s;\n            animation-duration: 0.3s;\n}\n.detail-info .body .header {\n    font-size: 20px;\n    font-weight: bolder;\n}\n.detail-info .body p {\n    font-size: 12px;\n    word-break:break-word;\n}\n.detail-info .body p span {\n    font-size: 14px;\n    font-weight: bolder;\n}\n.detail-info .body .req, .detail-info .body .res {\n    overflow-y: scroll;\n    -webkit-box-flex: 1;\n        -ms-flex: 1;\n            flex: 1;\n}\n.detail-info .shadow {\n    position: absolute;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    background-color: rgba(0,0,0,0.3);\n}\n.local-file {\n    display: none;\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    padding: 63px 30px;\n    background-color: #fff;\n    -webkit-animation-duration: 0.3s;\n            animation-duration: 0.3s;\n}\n.local-file .one {\n    position: relative;\n    color: rgba(0,0,0,0.87);\n    background-color: rgb(255,255,255);\n    -webkit-transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;\n    transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;\n    box-shadow: rgba(0,0,0,0.1176) 0 1px 6px,\n                    rgba(0,0,0,0.1176) 0 1px 4px;\n    border-radius: 2px;\n    padding: 30px;\n    margin-bottom: 32px;\n}\n.local-file .one span {\n    display: inline-block;\n    padding: 30px 0px 10px;\n    font-size: 16px;\n    border: none;\n    border-bottom: 1px solid rgb(224,224,224)\n}\n.local-file .one span:focus {\n    outline: none;\n}\n.local-file .one .local-file-path {\n    -webkit-user-modify: read-write-plaintext-only;\n    display: block;\n}\n.local-file .one .remove-info {\n    display: inline-block;\n    width: 30px;\n    height: 30px;\n    position: absolute;\n    top: 10px;\n    right: 10px;\n    cursor: pointer;\n    background: url(" + __webpack_require__(143) + ") center no-repeat;\n    background-size: 30px;\n}", ""]);
 
 	// exports
 
@@ -9495,6 +9503,12 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	/* (ignored) */
+
+/***/ },
+/* 143 */
+/***/ function(module, exports) {
+
+	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAQAAAD41aSMAAABuUlEQVR4Ae3XwU0CQRzG0e+GBi0C8KzVYCyHE4lWAMF+SLwYbYJsvOJhvWATE7P/8f2mg+9tNjORJEmSJEmSJEmSJEmSpD9qk0vjs4kazF+AwPwNCMxficD8BQjM34DA/AUIzI/g0vkJAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAECSJEmSPLwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAECDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPyUnn9M+b5KAwwp31tpgGPKdygNsEv5nkoDrFO+23yXnf+ceTrotSzAPl10V/QqOmaZTnopCbBNN13ns9z875mlo1YZSs1/yiKd9VCI4JT7dNgqH0V+Pot02lWeJ34jGrPNLF23yiHniT679lnmX3STx+xyzJBxAt/8kGN2WWceSZIkSZIkSZIkSZIkSWrQL8m34j3WejPxAAAAAElFTkSuQmCC"
 
 /***/ }
 /******/ ])
