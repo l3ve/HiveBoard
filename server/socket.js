@@ -4,6 +4,7 @@ var Datastore = require('nedb'),
 
 class Io {
     constructor(props) {
+        this.proxy = '';
         // 代理界面
         io.listen(3333);
         this.start();
@@ -17,11 +18,17 @@ class Io {
             this.updateInfo(client);
         })
     }
-    msg(client, msg) {
-        client.emit('user-msg', { msg: msg });
+    msg(msg) {
+        io.emit('user-msg', { msg: msg });
+    }
+    checkProxy(u) {
+        return this.proxy.find((ele, i) => {
+            return ele.path == u.path && ele.host == u.hostname;
+        });
     }
     getAllfile() {
         db.find({}, (err, res) => {
+            this.proxy = res;
             io.emit('all-local-file-list', res);
         })
     }
@@ -35,9 +42,11 @@ class Io {
             this.findInfo(info.req.hostname, info.req.path)
                 .then((count) => {
                     if (count <= 0) {
-                        db.insert(data, function (err, newDoc) {
+                        db.insert(data, (err, newDoc) => {
                             io.emit('sys-msg', { msg: '添加本地代理成功!' });
-                            io.emit('new-local-file-list', newDoc);
+                            if (newDoc) {
+                                this.getAllfile();
+                            }
                         });
                     }
                 })

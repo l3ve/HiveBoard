@@ -7,9 +7,6 @@ import Io from './socket.js';
 import { classify } from './tool';
 
 const socket = new Io();
-let isNeedProxy = true,
-    realPath2 = '/Users/L3ve/backstage/static/backsite/assets/base.js',
-    realPath = '/Users/L3ve/backstage/static/backsite/assets/enter.js';
 
 //HTTP代理
 function request(cReq, cRes) {
@@ -22,17 +19,12 @@ function request(cReq, cRes) {
         headers: cReq.headers
     };
     var pReq = http.request(options, function (pRes) {
-        if (u.path == '/backsite/assets/enter.js') {
-            const _path = '/Users/L3ve/backstage/static' + u.path;
-            fs.stat(_path, (err, stats) => {
-                if (!stats) {
-                    cRes.writeHead(404, { 'Content-Type': 'text/plain' });
-                    cRes.end();
-                    //与客户端通讯
-                    socket.msg('找不到文件');
-                } else {
+        const proxy = socket.checkProxy(u);
+        if (proxy) {
+            fs.stat(proxy.localPath, (err, stats) => {
+                if (stats) {
                     cRes.writeHead(200, pRes.headers);
-                    let file = fs.createReadStream(realPath),
+                    let file = fs.createReadStream(proxy.localPath),
                         acceptEncoding = pRes.headers['content-encoding'];
                     //判断是否需要压缩
                     if (acceptEncoding && acceptEncoding.indexOf('gzip') != -1) {
@@ -43,6 +35,11 @@ function request(cReq, cRes) {
                         // 不压缩
                         file.pipe(cRes);
                     }
+                } else {
+                    cRes.writeHead(404, { 'Content-Type': 'text/plain' });
+                    cRes.end();
+                    //与客户端通讯
+                    socket.msg(`${proxy.localPath}找不到文件`);
                 }
             })
         } else {

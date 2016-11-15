@@ -26,22 +26,15 @@ class Interface extends Component {
     }
     componentWillMount() {
         this.io.on('sys-msg', (res) => {
-            Tips.show(res.msg);
+            Tips.show('系统',res.msg);
         })
         this.io.on('user-msg', (res) => {
-            Tips.show(res.msg);
+            Tips.show('用户',res.msg);
         })
         this.io.on('req&res-Info', (res) => {
             let {allProxy} = this.state;
             this.setState({
                 allProxy: allProxy.concat(res)
-            });
-        })
-        this.io.on('new-local-file-list', (res) => {
-            let {localFileList} = this.state;
-            localFileList.push(res);
-            this.setState({
-                localFileList: localFileList
             });
         })
         this.io.on('all-local-file-list', (res) => {
