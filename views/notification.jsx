@@ -1,10 +1,10 @@
 class Tips {
-    show(tit,txt) {
+    show(tit, txt, icon) {
         let _options = {
-            body:txt,
-            icon:''
-        }
-        new Notification(tit,_options);
+            body: txt,
+            icon: './views/css/img/akl.jpg'
+        };
+        new Notification(tit, _options);
     }
 }
 

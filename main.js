@@ -29,7 +29,7 @@ app.on('activate', () => {
 
 
 function createWindow() {
-    mainWindow = new BrowserWindow({ width: 960, height: 600 });
+    mainWindow = new BrowserWindow({ width: 960, height: 600, icon: './favicon.ico' });
 
     mainWindow.loadURL(`file://${__dirname}/index.html`);
     // 启用开发工具。
