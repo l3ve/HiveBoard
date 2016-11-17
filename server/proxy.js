@@ -60,10 +60,25 @@ function request(cReq, cRes) {
 
 //TCP代理
 function connect(cReq, cSock) {
+    var _u = url.parse(cReq.url);
+    var options = {
+        hostname: _u.hostname,
+        port: _u.port || 80,
+        path: _u.path,
+        method: cReq.method,
+        headers: cReq.headers
+    };
     var u = url.parse('http://' + cReq.url);
     var pSock = net.connect(u.port, u.hostname, function () {
         cSock.write('HTTP/1.1 200 Connection Established\r\n\r\n');
         pSock.pipe(cSock);
+        //回传请求的信息
+        // socket.sendReqAndRes({
+        //     type: classify(options, pRes.),
+        //     req: options,
+        //     res: pRes.headers
+        // });
+        console.log(cReq);
     }).on('error', function (e) {
         cSock.end();
     });

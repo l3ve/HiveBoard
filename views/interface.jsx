@@ -26,10 +26,10 @@ class Interface extends Component {
     }
     componentWillMount() {
         this.io.on('sys-msg', (res) => {
-            Tips.show('系统',res.msg);
+            Tips.show('系统', res.msg);
         })
         this.io.on('user-msg', (res) => {
-            Tips.show('用户',res.msg);
+            Tips.show('用户', res.msg);
         })
         this.io.on('req&res-Info', (res) => {
             let {allProxy} = this.state;
@@ -59,7 +59,7 @@ class Interface extends Component {
         });
     }
     openLocalFileList() {
-        if (this.state.infoCls) {
+        if (this.state.infoCls == 'openFile') {
             this.setState({
                 infoCls: ''
             });
@@ -72,7 +72,7 @@ class Interface extends Component {
     removeLocalFile(info) {
         this.io.emit('remove-info', info);
     }
-    updateInfo(e ,info, host, path, localPath) {
+    updateInfo(e, info, host, path, localPath) {
         const _newInfo = {
             host: host || info.host,
             path: path || info.path,
@@ -88,7 +88,7 @@ class Interface extends Component {
         const keyForReqHeader = selectProxy.req.headers ? Object.keys(selectProxy.req.headers) : [],
             keyForResHeader = Object.keys(selectProxy.res);
         return (
-            <div className={'main-body ' + infoCls}>
+            <div className='main-body'>
                 <nav className='top-nav'>
                     <i className='local-file-btn' onClick={this.openLocalFileList}></i>
                 </nav>
@@ -104,44 +104,53 @@ class Interface extends Component {
                         )
                     })}
                 </div>
-                <div className='local-file animated zoomIn'>
-                    {
-                        localFileList.map((file) => {
-                            const _host = file.host;
-                            return (
-                                <p className='one'>
-                                    <span>{_host}</span>
-                                    <span className='http-file-path' contentEditable="true" >{file.path}</span>
-                                    <span className='local-file-path' contentEditable="true" onBlur={(e)=>this.updateInfo(e,file)}>{file.localPath}</span>
-                                    <i className='remove-info' onClick={() => this.removeLocalFile(file)}></i>
-                                </p>
-                            )
-                        })
-                    }
-                </div>
-                <div className='detail-info' >
-                    <div className='shadow' onClick={this.hideAll}></div>
-                    <div className={'body animated slideInRight'}>
-                        <div className='req'>
-                            <p className='header'>Request</p>
-                            <p><span>method:</span>{selectProxy.req.method}</p>
-                            <p><span>url:</span>{selectProxy.req.hostname}{selectProxy.req.path}</p>
+                {
+                    infoCls == 'openFile' ? (
+                        <div className='local-file animated zoomIn'>
+                            <div className='shadow' onClick={this.hideAll}></div>
                             {
-                                keyForReqHeader.map((key) => {
-                                    return <p><span>{key}:</span>{selectProxy.req.headers[key]}</p>
+                                localFileList.map((file) => {
+                                    const _host = file.host;
+                                    return (
+                                        <p className='one'>
+                                            <span>{_host}</span>
+                                            <span className='http-file-path' contentEditable="true" >{file.path}</span>
+                                            <span className='local-file-path' contentEditable="true" onBlur={(e) => this.updateInfo(e, file)}>{file.localPath}</span>
+                                            <i className='remove-info' onClick={() => this.removeLocalFile(file)}></i>
+                                        </p>
+                                    )
                                 })
                             }
                         </div>
-                        <div className='res'>
-                            <p className='header'>Response</p>
-                            {
-                                keyForResHeader.map((key) => {
-                                    return <p><span>{key}:</span>{selectProxy.res[key]}</p>
-                                })
-                            }
+                    ) : ''
+                }
+                {
+                    infoCls == 'showInfo' ? (
+                        <div className='detail-info' >
+                            <div className='shadow' onClick={this.hideAll}></div>
+                            <div className={'body animated slideInRight'}>
+                                <div className='req'>
+                                    <p className='header'>Request</p>
+                                    <p><span>method:</span>{selectProxy.req.method}</p>
+                                    <p><span>url:</span>{selectProxy.req.hostname}{selectProxy.req.path}</p>
+                                    {
+                                        keyForReqHeader.map((key) => {
+                                            return <p><span>{key}:</span>{selectProxy.req.headers[key]}</p>
+                                        })
+                                    }
+                                </div>
+                                <div className='res'>
+                                    <p className='header'>Response</p>
+                                    {
+                                        keyForResHeader.map((key) => {
+                                            return <p><span>{key}:</span>{selectProxy.res[key]}</p>
+                                        })
+                                    }
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
+                    ) : ''
+                }
             </div>
         );
     }

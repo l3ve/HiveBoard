@@ -8,16 +8,6 @@ html,body {
     padding-top: 63px;
     height: 100%;
     background-color: rgb(250,250,250);
-    &.showInfo {
-        .detail-info {
-            display: block;
-        }
-    }
-    &.openFile {
-        .local-file {
-            display: block;
-        }
-    }
 }
 .top-nav {
     position: fixed;
@@ -109,7 +99,6 @@ html,body {
     }
 }
 .detail-info {
-    display: none;
     position: absolute;
     top: 0;
     left: 0;
@@ -123,7 +112,7 @@ html,body {
         height: 100%;
         background-color: #fff;
         box-shadow: -2px 0 6px rgba(0,0,0,0.11);
-        animation-duration: 0.3s;
+        animation-duration: 0.6s;
         .header {
             font-size: 20px;
             font-weight: bolder;
@@ -150,15 +139,22 @@ html,body {
     }
 }
 .local-file {
-    display: none;
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    padding: 63px 30px;
-    background-color: #fff;
-    animation-duration: 0.3s;
+    padding: 0 30px 63px;
+    margin-top: 63px;
+    animation-duration: 0.6s;
+    overflow-y: scroll;
+    .shadow {
+        position: absolute;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255,255,255,0.9);
+    }
     .one {
         position: relative;
         color: rgba(0,0,0,0.87);
