@@ -78,7 +78,6 @@ function connect(cReq, cSock) {
         //     req: options,
         //     res: pRes.headers
         // });
-        console.log(cReq);
     }).on('error', function (e) {
         cSock.end();
     });

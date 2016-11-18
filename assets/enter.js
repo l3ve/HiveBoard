@@ -4421,9 +4421,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    (0, _createClass3.default)(Interface, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            var _this2 = this;
+
+	            //绑定全局事件
+	            document.body.addEventListener('keyup', function (event) {
+	                var key = event.keyCode || event.charCode || 0;
+	                if ([27].indexOf(key) !== -1) {
+	                    _this2.hideAll();
+	                }
+	            });
+	        }
+	    }, {
 	        key: 'componentWillMount',
 	        value: function componentWillMount() {
-	            var _this2 = this;
+	            var _this3 = this;
 
 	            this.io.on('sys-msg', function (res) {
 	                _notification2.default.show('系统', res.msg);
@@ -4432,14 +4445,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	                _notification2.default.show('用户', res.msg);
 	            });
 	            this.io.on('req&res-Info', function (res) {
-	                var allProxy = _this2.state.allProxy;
+	                var allProxy = _this3.state.allProxy;
 
-	                _this2.setState({
+	                _this3.setState({
 	                    allProxy: allProxy.concat(res)
 	                });
 	            });
 	            this.io.on('all-local-file-list', function (res) {
-	                _this2.setState({
+	                _this3.setState({
 	                    localFileList: res
 	                });
 	            });
@@ -4499,7 +4512,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            var _this3 = this;
+	            var _this4 = this;
 
 	            var _state = this.state;
 	            var localFileList = _state.localFileList;
@@ -4511,7 +4524,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                keyForResHeader = Object.keys(selectProxy.res);
 	            return _react2.default.createElement(
 	                'div',
-	                { className: 'main-body' },
+	                { className: 'main' },
 	                _react2.default.createElement(
 	                    'nav',
 	                    { className: 'top-nav' },
@@ -4519,143 +4532,147 @@ return /******/ (function(modules) { // webpackBootstrap
 	                ),
 	                _react2.default.createElement(
 	                    'div',
-	                    { className: 'proxy-info' },
-	                    allProxy.map(function (info, i) {
-	                        return _react2.default.createElement(
-	                            'p',
-	                            { className: 'the-one', onClick: function onClick() {
-	                                    return _this3.showInfo(info);
-	                                } },
-	                            _react2.default.createElement(
-	                                'span',
-	                                { className: 'method' },
-	                                info.req.method,
-	                                ':'
-	                            ),
-	                            _react2.default.createElement(
-	                                'span',
-	                                { className: 'url' },
-	                                'http://',
-	                                info.req.headers.host,
-	                                info.req.path
-	                            ),
-	                            _react2.default.createElement(
-	                                'span',
-	                                { className: 'type ' + info.type },
-	                                info.type
-	                            ),
-	                            _react2.default.createElement('span', { className: 'fn-btn tada animated', onClick: function onClick(e) {
-	                                    return _this3.saveInfo(e, info);
-	                                } })
-	                        );
-	                    })
-	                ),
-	                infoCls == 'openFile' ? _react2.default.createElement(
-	                    'div',
-	                    { className: 'local-file animated zoomIn' },
-	                    _react2.default.createElement('div', { className: 'shadow', onClick: this.hideAll }),
-	                    localFileList.map(function (file) {
-	                        var _host = file.host;
-	                        return _react2.default.createElement(
-	                            'p',
-	                            { className: 'one' },
-	                            _react2.default.createElement(
-	                                'span',
-	                                null,
-	                                _host
-	                            ),
-	                            _react2.default.createElement(
-	                                'span',
-	                                { className: 'http-file-path', contentEditable: 'true' },
-	                                file.path
-	                            ),
-	                            _react2.default.createElement(
-	                                'span',
-	                                { className: 'local-file-path', contentEditable: 'true', onBlur: function onBlur(e) {
-	                                        return _this3.updateInfo(e, file);
-	                                    } },
-	                                file.localPath
-	                            ),
-	                            _react2.default.createElement('i', { className: 'remove-info', onClick: function onClick() {
-	                                    return _this3.removeLocalFile(file);
-	                                } })
-	                        );
-	                    })
-	                ) : '',
-	                infoCls == 'showInfo' ? _react2.default.createElement(
-	                    'div',
-	                    { className: 'detail-info' },
-	                    _react2.default.createElement('div', { className: 'shadow', onClick: this.hideAll }),
+	                    { className: 'ctx-body ' + infoCls },
 	                    _react2.default.createElement(
 	                        'div',
-	                        { className: 'body animated slideInRight' },
-	                        _react2.default.createElement(
-	                            'div',
-	                            { className: 'req' },
-	                            _react2.default.createElement(
+	                        { className: 'proxy-info' },
+	                        allProxy.map(function (info, i) {
+	                            return _react2.default.createElement(
 	                                'p',
-	                                { className: 'header' },
-	                                'Request'
-	                            ),
-	                            _react2.default.createElement(
+	                                { className: 'the-one', onClick: function onClick() {
+	                                        return _this4.showInfo(info);
+	                                    } },
+	                                _react2.default.createElement(
+	                                    'span',
+	                                    { className: 'type ' + info.type },
+	                                    info.type
+	                                ),
+	                                _react2.default.createElement(
+	                                    'span',
+	                                    { className: 'method' },
+	                                    info.req.method,
+	                                    ':'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'span',
+	                                    { className: 'url' },
+	                                    'http://',
+	                                    info.req.headers.host,
+	                                    info.req.path
+	                                ),
+	                                _react2.default.createElement('span', { className: 'fn-btn', onClick: function onClick(e) {
+	                                        return _this4.saveInfo(e, info);
+	                                    } })
+	                            );
+	                        })
+	                    ),
+	                    infoCls == 'openFile' ? _react2.default.createElement(
+	                        'div',
+	                        { className: 'local-file animated zoomIn' },
+	                        _react2.default.createElement('div', { className: 'shadow', onClick: this.hideAll }),
+	                        localFileList.map(function (file) {
+	                            var _host = file.host;
+	                            return _react2.default.createElement(
 	                                'p',
-	                                null,
+	                                { className: 'one' },
 	                                _react2.default.createElement(
 	                                    'span',
 	                                    null,
-	                                    'method:'
+	                                    _host
 	                                ),
-	                                selectProxy.req.method
-	                            ),
-	                            _react2.default.createElement(
-	                                'p',
-	                                null,
 	                                _react2.default.createElement(
 	                                    'span',
-	                                    null,
-	                                    'url:'
+	                                    { className: 'http-file-path', contentEditable: 'true' },
+	                                    file.path
 	                                ),
-	                                selectProxy.req.hostname,
-	                                selectProxy.req.path
-	                            ),
-	                            keyForReqHeader.map(function (key) {
-	                                return _react2.default.createElement(
-	                                    'p',
-	                                    null,
-	                                    _react2.default.createElement(
-	                                        'span',
-	                                        null,
-	                                        key,
-	                                        ':'
-	                                    ),
-	                                    selectProxy.req.headers[key]
-	                                );
-	                            })
-	                        ),
+	                                _react2.default.createElement(
+	                                    'span',
+	                                    { className: 'local-file-path', contentEditable: 'true', onBlur: function onBlur(e) {
+	                                            return _this4.updateInfo(e, file);
+	                                        } },
+	                                    file.localPath
+	                                ),
+	                                _react2.default.createElement('i', { className: 'remove-info', onClick: function onClick() {
+	                                        return _this4.removeLocalFile(file);
+	                                    } })
+	                            );
+	                        })
+	                    ) : '',
+	                    infoCls == 'showInfo' ? _react2.default.createElement(
+	                        'div',
+	                        { className: 'detail-info animated bounceInRight' },
+	                        _react2.default.createElement('div', { className: 'shadow', onClick: this.hideAll }),
 	                        _react2.default.createElement(
 	                            'div',
-	                            { className: 'res' },
+	                            { className: 'center' },
 	                            _react2.default.createElement(
-	                                'p',
-	                                { className: 'header' },
-	                                'Response'
-	                            ),
-	                            keyForResHeader.map(function (key) {
-	                                return _react2.default.createElement(
+	                                'div',
+	                                { className: 'req' },
+	                                _react2.default.createElement(
 	                                    'p',
-	                                    null,
+	                                    { className: 'header' },
+	                                    'Request'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'p',
+	                                    { className: 'prop' },
 	                                    _react2.default.createElement(
 	                                        'span',
 	                                        null,
-	                                        key,
-	                                        ':'
+	                                        'method:'
 	                                    ),
-	                                    selectProxy.res[key]
-	                                );
-	                            })
+	                                    selectProxy.req.method
+	                                ),
+	                                _react2.default.createElement(
+	                                    'p',
+	                                    { className: 'prop' },
+	                                    _react2.default.createElement(
+	                                        'span',
+	                                        null,
+	                                        'url:'
+	                                    ),
+	                                    selectProxy.req.hostname,
+	                                    selectProxy.req.path
+	                                ),
+	                                keyForReqHeader.map(function (key) {
+	                                    return _react2.default.createElement(
+	                                        'p',
+	                                        { className: 'prop' },
+	                                        _react2.default.createElement(
+	                                            'span',
+	                                            null,
+	                                            key,
+	                                            ':'
+	                                        ),
+	                                        selectProxy.req.headers[key]
+	                                    );
+	                                })
+	                            ),
+	                            _react2.default.createElement(
+	                                'div',
+	                                { className: 'res' },
+	                                _react2.default.createElement(
+	                                    'p',
+	                                    { className: 'header' },
+	                                    'Response'
+	                                ),
+	                                keyForResHeader.map(function (key) {
+	                                    return _react2.default.createElement(
+	                                        'p',
+	                                        null,
+	                                        _react2.default.createElement(
+	                                            'span',
+	                                            null,
+	                                            key,
+	                                            ':'
+	                                        ),
+	                                        selectProxy.res[key]
+	                                    );
+	                                })
+	                            )
 	                        )
-	                    )
-	                ) : ''
+	                    ) : ''
+	                )
 	            );
 	        }
 	    }]);
@@ -5809,7 +5826,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	// module
-	exports.push([module.id, "html, body {\n    width: 100%;\n    height: 100%;\n    overflow: hidden;\n}\n.main-body {\n    position: relative;\n    padding-top: 63px;\n    height: 100%;\n    background-color: rgb(250,250,250);\n}\n.top-nav {\n    position: fixed;\n    z-index: 1000;\n    top: 0;\n    width: 100%;\n    height: 63px;\n    line-height: 63px;\n    background-color: rgb(157,42,172);\n    color: #fff;\n    box-shadow: 0 2px 5px  rgba(0,0,0,0.26);\n}\n.top-nav .local-file-btn {\n    display: block;\n    width: 30px;\n    height: 30px;\n    position: absolute;\n    top: 18px;\n    right: 30px;\n    background: url(" + __webpack_require__(138) + ") center no-repeat;\n    background-size: 30px;\n    cursor: pointer;\n}\n.proxy-info {\n    height: 100%;\n    overflow-y: scroll;\n}\n.proxy-info .the-one {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -ms-flex-wrap: wrap;\n        flex-wrap: wrap;\n    -webkit-box-pack: start;\n        -ms-flex-pack: start;\n            justify-content: flex-start;\n    position: relative;\n    margin: 0;\n    padding: 10px 200px 10px 20px;\n    -webkit-transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;\n    transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;\n    background: none;\n    cursor: pointer;\n}\n.proxy-info .the-one .method {\n    font-weight: bolder;\n    color: #9C27B0;\n}\n.proxy-info .the-one .url {\n    width: 100%;\n    word-wrap: break-word;\n}\n.proxy-info .the-one .type {\n    position: absolute;\n    right: 130px;\n    display: inline-block;\n    width: 50px;\n    padding: 5px 8px;\n    font-size: 13px;\n    line-height: 13px;\n    -ms-flex-item-align: center;\n        -ms-grid-row-align: center;\n        align-self: center;\n    color: #000;\n    text-align: center;\n    border-radius: 3px;\n    font-weight: bolder;\n    box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px\n}\n.proxy-info .the-one .type.js {\n    background-color: #FF9800;\n}\n.proxy-info .the-one .type.css {\n    background-color: #AEEA00;\n}\n.proxy-info .the-one .type.img {\n    background-color: #82B1FF;\n}\n.proxy-info .the-one .type.other {\n    background-color: #9E9E9E;\n}\n.proxy-info .the-one .fn-btn {\n    position: absolute;\n    right: 70px;\n    -ms-flex-item-align: center;\n        -ms-grid-row-align: center;\n        align-self: center;\n    display: inline-block;\n    width: 25px;\n    height: 25px;\n    background: url(" + __webpack_require__(139) + ") center no-repeat;\n    background-size: 25px;\n    cursor: pointer\n}\n.proxy-info .the-one .fn-btn:hover {\n    background-color: red;\n}\n.proxy-info .the-one:hover {\n    background-color: rgba(0,0,0,0.098);\n}\n.detail-info {\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    padding: 63px 0 0 60px;\n}\n.detail-info .body {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    position: relative;\n    padding: 1px 20px;\n    height: 100%;\n    background-color: #fff;\n    box-shadow: -2px 0 6px rgba(0,0,0,0.11);\n    -webkit-animation-duration: 0.6s;\n            animation-duration: 0.6s;\n}\n.detail-info .body .header {\n    font-size: 20px;\n    font-weight: bolder;\n}\n.detail-info .body p {\n    font-size: 12px;\n    word-break:break-word;\n}\n.detail-info .body p span {\n    font-size: 14px;\n    font-weight: bolder;\n}\n.detail-info .body .req, .detail-info .body .res {\n    overflow-y: scroll;\n    -webkit-box-flex: 1;\n        -ms-flex: 1;\n            flex: 1;\n}\n.detail-info .shadow {\n    position: absolute;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    background-color: rgba(0,0,0,0.3);\n}\n.local-file {\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    padding: 0 30px 63px;\n    margin-top: 63px;\n    -webkit-animation-duration: 0.6s;\n            animation-duration: 0.6s;\n    overflow-y: scroll;\n}\n.local-file .shadow {\n    position: absolute;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    background-color: rgba(255,255,255,0.9);\n}\n.local-file .one {\n    position: relative;\n    color: rgba(0,0,0,0.87);\n    background-color: rgb(255,255,255);\n    -webkit-transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;\n    transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;\n    box-shadow: rgba(0,0,0,0.1176) 0 1px 6px,\n                    rgba(0,0,0,0.1176) 0 1px 4px;\n    border-radius: 2px;\n    padding: 30px;\n    margin-bottom: 32px;\n}\n.local-file .one span {\n    display: inline-block;\n    padding: 30px 0px 10px;\n    font-size: 16px;\n    border: none;\n    border-bottom: 1px solid rgb(224,224,224)\n}\n.local-file .one span:focus {\n    outline: none;\n}\n.local-file .one .local-file-path {\n    -webkit-user-modify: read-write-plaintext-only;\n    display: block;\n}\n.local-file .one .remove-info {\n    display: inline-block;\n    width: 30px;\n    height: 30px;\n    position: absolute;\n    top: 10px;\n    right: 10px;\n    cursor: pointer;\n    background: url(" + __webpack_require__(137) + ") center no-repeat;\n    background-size: 30px;\n}", ""]);
+	exports.push([module.id, "html, body {\n    width: 100%;\n    height: 100%;\n    overflow: hidden;\n}\n\n.main {\n    position: relative;\n    padding-top: 63px;\n    height: 100%;\n    background-color: rgb(250, 250, 250);\n}\n\n.top-nav {\n    position: fixed;\n    z-index: 1000;\n    top: 0;\n    width: 100%;\n    height: 63px;\n    line-height: 63px;\n    background-color: rgb(157, 42, 172);\n    color: #fff;\n    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.26);\n}\n\n.top-nav .local-file-btn {\n    display: block;\n    width: 30px;\n    height: 30px;\n    position: absolute;\n    top: 18px;\n    right: 30px;\n    background: url(" + __webpack_require__(138) + ") center no-repeat;\n    background-size: 30px;\n    cursor: pointer;\n}\n\n.ctx-body {\n    // display: flex;\n    height: 100%\n}\n\n.ctx-body.showInfo .proxy-info {\n    width: 25%;\n}\n\n.ctx-body.showInfo .proxy-info .the-one .url {\n    width: 100%;\n}\n\n.ctx-body.showInfo .proxy-info .the-one .fn-btn {\n    display: none;\n}\n\n.ctx-body>div {\n    float: left;\n}\n\n.proxy-info {\n    display: inline-block;\n    padding: 7px 2px;\n    width: 100%;\n    height: 100%;\n    overflow-y: scroll;\n    -webkit-transition: width 350ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;\n    transition: width 350ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;\n}\n\n.proxy-info .the-one {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -ms-flex-wrap: wrap;\n        flex-wrap: wrap;\n    -webkit-box-pack: start;\n        -ms-flex-pack: start;\n            justify-content: flex-start;\n    position: relative;\n    margin: 0;\n    padding: 15px 0 15px 60px;\n    background: none;\n    cursor: pointer;\n}\n\n.proxy-info .the-one .method {\n    font-weight: bolder;\n    color: #9C27B0;\n}\n\n.proxy-info .the-one .url {\n    word-wrap: break-word;\n}\n\n.proxy-info .the-one .type {\n    position: absolute;\n    left: 10px;\n    display: inline-block;\n    width: 40px;\n    height: 40px;\n    font-size: 12px;\n    line-height: 40px;\n    -ms-flex-item-align: center;\n        -ms-grid-row-align: center;\n        align-self: center;\n    color: #000;\n    text-align: center;\n    border-radius: 50%;\n    font-weight: bolder;\n    box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px\n}\n\n.proxy-info .the-one .type.js {\n    background-color: #FF9800;\n}\n\n.proxy-info .the-one .type.css {\n    background-color: #AEEA00;\n}\n\n.proxy-info .the-one .type.img {\n    background-color: #82B1FF;\n}\n\n.proxy-info .the-one .type.other {\n    background-color: #9E9E9E;\n}\n\n.proxy-info .the-one .fn-btn {\n    position: absolute;\n    right: 70px;\n    -ms-flex-item-align: center;\n        -ms-grid-row-align: center;\n        align-self: center;\n    display: inline-block;\n    width: 25px;\n    height: 25px;\n    background: url(" + __webpack_require__(139) + ") center no-repeat;\n    background-size: 25px;\n    cursor: pointer\n}\n\n.proxy-info .the-one .fn-btn:hover {\n    background-color: red;\n}\n\n.proxy-info .the-one:hover {\n    background-color: rgba(0, 0, 0, 0.098);\n}\n\n.detail-info {\n    width: 75%;\n    position: relative;\n    padding: 10px 10px 10px 20px;\n    height: 100%;\n    -webkit-animation-duration: 0.6s;\n            animation-duration: 0.6s;\n    -webkit-animation-delay: 100ms;\n            animation-delay: 100ms;\n}\n\n.detail-info .shadow {\n    position: absolute;\n    left: -33%;\n    width: 133%;\n    height: 100%;\n}\n\n.detail-info .center {\n    position: relative;\n    z-index: 10;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    padding: 0 20px;\n    height: 100%;\n    border-radius: 4px;\n    background-color: #fff;\n    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);\n}\n\n.detail-info .header {\n    font-size: 20px;\n    font-weight: bolder;\n    text-align: center;\n}\n\n.detail-info p {\n    padding: 0 10px;\n    line-height: 20px;\n    font-size: 12px;\n    word-break: break-word;\n}\n\n.detail-info p span {\n    font-size: 14px;\n    font-weight: bolder;\n}\n\n.detail-info .req, .detail-info .res {\n    overflow-y: scroll;\n    -webkit-box-flex: 1;\n        -ms-flex: 1;\n            flex: 1;\n}\n\n.local-file {\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    padding: 0 30px 63px;\n    margin-top: 63px;\n    -webkit-animation-duration: 0.6s;\n            animation-duration: 0.6s;\n    overflow-y: scroll;\n}\n\n.local-file .shadow {\n    position: absolute;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    background-color: rgba(255, 255, 255, 0.9);\n}\n\n.local-file .one {\n    position: relative;\n    color: rgba(0, 0, 0, 0.87);\n    background-color: rgb(255, 255, 255);\n    -webkit-transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;\n    transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;\n    box-shadow: rgba(0, 0, 0, 0.1176) 0 1px 6px, rgba(0, 0, 0, 0.1176) 0 1px 4px;\n    border-radius: 2px;\n    padding: 0 30px 10px;\n    margin-bottom: 32px;\n}\n\n.local-file .one span {\n    display: inline-block;\n    padding: 30px 0px 10px;\n    font-size: 16px;\n    border: none;\n    border-bottom: 1px solid rgb(224, 224, 224)\n}\n\n.local-file .one span:focus {\n    outline: none;\n}\n\n.local-file .one .local-file-path {\n    -webkit-user-modify: read-write-plaintext-only;\n    display: block;\n}\n\n.local-file .one .remove-info {\n    display: inline-block;\n    width: 30px;\n    height: 30px;\n    position: absolute;\n    top: 10px;\n    right: 10px;\n    cursor: pointer;\n    background: url(" + __webpack_require__(137) + ") center no-repeat;\n    background-size: 30px;\n}", ""]);
 
 	// exports
 
