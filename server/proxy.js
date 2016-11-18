@@ -49,6 +49,7 @@ function request(cReq, cRes) {
         //回传请求的信息
         socket.sendReqAndRes({
             type: classify(options, pRes.headers),
+            where: proxy ? 'Local' : 'Remote',
             req: options,
             res: pRes.headers
         });

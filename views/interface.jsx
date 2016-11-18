@@ -26,7 +26,7 @@ class Interface extends Component {
     }
     componentDidMount() {
         //绑定全局事件
-        document.body.addEventListener('keyup',(event) => {
+        document.body.addEventListener('keyup', (event) => {
             let key = event.keyCode || event.charCode || 0;
             if ([27].indexOf(key) !== -1) {
                 this.hideAll();
@@ -109,6 +109,7 @@ class Interface extends Component {
                                     <span className={'type ' + info.type}>{info.type}</span>
                                     <span className='method'>{info.req.method}:</span>
                                     <span className='url'>http://{info.req.headers.host}{info.req.path}</span>
+                                    <span className={'where ' + info.where}>{info.where}</span>
                                     <span className='fn-btn' onClick={(e) => this.saveInfo(e, info)}></span>
                                 </p>
                             )
