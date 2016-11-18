@@ -54,6 +54,12 @@ class Interface extends Component {
     }
     saveInfo(e, info) {
         e.stopPropagation();
+        let {allProxy} = this.state;
+        allProxy.forEach((ele, i) => {
+            if (ele.req.path == info.req.path && ele.req.hostname == info.req.hostname) {
+                ele.where = 'Local';
+            }
+        });
         this.io.emit('save-info', info);
     }
     showInfo(info) {
@@ -79,6 +85,12 @@ class Interface extends Component {
         }
     }
     removeLocalFile(info) {
+        let {allProxy} = this.state;
+        allProxy.forEach((ele, i) => {
+            if (ele.req.path == info.path && ele.req.hostname == info.host) {
+                ele.where = 'Remote';
+            }
+        });
         this.io.emit('remove-info', info);
     }
     updateInfo(e, info, host, path, localPath) {
