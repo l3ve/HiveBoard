@@ -5,6 +5,7 @@ var Datastore = require('nedb'),
 class Io {
     constructor(props) {
         this.proxy = '';
+        this.baseLocalPath = '';
         // 代理界面
         io.listen(3333);
         this.start();
@@ -13,9 +14,11 @@ class Io {
         io.on('connection', (client) => {
             client.emit('sys-msg', { msg: '已经连接上代理服务器' });
             this.getAllfile();
+            this.getBaseLocalPath();
             this.saveInfo(client);
             this.removeInfo(client);
             this.updateInfo(client);
+            this.updateBaseLocalPath(client);
         })
     }
     msg(msg) {
@@ -27,9 +30,17 @@ class Io {
         });
     }
     getAllfile() {
-        db.find({}, (err, res) => {
+        db.find({ name: 'proxy' }, (err, res) => {
             this.proxy = res;
             io.emit('all-local-file-list', res);
+        })
+    }
+    getBaseLocalPath() {
+        db.find({ name: 'baseLocalPath' }, (err, res) => {
+            if (res.length) {
+                this.baseLocalPath = res[0].baseLocalPath;
+                io.emit('base-local-path', res[0].baseLocalPath);
+            }
         })
     }
     saveInfo(client) {
@@ -37,9 +48,10 @@ class Io {
             let data = {
                 host: info.req.hostname,
                 path: info.req.path,
-                localPath: '/Users/L3ve/backstage/static/backsite/assets/base.js'
+                name: 'proxy',
+                localPath: this.baseLocalPath
             }
-            this.findInfo(info.req.hostname, info.req.path)
+            this.findInfo({ name: 'proxy', host: info.req.hostname, path: info.req.path })
                 .then((count) => {
                     if (count <= 0) {
                         db.insert(data, (err, newDoc) => {
@@ -48,6 +60,22 @@ class Io {
                                 this.getAllfile();
                             }
                         });
+                    } else {
+                        io.emit('sys-msg', { msg: '本地代理已存在!' });
+                    }
+                })
+        })
+    }
+    updateBaseLocalPath(client) {
+        client.on('update-base-local-path', (res) => {
+            db.update({
+                name: 'baseLocalPath',
+            }, {
+                    name: 'baseLocalPath',
+                    baseLocalPath: res.path
+                }, { upsert: true }, (err, num) => {
+                    if (num >= 1) {
+                        this.getBaseLocalPath();
                     }
                 })
         })
@@ -55,13 +83,13 @@ class Io {
     updateInfo(client) {
         client.on('update-info', (res) => {
             db.update({
-                host: res.info.host,
-                path: res.info.path
+                _id: res.info._id
             }, {
+                    name: 'proxy',
                     host: res.newInfo.host,
                     path: res.newInfo.path,
                     localPath: res.newInfo.localPath
-                }, { multi: true }, (err, num) => {
+                }, { multi: true, upsert: true }, (err, num) => {
                     if (num >= 1) {
                         this.getAllfile();
                     }
@@ -71,8 +99,7 @@ class Io {
     removeInfo(client) {
         client.on('remove-info', (info) => {
             db.remove({
-                host: info.host,
-                path: info.path
+                _id: info._id
             }, { multi: true }, (err, num) => {
                 if (num >= 1) {
                     this.getAllfile();
@@ -80,9 +107,9 @@ class Io {
             })
         })
     }
-    findInfo(host, path) {
+    findInfo(obj) {
         return new Promise((resolve) => {
-            db.count({ host: host, path: path }, (err, count) => {
+            db.count(obj, (err, count) => {
                 resolve(count);
             })
         })

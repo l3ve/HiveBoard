@@ -11,17 +11,20 @@ class Interface extends Component {
         this.state = {
             allProxy: [],
             localFileList: [],
+            baseLocalPath: '请填写本地路径前缀',
             selectProxy: {
                 req: {},
                 res: {}
             },
-            infoCls: ''
+            infoCls: '',
+            setCls: 'hidden'
         }
         this.io = io('http://localhost:3333');
 
         this.showInfo = this.showInfo.bind(this);
         this.hideAll = this.hideAll.bind(this);
         this.openLocalFileList = this.openLocalFileList.bind(this);
+        this.openSettingBox = this.openSettingBox.bind(this);
         this.removeLocalFile = this.removeLocalFile.bind(this);
     }
     componentDidMount() {
@@ -49,6 +52,11 @@ class Interface extends Component {
         this.io.on('all-local-file-list', (res) => {
             this.setState({
                 localFileList: res
+            });
+        })
+        this.io.on('base-local-path', (path) => {
+            this.setState({
+                baseLocalPath: path
             });
         })
     }
@@ -84,6 +92,17 @@ class Interface extends Component {
             });
         }
     }
+    openSettingBox() {
+        if (this.state.setCls == 'hidden') {
+            this.setState({
+                setCls: ''
+            });
+        } else {
+            this.setState({
+                setCls: 'hidden'
+            });
+        }
+    }
     removeLocalFile(info) {
         let {allProxy} = this.state;
         allProxy.forEach((ele, i) => {
@@ -104,15 +123,24 @@ class Interface extends Component {
             newInfo: _newInfo
         });
     }
+    updateBaseLocalPath(e, info) {
+        e.stopPropagation();
+        this.io.emit('update-base-local-path', { path: e.target.value });
+    }
     render() {
-        let {localFileList, allProxy, selectProxy, infoCls} = this.state;
+        let {localFileList, baseLocalPath, allProxy, selectProxy, infoCls, setCls} = this.state;
         const keyForReqHeader = selectProxy.req.headers ? Object.keys(selectProxy.req.headers) : [],
             keyForResHeader = Object.keys(selectProxy.res);
         return (
             <div className='main'>
                 <nav className='top-nav'>
                     <i className='local-file-btn' onClick={this.openLocalFileList}></i>
+                    <i className='default-setting-btn' onClick={this.openSettingBox}></i>
                 </nav>
+                <div className={'setting-box animated zoomIn ' + setCls}>
+                    <label htmlFor='base-local-path'>本地地址:</label>
+                    <input key={baseLocalPath} id='base-local-path' onBlur={(e) => this.updateBaseLocalPath(e)} defaultValue={baseLocalPath} />
+                </div>
                 <div className={'ctx-body ' + infoCls}>
                     <div className='proxy-info'>
                         {allProxy.map((info, i) => {
