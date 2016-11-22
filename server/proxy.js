@@ -39,7 +39,7 @@ function request(cReq, cRes) {
                     cRes.writeHead(404, { 'Content-Type': 'text/plain' });
                     cRes.end();
                     //与客户端通讯
-                    socket.msg(`${proxy.localPath}找不到文件`);
+                    socket.msg({ msg: `${proxy.localPath}找不到文件`, tag: 'unfind' });
                 }
             })
         } else {

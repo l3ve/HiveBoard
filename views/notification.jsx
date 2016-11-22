@@ -1,8 +1,9 @@
 class Tips {
-    show(tit, txt, icon) {
+    show(tit, txt, tag,icon) {
         let _options = {
             body: txt,
-            icon: './views/css/img/akl.jpg'
+            tag: tag || ''
+            // icon: icon || './views/css/img/akl.jpg'
         };
         new Notification(tit, _options);
     }

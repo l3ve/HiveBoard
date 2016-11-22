@@ -12,7 +12,7 @@ class Io {
     }
     start() {
         io.on('connection', (client) => {
-            client.emit('sys-msg', { msg: '已经连接上代理服务器' });
+            this.msg({ msg: '已经连接上代理服务器', tag: 'connection-success' })
             this.getAllfile();
             this.getBaseLocalPath();
             this.saveInfo(client);
@@ -21,8 +21,8 @@ class Io {
             this.updateBaseLocalPath(client);
         })
     }
-    msg(msg) {
-        io.emit('user-msg', { msg: msg });
+    msg(nt) {
+        io.emit('sys-msg', { msg: nt.msg, tag: nt.tag });
     }
     checkProxy(u) {
         return this.proxy.find((ele, i) => {
@@ -55,13 +55,13 @@ class Io {
                 .then((count) => {
                     if (count <= 0) {
                         db.insert(data, (err, newDoc) => {
-                            io.emit('sys-msg', { msg: '添加本地代理成功!' });
                             if (newDoc) {
+                                this.msg({ msg: '添加本地代理成功!', tag: 'add-success' });
                                 this.getAllfile();
                             }
                         });
                     } else {
-                        io.emit('sys-msg', { msg: '本地代理已存在!' });
+                        this.msg({ msg: '本地代理已存在!', tag: 'add-be' });
                     }
                 })
         })
@@ -75,6 +75,7 @@ class Io {
                     baseLocalPath: res.path
                 }, { upsert: true }, (err, num) => {
                     if (num >= 1) {
+                        this.msg({ msg: '更新本地代理地址成功!', tag: 'update-localpath-success' });
                         this.getBaseLocalPath();
                     }
                 })
@@ -91,6 +92,7 @@ class Io {
                     localPath: res.newInfo.localPath
                 }, { multi: true, upsert: true }, (err, num) => {
                     if (num >= 1) {
+                        this.msg({ msg: '更新本地代理成功!', tag: 'update-success' });
                         this.getAllfile();
                     }
                 })
@@ -102,6 +104,7 @@ class Io {
                 _id: info._id
             }, { multi: true }, (err, num) => {
                 if (num >= 1) {
+                    this.msg({ msg: '删除本地代理成功!', tag: 'remove-success' });
                     this.getAllfile();
                 }
             })

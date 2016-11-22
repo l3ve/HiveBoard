@@ -4442,10 +4442,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var _this3 = this;
 
 	            this.io.on('sys-msg', function (res) {
-	                _notification2.default.show('系统', res.msg);
-	            });
-	            this.io.on('user-msg', function (res) {
-	                _notification2.default.show('用户', res.msg);
+	                console.log(res);
+	                _notification2.default.show('系统', res.msg, res.tag);
 	            });
 	            this.io.on('req&res-Info', function (res) {
 	                var allProxy = _this3.state.allProxy;
@@ -4769,10 +4767,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    (0, _createClass3.default)(Tips, [{
 	        key: 'show',
-	        value: function show(tit, txt, icon) {
+	        value: function show(tit, txt, tag, icon) {
 	            var _options = {
 	                body: txt,
-	                icon: './views/css/img/akl.jpg'
+	                tag: tag || ''
+	                // icon: icon || './views/css/img/akl.jpg'
 	            };
 	            new Notification(tit, _options);
 	        }

@@ -11,15 +11,6 @@ var webpack = require('webpack'),
             'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
         })
     ];
-
-// var nodeModules = {};
-// fs.readdirSync('node_modules')
-//     .filter(function (x) {
-//         return ['.bin'].indexOf(x) === -1;
-//     })
-//     .forEach(function (mod) {
-//         nodeModules[mod] = 'commonjs ' + mod;
-//     });
 module.exports = {
     //入口文件
     entry: {

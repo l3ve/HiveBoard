@@ -38,10 +38,8 @@ class Interface extends Component {
     }
     componentWillMount() {
         this.io.on('sys-msg', (res) => {
-            Tips.show('系统', res.msg);
-        })
-        this.io.on('user-msg', (res) => {
-            Tips.show('用户', res.msg);
+            console.log(res);
+            Tips.show('系统', res.msg, res.tag);
         })
         this.io.on('req&res-Info', (res) => {
             let {allProxy} = this.state;
