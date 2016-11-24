@@ -1,6 +1,6 @@
-var io = require('socket.io')();
-var Datastore = require('nedb'),
-    db = new Datastore({ filename: './db/proxy.db', autoload: true });
+var io = require('socket.io')(),
+    Datastore = require('nedb'),
+    db = new Datastore({ filename: path.join(app.getPath('userData'), 'proxy.db'), autoload: true });
 
 class Io {
     constructor(props) {
