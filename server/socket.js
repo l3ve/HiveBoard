@@ -1,5 +1,7 @@
 var io = require('socket.io')(),
     Datastore = require('nedb'),
+    path = require('path'),
+    {app} = require('electron'),
     db = new Datastore({ filename: path.join(app.getPath('userData'), 'proxy.db'), autoload: true });
 
 class Io {
