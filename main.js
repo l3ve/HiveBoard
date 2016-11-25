@@ -139,9 +139,6 @@ function createWindow() {
     titleBarStyle: 'hidden'
   });
   global.mainWindow.loadURL(`file://${__dirname}/index.html`);
-  // Menu.sendActionToFirstResponder(new MenuItem({
-  //   role: 'services'
-  // }))
   // 启用开发工具。
   // mainWindow.openDevTools();
   // 开启代理
