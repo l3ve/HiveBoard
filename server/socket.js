@@ -62,7 +62,7 @@ class Io {
                 host: info.req.hostname,
                 path: info.req.path,
                 name: 'proxy',
-                localPath: this.baseLocalPath
+                localPath: this.baseLocalPath+info.req.path
             }
             this.findInfo({ name: 'proxy', host: info.req.hostname, path: info.req.path })
                 .then((count) => {

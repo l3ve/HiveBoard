@@ -59,7 +59,7 @@ body {
     cursor: default;
     animation-duration: 0.3s;
     transform-origin: 93% -10%;
-    box-shadow:rgba(0, 0, 0, 0.188235) 1px 0 7px;
+    box-shadow: rgba(0, 0, 0, 0.188235) 1px 0 7px;
     text-align: center;
     &::before {
         position: absolute;
@@ -74,11 +74,15 @@ body {
         border-bottom: 20px solid #fff;
         font-size: 0;
     }
+    label {
+        margin-right: 20px;
+    }
     input {
         border: none;
         text-indent: 10px;
+        transition: border 100ms;
         &:focus {
-            border: none;
+            border-bottom: 1px solid rgb(157, 42, 172);
             outline: none;
         }
     }
@@ -121,9 +125,10 @@ body {
         flex-wrap: wrap;
         justify-content: flex-start;
         position: relative;
-        height: 55px;
+        height: 45px;
         margin: 0;
-        padding: 15px 30px 15px 80px;
+        padding: 15px 10px 15px 60px;
+        font-size: 13px;
         background: none;
         cursor: pointer;
         span {
@@ -142,11 +147,11 @@ body {
         }
         .type {
             position: absolute;
-            left: 28px;
-            width: 40px;
-            height: 40px;
-            line-height: 40px;
-            font-size: 12px;
+            left: 15px;
+            width: 35px;
+            height: 35px;
+            line-height: 35px;
+            font-size: 11px;
             color: #000;
             text-align: center;
             border-radius: 50%;
@@ -180,14 +185,11 @@ body {
         }
         .fn-btn {
             align-self: center;
-            width: 25px;
-            height: 25px;
+            width: 20px;
+            height: 20px;
             background: url('img/switch.png') center no-repeat;
-            background-size: 25px;
+            background-size: 20px;
             cursor: pointer;
-            &:hover {
-                /*background-color: red;*/
-            }
         }
     }
 }

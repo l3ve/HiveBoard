@@ -81,7 +81,8 @@ class Interface extends Component {
     }
     hideAll(e) {
         this.setState({
-            infoCls: ''
+            infoCls: '',
+            setCls: 'hidden'
         });
     }
     openLocalFileList() {
