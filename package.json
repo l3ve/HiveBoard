@@ -1,6 +1,6 @@
 {
-  "name": "httpDebug",
-  "version": "0.1.0",
+  "name": "Substitute",
+  "version": "0.3.0",
   "main": "main.js",
   "dependencies": {
     "autoprefixer": "^6.3.6",

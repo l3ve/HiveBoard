@@ -20,12 +20,18 @@ class Interface extends Component {
             setCls: 'hidden'
         }
         this.io = io('http://localhost:3333');
-
+        this.x = 0;
+        this.y = 0;
+        this.abelMove = false;
         this.showInfo = this.showInfo.bind(this);
         this.hideAll = this.hideAll.bind(this);
         this.openLocalFileList = this.openLocalFileList.bind(this);
         this.openSettingBox = this.openSettingBox.bind(this);
         this.removeLocalFile = this.removeLocalFile.bind(this);
+        this.drapStart = this.drapStart.bind(this);
+        this.drapMove = this.drapMove.bind(this);
+        this.drapEnd = this.drapEnd.bind(this);
+
     }
     componentDidMount() {
         //绑定全局事件
@@ -38,7 +44,6 @@ class Interface extends Component {
     }
     componentWillMount() {
         this.io.on('sys-msg', (res) => {
-            console.log(res);
             Tips.show('系统', res.msg, res.tag);
         })
         this.io.on('req&res-Info', (res) => {
@@ -125,13 +130,31 @@ class Interface extends Component {
         e.stopPropagation();
         this.io.emit('update-base-local-path', { path: e.target.value });
     }
+    drapStart(e) {
+        this.abelMove = true;
+        this.x = e.screenX;
+        this.y = e.screenY;
+    }
+    drapMove(e) {
+        if (this.abelMove) {
+            this.io.emit('move-window', {
+                x: e.screenX - this.x,
+                y: e.screenY - this.y
+            });
+            this.x = e.screenX;
+            this.y = e.screenY;
+        }
+    }
+    drapEnd() {
+        this.abelMove = false;
+    }
     render() {
         let {localFileList, baseLocalPath, allProxy, selectProxy, infoCls, setCls} = this.state;
         const keyForReqHeader = selectProxy.req.headers ? Object.keys(selectProxy.req.headers) : [],
             keyForResHeader = Object.keys(selectProxy.res);
         return (
             <div className='main'>
-                <nav className='top-nav'>
+                <nav className='top-nav' onMouseDown={this.drapStart} onMouseMove={this.drapMove} onMouseUp={this.drapEnd}>
                     <i className='local-file-btn' onClick={this.openLocalFileList}></i>
                     <i className='default-setting-btn' onClick={this.openSettingBox}></i>
                 </nav>

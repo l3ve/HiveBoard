@@ -8,9 +8,11 @@ class Io {
     constructor(props) {
         this.proxy = '';
         this.baseLocalPath = '';
+        this.position = global.mainWindow.getPosition();
         // 代理界面
         io.listen(3333);
         this.start();
+        console.log(this.position);
     }
     start() {
         io.on('connection', (client) => {
@@ -21,10 +23,19 @@ class Io {
             this.removeInfo(client);
             this.updateInfo(client);
             this.updateBaseLocalPath(client);
+            this.moveWindow(client);
         })
     }
     msg(nt) {
         io.emit('sys-msg', { msg: nt.msg, tag: nt.tag });
+    }
+    moveWindow(client) {
+        client.on('move-window', (position) => {
+            if (Math.abs(position.x) > 50 || Math.abs(position.y) > 50) return false;
+            this.position[0] += position.x;
+            this.position[1] += position.y;
+            global.mainWindow.setPosition(this.position[0], this.position[1]);
+        })
     }
     checkProxy(u) {
         return this.proxy.find((ele, i) => {

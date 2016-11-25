@@ -4414,12 +4414,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	            setCls: 'hidden'
 	        };
 	        _this.io = (0, _socket2.default)('http://localhost:3333');
-
+	        _this.x = 0;
+	        _this.y = 0;
+	        _this.abelMove = false;
 	        _this.showInfo = _this.showInfo.bind(_this);
 	        _this.hideAll = _this.hideAll.bind(_this);
 	        _this.openLocalFileList = _this.openLocalFileList.bind(_this);
 	        _this.openSettingBox = _this.openSettingBox.bind(_this);
 	        _this.removeLocalFile = _this.removeLocalFile.bind(_this);
+	        _this.drapStart = _this.drapStart.bind(_this);
+	        _this.drapMove = _this.drapMove.bind(_this);
+	        _this.drapEnd = _this.drapEnd.bind(_this);
+
 	        return _this;
 	    }
 
@@ -4442,7 +4448,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var _this3 = this;
 
 	            this.io.on('sys-msg', function (res) {
-	                console.log(res);
 	                _notification2.default.show('系统', res.msg, res.tag);
 	            });
 	            this.io.on('req&res-Info', function (res) {
@@ -4549,6 +4554,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	            this.io.emit('update-base-local-path', { path: e.target.value });
 	        }
 	    }, {
+	        key: 'drapStart',
+	        value: function drapStart(e) {
+	            this.abelMove = true;
+	        }
+	    }, {
+	        key: 'drapMove',
+	        value: function drapMove(e) {
+	            if (this.abelMove) {
+	                this.io.emit('move-window', {
+	                    x: e.screenX - this.x,
+	                    y: e.screenY - this.y
+	                });
+	                this.x = e.screenX;
+	                this.y = e.screenY;
+	            }
+	        }
+	    }, {
+	        key: 'drapEnd',
+	        value: function drapEnd() {
+	            this.abelMove = false;
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
 	            var _this4 = this;
@@ -4568,7 +4595,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                { className: 'main' },
 	                _react2.default.createElement(
 	                    'nav',
-	                    { className: 'top-nav' },
+	                    { className: 'top-nav', onMouseDown: this.drapStart, onMouseMove: this.drapMove, onMouseUp: this.drapEnd },
 	                    _react2.default.createElement('i', { className: 'local-file-btn', onClick: this.openLocalFileList }),
 	                    _react2.default.createElement('i', { className: 'default-setting-btn', onClick: this.openSettingBox })
 	                ),

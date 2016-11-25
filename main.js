@@ -1,6 +1,6 @@
 var {app, BrowserWindow, Menu, MenuItem} = require('electron');
 var {start} = require('./run.js');
-var mainWindow = null;
+global.mainWindow = null;
 var menu = Menu.buildFromTemplate([
   {
     submenu: [
@@ -123,7 +123,7 @@ app.on('window-all-closed', () => {
 app.on('activate', () => {
   // 在 macOS 上，当点击 dock 图标并且该应用没有打开的窗口时，
   // 绝大部分应用会重新创建一个窗口。
-  if (mainWindow === null) {
+  if (global.mainWindow === null) {
     createWindow();
   }
 });
@@ -131,14 +131,14 @@ app.on('activate', () => {
 
 function createWindow() {
   Menu.setApplicationMenu(menu);
-  mainWindow = new BrowserWindow({
+  global.mainWindow = new BrowserWindow({
     width: 960,
     height: 600,
     icon: './favicon.ico',
     type: 'textured',
     titleBarStyle: 'hidden'
   });
-  mainWindow.loadURL(`file://${__dirname}/index.html`);
+  global.mainWindow.loadURL(`file://${__dirname}/index.html`);
   // Menu.sendActionToFirstResponder(new MenuItem({
   //   role: 'services'
   // }))
@@ -147,8 +147,8 @@ function createWindow() {
   // 开启代理
   start();
   console.log(`当前node版本 : ${process.version}`);
-  mainWindow.on('closed', () => {
-    mainWindow = null;
+  global.mainWindow.on('closed', () => {
+    global.mainWindow = null;
     app.quit();
   });
 }
