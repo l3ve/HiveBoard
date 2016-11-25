@@ -12,7 +12,6 @@ class Io {
         // 代理界面
         io.listen(3333);
         this.start();
-        console.log(this.position);
     }
     start() {
         io.on('connection', (client) => {
