@@ -1,4 +1,4 @@
-export function classify(req, res) {
+module.exports = function classify(req, res) {
     let type = '',
         ctxType = res['content-type'],
         url = req.path,
@@ -6,7 +6,7 @@ export function classify(req, res) {
         reCss = /\.(css$|css\?)/,
         reImg = /\.((png|jpg|jpeg|gif)$|(png|jpg|jpeg|gif)\?)/;
     if (reJs.test(url)) {
-        type = 'js'
+        type = 'js';
     } else if (reCss.test(url)) {
         type = 'css';
     } else if (reImg.test(url)) {

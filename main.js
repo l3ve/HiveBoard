@@ -1,5 +1,5 @@
 var {app, BrowserWindow, Menu, MenuItem} = require('electron');
-var {start} = require('./run.js');
+// var {start} = require('./run.js');
 global.mainWindow = null;
 var menu = Menu.buildFromTemplate([
   {
@@ -142,7 +142,8 @@ function createWindow() {
   // 启用开发工具。
   // mainWindow.openDevTools();
   // 开启代理
-  start();
+  // start();
+  require('./server/proxy.js');
   console.log(`当前node版本 : ${process.version}`);
   global.mainWindow.on('closed', () => {
     global.mainWindow = null;

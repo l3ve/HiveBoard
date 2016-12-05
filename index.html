@@ -1,12 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>httpDebug</title>
-    <script src="assets/base.js"></script>
+    <link rel="stylesheet" href="dist/app.css">
 </head>
-<body class="interface">
+
+<body>
+    <div class="interface">
+
+    </div>
 
 </body>
-<script src="assets/enter.js"></script>
+<script>
+delete window.require;
+delete window.exports;
+delete window.module;
+</script>
+<script src="dist/app.js"></script>
+
 </html>

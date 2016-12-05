@@ -6,10 +6,7 @@ var webpack = require('webpack'),
     plugin = plugin = [
         new webpack.optimize.DedupePlugin(),
         new webpack.optimize.OccurenceOrderPlugin(),
-        new webpack.NoErrorsPlugin(),
-        new webpack.ProvidePlugin({
-            'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
-        })
+        new webpack.NoErrorsPlugin()
     ];
 module.exports = {
     //入口文件

@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import io from 'socket.io-client';
 import Tips from './notification';
 
-import './css/interface.less';
-
 
 class Interface extends Component {
     constructor() {
@@ -31,7 +29,6 @@ class Interface extends Component {
         this.drapStart = this.drapStart.bind(this);
         this.drapMove = this.drapMove.bind(this);
         this.drapEnd = this.drapEnd.bind(this);
-
     }
     componentDidMount() {
         //绑定全局事件

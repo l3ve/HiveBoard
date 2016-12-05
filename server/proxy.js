@@ -1,10 +1,10 @@
-import http from 'http';
-import fs from 'fs';
-import net from 'net';
-import url from 'url';
-import zlib from 'zlib';
-import Io from './socket.js';
-import { classify } from './tool';
+var http = require('http');
+var fs = require('fs');
+var net = require('net');
+var url = require('url');
+var zlib = require('zlib');
+var Io = require('./socket.js');
+var classify = require('./tool.js');
 
 const socket = new Io();
 
