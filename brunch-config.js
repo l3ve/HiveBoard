@@ -1,8 +1,8 @@
 module.exports = {
     modules: {
-        nameCleaner: (path) => path.replace(/^views\//, ''), //src/enter
+        nameCleaner: (path) => path.replace(/^views\//, ''),
         autoRequire: {
-            'app.js': ['brunch', 'build.jsx']  //启动app文件里面的brunch
+            'app.js': ['build.jsx']  //启动app文件里面的brunch
         }
     },
     paths: {
@@ -12,12 +12,10 @@ module.exports = {
     files: {
         javascripts: {
             joinTo: 'app.js'
-            // entryPoints: {
-            //     'views/brunch.js': 'app1.js'
-            // }
         },
-        stylesheets: { joinTo:
-            // {'app.css':/\css\/*.(css|less)/}
+        stylesheets: {
+            joinTo:
+            // {'app.css':/^views\/css\/*\.(css|less)/}
             'app.css'
         }
     },
@@ -29,7 +27,8 @@ module.exports = {
         postcss: {
             processors: [
                 require('postcss-cssnext')(),//包括了autoprefixer
-                // require('csswring')
+                require('precss')(), //编译less和sass的各种特效
+                require('csswring')
             ]
         },
         babel: {
