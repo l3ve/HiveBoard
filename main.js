@@ -1,5 +1,5 @@
 var {app, BrowserWindow, Menu, MenuItem} = require('electron');
-// var {start} = require('./run.js');
+
 global.mainWindow = null;
 var menu = Menu.buildFromTemplate([
   {
@@ -135,10 +135,10 @@ function createWindow() {
     width: 960,
     height: 600,
     icon: './favicon.ico',
-    type: 'textured',
-    titleBarStyle: 'hidden'
+    type: 'textured'
+    // titleBarStyle: 'hidden'
   });
-  global.mainWindow.loadURL(`file://${__dirname}/index.html`);
+  global.mainWindow.loadURL(`file://${__dirname}/dist/index.html`);
   // 启用开发工具。
   // mainWindow.openDevTools();
   // 开启代理

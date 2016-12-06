@@ -26,9 +26,7 @@ class Interface extends Component {
         this.openLocalFileList = this.openLocalFileList.bind(this);
         this.openSettingBox = this.openSettingBox.bind(this);
         this.removeLocalFile = this.removeLocalFile.bind(this);
-        this.drapStart = this.drapStart.bind(this);
-        this.drapMove = this.drapMove.bind(this);
-        this.drapEnd = this.drapEnd.bind(this);
+        this.updateInfo = this.updateInfo.bind(this);
     }
     componentDidMount() {
         //绑定全局事件
@@ -113,11 +111,12 @@ class Interface extends Component {
         });
         this.io.emit('remove-info', info);
     }
-    updateInfo(e, info, host, path, localPath) {
+    updateInfo(info,i) {
+        if (this.refs['hfp-'+i].innerHTML == info.path && this.refs['lfp-'+i].innerHTML == info.localPath) return false;
         const _newInfo = {
-            host: host || info.host,
-            path: path || info.path,
-            localPath: e.target.innerHTML || localPath || info.localPath
+            host: info.host,
+            path: this.refs['hfp-'+i].innerHTML || info.path,
+            localPath: this.refs['lfp-'+i].innerHTML || info.localPath
         }
         this.io.emit('update-info', {
             info: info,
@@ -128,31 +127,13 @@ class Interface extends Component {
         e.stopPropagation();
         this.io.emit('update-base-local-path', { path: e.target.value });
     }
-    drapStart(e) {
-        this.abelMove = true;
-        this.x = e.screenX;
-        this.y = e.screenY;
-    }
-    drapMove(e) {
-        if (this.abelMove) {
-            this.io.emit('move-window', {
-                x: e.screenX - this.x,
-                y: e.screenY - this.y
-            });
-            this.x = e.screenX;
-            this.y = e.screenY;
-        }
-    }
-    drapEnd() {
-        this.abelMove = false;
-    }
     render() {
         let {localFileList, baseLocalPath, allProxy, selectProxy, infoCls, setCls} = this.state;
         const keyForReqHeader = selectProxy.req.headers ? Object.keys(selectProxy.req.headers) : [],
             keyForResHeader = Object.keys(selectProxy.res);
         return (
             <div className='main'>
-                <nav className='top-nav' onMouseDown={this.drapStart} onMouseMove={this.drapMove} onMouseUp={this.drapEnd}>
+                <nav className='top-nav'>
                     <i className='local-file-btn' onClick={this.openLocalFileList}></i>
                     <i className='default-setting-btn' onClick={this.openSettingBox}></i>
                 </nav>
@@ -164,7 +145,7 @@ class Interface extends Component {
                     <div className='proxy-info'>
                         {allProxy.map((info, i) => {
                             return (
-                                <p className='the-one' onClick={() => this.showInfo(info)}>
+                                <p key={info.type+i} className='the-one' onClick={() => this.showInfo(info)}>
                                     <span className={'type ' + info.type}>{info.type}</span>
                                     <span className='method'>{info.req.method}:</span>
                                     <span className='url'>http://{info.req.headers.host}{info.req.path}</span>
@@ -179,13 +160,13 @@ class Interface extends Component {
                             <div className='local-file animated zoomIn'>
                                 <div className='shadow' onClick={this.hideAll} ></div>
                                 {
-                                    localFileList.map((file) => {
+                                    localFileList.map((file,i) => {
                                         const _host = file.host;
                                         return (
-                                            <p className='one'>
+                                            <p key={'lf-'+i} className='one'>
                                                 <span>{_host}</span>
-                                                <span className='http-file-path' contentEditable="true" >{file.path}</span>
-                                                <span className='local-file-path' contentEditable="true" onBlur={(e) => this.updateInfo(e, file)}>{file.localPath}</span>
+                                                <span ref={'hfp-'+i} className='http-file-path' contentEditable="true" suppressContentEditableWarning={true} onBlur={() => this.updateInfo(file,i)} >{file.path}</span>
+                                                <span ref={'lfp-'+i} className='local-file-path' contentEditable="true" suppressContentEditableWarning={true} onBlur={() => this.updateInfo(file,i)} >{file.localPath}</span>
                                                 <i className='remove-info' onClick={() => this.removeLocalFile(file)}></i>
                                             </p>
                                         )
