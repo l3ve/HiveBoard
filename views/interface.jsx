@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import io from 'socket.io-client';
-import Tips from './notification';
+import Tips from './notification.jsx';
 
+import './css/interface';
 
 class Interface extends Component {
     constructor() {
@@ -18,9 +19,6 @@ class Interface extends Component {
             setCls: 'hidden'
         }
         this.io = io('http://localhost:3333');
-        this.x = 0;
-        this.y = 0;
-        this.abelMove = false;
         this.showInfo = this.showInfo.bind(this);
         this.hideAll = this.hideAll.bind(this);
         this.openLocalFileList = this.openLocalFileList.bind(this);

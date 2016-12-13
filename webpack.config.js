@@ -1,77 +1,50 @@
-var webpack = require('webpack'),
-    path = require('path'),
-    fs = require('fs'),
-    precss = require('precss'),
-    autoprefixer = require('autoprefixer'),
-    plugin = plugin = [
-        new webpack.optimize.DedupePlugin(),
-        new webpack.optimize.OccurenceOrderPlugin(),
-        new webpack.NoErrorsPlugin()
-    ];
+const webpack = require('webpack'),
+    path = require('path');
+var plugins = [];
 module.exports = {
-    //入口文件
     entry: {
-        base: ['css/normalize','css/animation'],
-        enter: [
-            'build'
-        ]
+        'dist': ['build.jsx'],
+        'base.style': ['css/animation','css/normalize']
     },
-    //输出
     output: {
-        path: 'assets/',
-        publicPath: 'assets/',
-        libraryTarget: 'umd',  //打包成模块(库),可加装
-        umdNamedDefine: true,  //同上
-        filename: "[name].js"
+        path: path.resolve(__dirname, 'dist'),
+        // publicPath: '/dist/',
+        library: 'umd',
+        filename: '[name].js'
     },
-    // externals: nodeModules,
-    plugins: plugin,
+    plugins: plugins,
     resolve: {
         //根目录遍历
-        root: [process.cwd() + '/views', process.cwd() + '/node_modules'],
+        modules: [path.resolve(__dirname, 'views'), 'node_modules', __dirname],
         alias: {
             'react': path.join(__dirname, '/node_modules/react/dist/react.min'),
             'react-dom': path.join(__dirname, '/node_modules/react-dom/dist/react-dom.min')
         },
         //自动补全后缀
-        extensions: ['', '.js', '.jsx', '.css', '.less', '.png', '.jpg']
-    },
-    postcss: function () {
-        return [precss, autoprefixer];
+        extensions: [".js", ".jsx", ".css", ".less", ".png", ".jpg"]
     },
     module: {
-        //语法检查
-        preLoaders: [
-            {
-                test: /\.(js|jsx?)$/,
-                exclude: /node_modules/,
-                loader: 'eslint-loader'
-            },
-        ],
         //减少依赖的查找
         noParse: [
-            path.join(__dirname, '/node_modules/react/dist/react.min')
+            /react\.min/
         ],
-        loaders: [
+        rules: [
             {
-                test: /\.json$/,
-                loader: 'json'
-            },
-            {
+                include: [path.resolve(__dirname, "views")],
+                exclude: [path.resolve(__dirname, "node_modules")],
                 test: /\.(js|jsx)$/,
-                loaders: ['babel'],
-                exclude: /(node_modules)/
-            },
-            {
-                test: /\.(less|css)$/,
-                exclude: /(node_modules)/,
-                loader: 'style!css!postcss'
-            },
-            {
+                use: 'babel-loader'
+            }, {
+                include: [path.resolve(__dirname, "views")],
+                exclude: [path.resolve(__dirname, "node_modules")],
+                test: /\.(css)$/,
+                use: ['style-loader', 'css-loader?importLoaders=1', 'postcss-loader']
+            }, {
+                include: [path.resolve(__dirname, "views")],
+                exclude: [path.resolve(__dirname, "node_modules")],
                 test: /\.(png|jpg|gif)$/,
-                exclude: /(node_modules)/,
-                loader: 'url?limit=8192'
-            }
+                use: 'url-loader?limit=8192'
+            }, { test: require.resolve("fetch"), loader: "expose-loader?fetch" }
         ]
     }
-};
+}
