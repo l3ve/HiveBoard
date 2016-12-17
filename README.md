@@ -1,4 +1,4 @@
-#httpDebug
+#Switch
 
 用惯了livepool,但这家伙不更新了,烦躁不安下,决定自己撸一个
 
@@ -10,7 +10,7 @@
 3. Rx(暂定)
 4. ES6
 5. babel
-6. webpack
+6. webpack2
 7. nedb
 8. socket
 
