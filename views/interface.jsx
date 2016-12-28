@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import io from 'socket.io-client';
 import Tips from './notification.jsx';
+import Nav from './nav.jsx';
 
 import './css/interface';
 
@@ -11,6 +12,13 @@ class Interface extends Component {
             allProxy: [],
             localFileList: [],
             baseLocalPath: '请填写本地路径前缀',
+            nav: [
+                { name: '在线代理' },
+                { name: '设置' },
+                { name: '设置' },
+                { name: '设置' },
+                { name: '设置' }
+            ],
             selectProxy: {
                 req: {},
                 res: {}
@@ -109,12 +117,12 @@ class Interface extends Component {
         });
         this.io.emit('remove-info', info);
     }
-    updateInfo(info,i) {
-        if (this.refs['hfp-'+i].innerHTML == info.path && this.refs['lfp-'+i].innerHTML == info.localPath) return false;
+    updateInfo(info, i) {
+        if (this.refs['hfp-' + i].innerHTML == info.path && this.refs['lfp-' + i].innerHTML == info.localPath) return false;
         const _newInfo = {
             host: info.host,
-            path: this.refs['hfp-'+i].innerHTML || info.path,
-            localPath: this.refs['lfp-'+i].innerHTML || info.localPath
+            path: this.refs['hfp-' + i].innerHTML || info.path,
+            localPath: this.refs['lfp-' + i].innerHTML || info.localPath
         }
         this.io.emit('update-info', {
             info: info,
@@ -126,15 +134,12 @@ class Interface extends Component {
         this.io.emit('update-base-local-path', { path: e.target.value });
     }
     render() {
-        let {localFileList, baseLocalPath, allProxy, selectProxy, infoCls, setCls} = this.state;
+        let {localFileList, baseLocalPath, allProxy, selectProxy, infoCls, setCls, nav} = this.state;
         const keyForReqHeader = selectProxy.req.headers ? Object.keys(selectProxy.req.headers) : [],
             keyForResHeader = Object.keys(selectProxy.res);
         return (
             <div className='main'>
-                <nav className='top-nav'>
-                    <i className='local-file-btn' onClick={this.openLocalFileList}></i>
-                    <i className='default-setting-btn' onClick={this.openSettingBox}></i>
-                </nav>
+                <Nav nav={nav} />
                 <div className={'setting-box animated zoomIn ' + setCls}>
                     <label htmlFor='base-local-path'>本地地址:</label>
                     <input key={baseLocalPath} id='base-local-path' onBlur={(e) => this.updateBaseLocalPath(e)} defaultValue={baseLocalPath} />
@@ -143,7 +148,7 @@ class Interface extends Component {
                     <div className='proxy-info'>
                         {allProxy.map((info, i) => {
                             return (
-                                <p key={info.type+i} className='the-one' onClick={() => this.showInfo(info)}>
+                                <p key={info.type + i} className='the-one' onClick={() => this.showInfo(info)}>
                                     <span className={'type ' + info.type}>{info.type}</span>
                                     <span className='method'>{info.req.method}:</span>
                                     <span className='url'>http://{info.req.headers.host}{info.req.path}</span>
@@ -158,13 +163,13 @@ class Interface extends Component {
                             <div className='local-file animated zoomIn'>
                                 <div className='shadow' onClick={this.hideAll} ></div>
                                 {
-                                    localFileList.map((file,i) => {
+                                    localFileList.map((file, i) => {
                                         const _host = file.host;
                                         return (
-                                            <p key={'lf-'+i} className='one'>
+                                            <p key={'lf-' + i} className='one'>
                                                 <span>{_host}</span>
-                                                <span ref={'hfp-'+i} className='http-file-path' contentEditable="true" suppressContentEditableWarning={true} onBlur={() => this.updateInfo(file,i)} >{file.path}</span>
-                                                <span ref={'lfp-'+i} className='local-file-path' contentEditable="true" suppressContentEditableWarning={true} onBlur={() => this.updateInfo(file,i)} >{file.localPath}</span>
+                                                <span ref={'hfp-' + i} className='http-file-path' contentEditable="true" suppressContentEditableWarning={true} onBlur={() => this.updateInfo(file, i)} >{file.path}</span>
+                                                <span ref={'lfp-' + i} className='local-file-path' contentEditable="true" suppressContentEditableWarning={true} onBlur={() => this.updateInfo(file, i)} >{file.localPath}</span>
                                                 <i className='remove-info' onClick={() => this.removeLocalFile(file)}></i>
                                             </p>
                                         )

@@ -5,7 +5,7 @@ class Tips {
             tag: tag || ''
             // icon: icon || './views/css/img/akl.jpg'
         };
-        new Notification(tit, _options);
+        // new Notification(tit, _options);
     }
 }
 
