@@ -3,8 +3,8 @@ const webpack = require('webpack'),
 var plugins = [];
 module.exports = {
     entry: {
-        'dist': ['build.jsx'],
-        'base.style': ['css/animation','css/normalize']
+        'dist': ['build'],
+        'base.style': ['css/animation', 'css/normalize']
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -15,7 +15,7 @@ module.exports = {
     plugins: plugins,
     resolve: {
         //根目录遍历
-        modules: [path.resolve(__dirname, 'views'), 'node_modules', __dirname],
+        modules: [path.join(__dirname, 'views'), path.join(__dirname, 'node_modules')],
         alias: {
             'react': path.join(__dirname, '/node_modules/react/dist/react.min'),
             'react-dom': path.join(__dirname, '/node_modules/react-dom/dist/react-dom.min')
@@ -37,14 +37,17 @@ module.exports = {
             }, {
                 include: [path.resolve(__dirname, "views")],
                 exclude: [path.resolve(__dirname, "node_modules")],
-                test: /\.(css)$/,
-                use: ['style-loader', 'css-loader?importLoaders=1', 'postcss-loader']
+                test: /\.(css|less)$/,
+                use: ['style-loader', 'css-loader?importLoaders=1', 'less-loader', 'postcss-loader']
             }, {
                 include: [path.resolve(__dirname, "views")],
                 exclude: [path.resolve(__dirname, "node_modules")],
                 test: /\.(png|jpg|gif)$/,
                 use: 'url-loader?limit=8192'
-            }, { test: require.resolve("fetch"), loader: "expose-loader?fetch" }
+            }, {
+                test: require.resolve("fetch"),
+                loader: "expose-loader?fetch"
+            }
         ]
     }
 }
