@@ -903,62 +903,7 @@ module.exports = function(a, b){
 };
 
 /***/ },
-/* 4 */
-/***/ function(module, exports) {
-
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-// css base code, injected by the css-loader
-module.exports = function() {
-	var list = [];
-
-	// return the list of modules as css string
-	list.toString = function toString() {
-		var result = [];
-		for(var i = 0; i < this.length; i++) {
-			var item = this[i];
-			if(item[2]) {
-				result.push("@media " + item[2] + "{" + item[1] + "}");
-			} else {
-				result.push(item[1]);
-			}
-		}
-		return result.join("");
-	};
-
-	// import a list of modules into the list
-	list.i = function(modules, mediaQuery) {
-		if(typeof modules === "string")
-			modules = [[null, modules, ""]];
-		var alreadyImportedModules = {};
-		for(var i = 0; i < this.length; i++) {
-			var id = this[i][0];
-			if(typeof id === "number")
-				alreadyImportedModules[id] = true;
-		}
-		for(i = 0; i < modules.length; i++) {
-			var item = modules[i];
-			// skip already imported module
-			// this implementation is not 100% perfect for weird media query combinations
-			//  when a module is imported multiple times with different media queries.
-			//  I hope this will never occur (Hey this way we have smaller bundles)
-			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
-				if(mediaQuery && !item[2]) {
-					item[2] = mediaQuery;
-				} else if(mediaQuery) {
-					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
-				}
-				list.push(item);
-			}
-		}
-	};
-	return list;
-};
-
-
-/***/ },
+/* 4 */,
 /* 5 */
 /***/ function(module, exports) {
 
@@ -4789,17 +4734,9 @@ Emitter.prototype.hasListeners = function(event){
 /***/ },
 /* 36 */,
 /* 37 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-exports = module.exports = __webpack_require__(4)();
-// imports
-
-
-// module
-exports.push([module.i, "html, body {\n    width: 100%;\n    height: 100%;\n    overflow: hidden;\n}\n\n.interface {\n    height: 100%;\n}\n\n.main {\n    position: relative;\n    padding-top: 63px;\n    height: 100%;\n    background-color: rgb(250, 250, 250);\n}\n\n.top-nav {\n    position: fixed;\n    z-index: 1000;\n    top: 0;\n    width: 100%;\n    height: 63px;\n    line-height: 63px;\n    background-color: rgb(157, 42, 172);\n    color: #fff;\n    box-shadow: 0 2px 5px rgba(0, 0, 0, .26);\n}\n\n.top-nav .local-file-btn {\n    display: block;\n    width: 30px;\n    height: 30px;\n    position: absolute;\n    top: 18px;\n    right: 70px;\n    background: url(" + __webpack_require__(64) + ") center no-repeat;\n    background-size: 30px;\n    cursor: pointer;\n}\n\n.top-nav .default-setting-btn {\n    display: block;\n    width: 30px;\n    height: 30px;\n    position: absolute;\n    top: 18px;\n    right: 30px;\n    background: url(" + __webpack_require__(65) + ") center no-repeat;\n    background-size: 30px;\n    cursor: pointer;\n}\n\n.setting-box {\n    position: absolute;\n    top: 70px;\n    right: 15px;\n    z-index: 1000;\n    width: 400px;\n    height: 300px;\n    padding: 30px;\n    border-radius: 4px;\n    background-color: #fff;\n    cursor: default;\n    -webkit-animation-duration: 0.3s;\n            animation-duration: 0.3s;\n    -webkit-transform-origin: 93% -10%;\n            transform-origin: 93% -10%;\n    box-shadow: rgba(0, 0, 0, .188235) 1px 0 7px;\n    text-align: center;\n}\n\n.setting-box label {\n    margin-right: 20px;\n}\n\n.setting-box input {\n    border: none;\n    text-indent: 10px;\n    -webkit-transition: border 100ms;\n    transition: border 100ms\n}\n\n.setting-box input:focus {\n    border-bottom: 1px solid rgb(157, 42, 172);\n    outline: none;\n}\n\n.setting-box .local-file-path {\n    display: block;\n    margin: 35px;\n}\n\n.setting-box::before {\n    position: absolute;\n    top: -20px;\n    right: 20px;\n    content: '';\n    display: block;\n    width: 0;\n    height: 0;\n    border-left: 10px solid transparent;\n    border-right: 10px solid transparent;\n    border-bottom: 20px solid #fff;\n    font-size: 0;\n}\n\n.ctx-body {\n    height: 100%\n}\n\n.ctx-body.showInfo .proxy-info {\n    width: 25%;\n}\n\n.ctx-body.showInfo .proxy-info .the-one {\n    height: auto;\n    padding-right: 0;\n}\n\n.ctx-body.showInfo .proxy-info .the-one .url {\n    width: 100%;\n}\n\n.ctx-body.showInfo .proxy-info .the-one .fn-btn, .ctx-body.showInfo .proxy-info .the-one .where {\n    display: none;\n}\n\n.ctx-body>div {\n    float: left;\n}\n\n.proxy-info {\n    display: inline-block;\n    padding: 7px 2px;\n    width: 100%;\n    height: 100%;\n    overflow-y: scroll;\n    -webkit-transition: width 350ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;\n    transition: width 350ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;\n}\n\n.proxy-info .the-one {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -ms-flex-wrap: wrap;\n    flex-wrap: wrap;\n    -webkit-box-pack: start;\n    -ms-flex-pack: start;\n    justify-content: flex-start;\n    position: relative;\n    height: 45px;\n    margin: 0;\n    padding: 15px 10px 15px 60px;\n    font-size: 13px;\n    background: none;\n    cursor: pointer;\n}\n\n.proxy-info .the-one span {\n    -ms-flex-item-align: center;\n    -ms-grid-row-align: center;\n    align-self: center;\n}\n\n.proxy-info .the-one .method {\n    font-weight: bolder;\n    color: #9C27B0;\n}\n\n.proxy-info .the-one .url {\n    -webkit-box-flex: 1;\n    -ms-flex: 1;\n    flex: 1;\n    word-wrap: break-word;\n}\n\n.proxy-info .the-one .type {\n    position: absolute;\n    left: 15px;\n    width: 35px;\n    height: 35px;\n    line-height: 35px;\n    font-size: 11px;\n    color: #000;\n    text-align: center;\n    border-radius: 50%;\n    font-weight: bolder;\n    box-shadow: rgba(0, 0, 0, .117647) 0px 1px 6px, rgba(0, 0, 0, .117647) 0px 1px 4px\n}\n\n.proxy-info .the-one .type.js {\n    background-color: #FF9800;\n}\n\n.proxy-info .the-one .type.css {\n    background-color: #AEEA00;\n}\n\n.proxy-info .the-one .type.img {\n    background-color: #82B1FF;\n}\n\n.proxy-info .the-one .type.other {\n    background-color: #9E9E9E;\n}\n\n.proxy-info .the-one .where {\n    font-weight: bolder;\n    margin-right: 10px\n}\n\n.proxy-info .the-one .where.Local {\n    color: #0091EA;\n}\n\n.proxy-info .the-one .where.Local+.fn-btn {\n    display: none;\n}\n\n.proxy-info .the-one .where.Remote {\n    color: #FF6D00;\n}\n\n.proxy-info .the-one .fn-btn {\n    -ms-flex-item-align: center;\n    -ms-grid-row-align: center;\n    align-self: center;\n    width: 20px;\n    height: 20px;\n    background: url(" + __webpack_require__(66) + ") center no-repeat;\n    background-size: 20px;\n    cursor: pointer;\n}\n\n.proxy-info .the-one:hover {\n    background-color: rgba(0, 0, 0, .098);\n}\n\n.detail-info {\n    width: 75%;\n    position: relative;\n    padding: 10px 10px 10px 20px;\n    height: 100%;\n    -webkit-animation-duration: 0.6s;\n            animation-duration: 0.6s;\n    -webkit-animation-delay: 100ms;\n            animation-delay: 100ms;\n}\n\n.detail-info .shadow {\n    position: absolute;\n    left: -33%;\n    width: 133%;\n    height: 100%;\n}\n\n.detail-info .center {\n    position: relative;\n    z-index: 10;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    padding: 0 20px;\n    height: 100%;\n    border-radius: 4px;\n    background-color: #fff;\n    box-shadow: 2px 2px 10px rgba(0, 0, 0, .2);\n}\n\n.detail-info .header {\n    font-size: 20px;\n    font-weight: bolder;\n    text-align: center;\n}\n\n.detail-info p {\n    padding: 0 10px;\n    line-height: 20px;\n    font-size: 12px;\n    word-break: break-word;\n}\n\n.detail-info p span {\n    font-size: 14px;\n    font-weight: bolder;\n}\n\n.detail-info .req, .detail-info .res {\n    overflow-y: scroll;\n    -webkit-box-flex: 1;\n    -ms-flex: 1;\n    flex: 1;\n}\n\n.local-file {\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    padding: 0 30px 63px;\n    margin-top: 63px;\n    -webkit-animation-duration: 0.3s;\n            animation-duration: 0.3s;\n    overflow-y: scroll;\n}\n\n.local-file .shadow {\n    position: absolute;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    background-color: rgba(255, 255, 255, .9);\n}\n\n.local-file .one {\n    position: relative;\n    color: rgba(0, 0, 0, .87);\n    background-color: rgb(255, 255, 255);\n    -webkit-transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;\n    transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;\n    box-shadow: rgba(0, 0, 0, .1176) 0 1px 6px, rgba(0, 0, 0, .1176) 0 1px 4px;\n    border-radius: 2px;\n    padding: 0 30px 10px;\n    margin-bottom: 32px;\n}\n\n.local-file .one span {\n    display: inline-block;\n    padding: 30px 0px 10px;\n    font-size: 16px;\n    border: none;\n    border-bottom: 1px solid rgb(224, 224, 224)\n}\n\n.local-file .one span:focus {\n    outline: none;\n}\n\n.local-file .one .local-file-path {\n    -webkit-user-modify: read-write-plaintext-only;\n    display: block;\n}\n\n.local-file .one .remove-info {\n    display: inline-block;\n    width: 30px;\n    height: 30px;\n    position: absolute;\n    top: 10px;\n    right: 10px;\n    cursor: pointer;\n    background: url(" + __webpack_require__(63) + ") center no-repeat;\n    background-size: 30px;\n}", ""]);
-
-// exports
-
+throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/L3ve/Desktop/Switch.app/Contents/Resources/app/views/css/interface.css'");
 
 /***/ },
 /* 38 */,
@@ -9011,30 +8948,10 @@ function toArray(list, index) {
 
 
 /***/ },
-/* 63 */
-/***/ function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAQAAAD41aSMAAABuUlEQVR4Ae3XwU0CQRzG0e+GBi0C8KzVYCyHE4lWAMF+SLwYbYJsvOJhvWATE7P/8f2mg+9tNjORJEmSJEmSJEmSJEmSpD9qk0vjs4kazF+AwPwNCMxficD8BQjM34DA/AUIzI/g0vkJAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAECSJEmSPLwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAECDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPyUnn9M+b5KAwwp31tpgGPKdygNsEv5nkoDrFO+23yXnf+ceTrotSzAPl10V/QqOmaZTnopCbBNN13ns9z875mlo1YZSs1/yiKd9VCI4JT7dNgqH0V+Pot02lWeJ34jGrPNLF23yiHniT679lnmX3STx+xyzJBxAt/8kGN2WWceSZIkSZIkSZIkSZIkSWrQL8m34j3WejPxAAAAAElFTkSuQmCC"
-
-/***/ },
-/* 64 */
-/***/ function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__.p + "52aaad4418bb36119dcca3fd82e14912.png";
-
-/***/ },
-/* 65 */
-/***/ function(module, exports) {
-
-module.exports = "data:image/png;base64,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"
-
-/***/ },
-/* 66 */
-/***/ function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAQAAAD41aSMAAADIklEQVR4AezBgQAAAACAoP2pF6kCAAAAAAAAAAAAAABm386RmwqiKAyf1M9iQ+D1OHLK4FlAQMhuMMXgScAqKLwHewGXjE5cXPGqm9NS/+fGL/n+QKrS06Nje7rQQn1tqWhyXfI/KLQaJEGn/DFMgm75R0nQMf8YCbrmHyFB1/wDJOiMf8AEPfEPmaAf/kET9MI/bAL7LhSKgRPYt9Bq6ATmkcA8EphHgiojwaQ7XwASTLpUzA1AAid/SCRw8odEAid/SCRw8odEAid/SCRw8odEAid/aMZIMOlK4QpAgpr8IZGgJf/PPAAJ2vFfa1fP8wAkaMcvSS/yACRoxp8mEAna8Ze9zAOQoAV/2as8AAnq8+cJ0pFg0nUFfkk6zAOQoAV/2VEegAQt+MuO8wAkqMefJxAJavPnO8kDkKAFf9lpCUCCFvz5zqwBDAn2tf52m/OXBBojwTsPf7JzhTRAAid/sqW0BQms/KwkMPKTwM5PAjs/Cez8JJjNf1OJnwR2fhK4+Umw34z/Zi4/gx9+Bj/8DH744b9tz8/gh5/BDz+DH362gH8AfgY//Ax++Bn88MO/gn87+Q+0ELPxv1folgRO/iBBPf7bGfzlSWbgJ4Gd3//dCX4S+Pn9r6rDT4LC/83CXxJMhj9qw18pwVIB/+M7UKx9V5pm8wf8ySdLkwSFP+Cvk+DyHxO8/vMk/IYEhT/gr5fgq6Z1+Tc5wJP5/I4ECX/AXzvBjv62N4okAPx1EyT8AX/jBAl/wN8iwZeSIOEP+P9PgreKJAD8lRN81k7Or4C/aYKUPzaB/3sdfkOCT9pJ+AP+tgl+KZKDv2mC/OA3J9ga/oWSdZoAfnMC+M0J4DcngN+cAH5zgs74f3j5DQng9yaAv1aCO18A+KVDhS8A/EcKfwD4LQHgP1ZsdoCPQ/OH7Huq+43lP1G0CGBIMCx/SP0n6JP/dLt+D3im+yH5Q+o/QX/8Z4r2ARwJHobjD6nvBP3xnysMAQwJxuAPqd8E/fEvFdsfQNrTwzD8IfWZ4MMg/KHh97s9OBAAAAAAAPJ/bQRVVVVVVVVVVVVVVRVRFTSBWnQ//gAAAABJRU5ErkJggg=="
-
-/***/ },
+/* 63 */,
+/* 64 */,
+/* 65 */,
+/* 66 */,
 /* 67 */
 /***/ function(module, exports) {
 
