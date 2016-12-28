@@ -137,9 +137,17 @@ exports.push([module.i, "@charset \"UTF-8\";\n/*!\nAnimate.css - http://daneden.
 /***/ },
 
 /***/ 37:
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/L3ve/Desktop/Switch.app/Contents/Resources/app/views/css/normalize.css'");
+exports = module.exports = __webpack_require__(5)();
+// imports
+
+
+// module
+exports.push([module.i, "* {\n  box-sizing: border-box;\n}\nhtml {\n  font-family: sans-serif;\n  /* 1 */\n  line-height: 1.15;\n  /* 2 */\n  -ms-text-size-adjust: 100%;\n  /* 3 */\n  -webkit-text-size-adjust: 100%;\n  /* 3 */\n}\nbody {\n  margin: 0;\n}\n[hidden] {\n  display: none;\n}\n.hidden {\n  display: none;\n}\n", ""]);
+
+// exports
+
 
 /***/ },
 
