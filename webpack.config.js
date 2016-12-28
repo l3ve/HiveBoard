@@ -38,7 +38,7 @@ module.exports = {
                 include: [path.resolve(__dirname, "views")],
                 exclude: [path.resolve(__dirname, "node_modules")],
                 test: /\.(css|less)$/,
-                use: ['style-loader', 'css-loader?importLoaders=1', 'less-loader', 'postcss-loader']
+                use: ['style-loader', 'css-loader?importLoaders=1', 'postcss-loader']
             }, {
                 include: [path.resolve(__dirname, "views")],
                 exclude: [path.resolve(__dirname, "node_modules")],
