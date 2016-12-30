@@ -19,12 +19,13 @@ function request(cReq, cRes) {
         headers: cReq.headers
     };
     var pReq = http.request(options, function (pRes) {
-        const proxy = socket.checkProxy(u);
+        const proxy = socket.checkProxy(u),
+            localPath = proxy ? socket.returnLocalPath(proxy) : '';
         if (proxy) {
-            fs.stat(proxy.localPath, (err, stats) => {
+            fs.stat(localPath, (err, stats) => {
                 if (stats) {
                     cRes.writeHead(200, pRes.headers);
-                    let file = fs.createReadStream(proxy.localPath),
+                    let file = fs.createReadStream(localPath),
                         acceptEncoding = pRes.headers['content-encoding'];
                     //判断是否需要压缩
                     if (acceptEncoding && acceptEncoding.indexOf('gzip') != -1) {
@@ -39,7 +40,7 @@ function request(cReq, cRes) {
                     cRes.writeHead(404, { 'Content-Type': 'text/plain' });
                     cRes.end();
                     //与客户端通讯
-                    socket.msg({ msg: `${proxy.localPath}找不到文件`, tag: 'unfind' });
+                    socket.msg({ msg: `${localPath}找不到文件`, tag: 'unfind' });
                 }
             })
         } else {

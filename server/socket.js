@@ -46,13 +46,16 @@ class Io {
             }
         })
     }
+    returnLocalPath(proxy) {
+        return this.baseLocalPath + proxy.localPath;
+    }
     saveInfo(client) {
         client.on('save-info', (info) => {
             let data = {
                 host: info.req.hostname,
                 path: info.req.path,
                 name: 'proxy',
-                localPath: this.baseLocalPath+info.req.path
+                localPath: info.req.path
             }
             this.findInfo({ name: 'proxy', host: info.req.hostname, path: info.req.path })
                 .then((count) => {

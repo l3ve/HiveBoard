@@ -74,11 +74,11 @@ class Home extends Component {
                     <div className='center animated bounceInRight'>
                         <div className='req'>
                             <p className='header'>Request</p>
-                            <p className='prop' ><span>method:</span>{reqDetail.req.method}</p>
-                            <p className='prop' ><span>url:</span>{reqDetail.req.hostname}{reqDetail.req.path}</p>
+                            <p className='prop' ><span>method : </span>{reqDetail.req.method}</p>
+                            <p className='prop' ><span>url : </span>{reqDetail.req.hostname}{reqDetail.req.path}</p>
                             {
                                 keyForReqHeader.map((key) => {
-                                    return <p className='prop' ><span>{key}:</span>{reqDetail.req.headers[key]}</p>
+                                    return <p className='prop' ><span>{key} : </span>{reqDetail.req.headers[key]}</p>
                                 })
                             }
                         </div>
@@ -86,7 +86,7 @@ class Home extends Component {
                             <p className='header'>Response</p>
                             {
                                 keyForResHeader.map((key) => {
-                                    return <p><span>{key}:</span>{reqDetail.res[key]}</p>
+                                    return <p><span>{key} : </span>{reqDetail.res[key]}</p>
                                 })
                             }
                         </div>
