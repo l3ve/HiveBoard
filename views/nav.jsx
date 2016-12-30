@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Wave from './component/wave';
 import './css/nav';
 
 class Nav extends Component {
@@ -31,8 +30,10 @@ class Nav extends Component {
             curIndex: i
         });
     }
-    switchTab(i) {
+    switchTab(i,sort) {
+        const {onSelect} = this.props;
         this.changeCurStyle(i);
+        onSelect(sort);
     }
     render() {
         const {_style, curIndex} = this.state,
@@ -42,7 +43,7 @@ class Nav extends Component {
                 <div className='nav-box'>
                     {
                         nav.map((nav, i) => {
-                            return <span className={curIndex == i ? 'cur' : ''} onClick={() => this.switchTab(i)}>{nav.name}</span>
+                            return <span className={curIndex == i ? 'cur' : ''} onClick={() => this.switchTab(i,nav.sort)}>{nav.name}</span>
                         })
                     }
                 </div>

@@ -3681,23 +3681,16 @@ module.exports = yeast;
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
-'use strict';
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(55);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__interface_jsx__ = __webpack_require__(31);
 
-var _react = __webpack_require__(6);
 
-var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(55);
 
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
-var _interface = __webpack_require__(31);
-
-var _interface2 = _interopRequireDefault(_interface);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-_reactDom2.default.render(_react2.default.createElement(_interface2.default, null), document.querySelector('.interface'));
+__WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__interface_jsx__["a" /* default */], null), document.querySelector('.interface'));
 
 /***/ },
 /* 26 */,
@@ -3771,182 +3764,34 @@ module.exports = function(arraybuffer, start, end) {
 
 
 /***/ },
-/* 30 */
-/***/ function(module, exports, __webpack_require__) {
-
-"use strict";
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(6);
-
-var _react2 = _interopRequireDefault(_react);
-
-__webpack_require__(59);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var WaveOne = function (_Component) {
-    _inherits(WaveOne, _Component);
-
-    function WaveOne(props) {
-        _classCallCheck(this, WaveOne);
-
-        var _this = _possibleConstructorReturn(this, (WaveOne.__proto__ || Object.getPrototypeOf(WaveOne)).call(this, props));
-
-        _this.state = {
-            css: {}
-        };
-        return _this;
-    }
-
-    _createClass(WaveOne, [{
-        key: 'componentDidMount',
-        value: function componentDidMount() {
-            var _this2 = this;
-
-            setTimeout(function () {
-                _this2.setState({
-                    css: _this2.props.nextCss
-                });
-            }, 10);
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            var css = this.state.css;
-
-            return _react2.default.createElement('div', { className: 'wave', style: css });
-        }
-    }]);
-
-    return WaveOne;
-}(_react.Component);
-
-var Wave = function (_Component2) {
-    _inherits(Wave, _Component2);
-
-    function Wave(props) {
-        _classCallCheck(this, Wave);
-
-        var _this3 = _possibleConstructorReturn(this, (Wave.__proto__ || Object.getPrototypeOf(Wave)).call(this, props));
-
-        _this3.state = {
-            flashs: [],
-            n: 1
-        };
-        return _this3;
-    }
-
-    _createClass(Wave, [{
-        key: 'star',
-        value: function star(e) {
-            var _this4 = this;
-
-            var _state = this.state,
-                flashs = _state.flashs,
-                n = _state.n,
-                _e$target = e.target,
-                clientWidth = _e$target.clientWidth,
-                clientHeight = _e$target.clientHeight,
-                offsetLeft = _e$target.offsetLeft,
-                offsetTop = _e$target.offsetTop,
-                offsetParent = _e$target.offsetParent,
-                flash_wh = clientWidth > clientHeight ? clientWidth * 2 : clientHeight * 2,
-                _x = e.clientX - offsetParent.offsetLeft - offsetLeft - flash_wh / 2,
-                _y = e.clientY - offsetParent.offsetTop - offsetTop - flash_wh / 2;
-
-            var nextCss = {
-                transform: 'scale(.7)',
-                width: flash_wh,
-                height: flash_wh,
-                opacity: 0,
-                top: _y,
-                left: _x
-            };
-            flashs.push(_react2.default.createElement(WaveOne, { key: n, nextCss: nextCss }));
-            this.setState({
-                flashs: flashs,
-                n: n + 1
-            });
-            setTimeout(function () {
-                var flashs = _this4.state.flashs;
-
-                flashs.shift();
-                _this4.setState({
-                    flashs: flashs
-                });
-            }, 2000);
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            var flashs = this.state.flashs;
-
-            return _react2.default.createElement(
-                'div',
-                { className: 'zwei-wave' },
-                flashs.map(function (flash, index) {
-                    return flash;
-                })
-            );
-        }
-    }]);
-
-    return Wave;
-}(_react.Component);
-
-exports.default = Wave;
-
-/***/ },
+/* 30 */,
 /* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__nav_jsx__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__home_jsx__ = __webpack_require__(70);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__proxyList__ = __webpack_require__(73);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__set__ = __webpack_require__(76);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__css_interface__ = __webpack_require__(60);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__css_interface___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__css_interface__);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(6);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _socket = __webpack_require__(56);
-
-var _socket2 = _interopRequireDefault(_socket);
-
-var _notification = __webpack_require__(33);
-
-var _notification2 = _interopRequireDefault(_notification);
-
-var _nav = __webpack_require__(32);
-
-var _nav2 = _interopRequireDefault(_nav);
-
-__webpack_require__(60);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+
+
+
 
 var Interface = function (_Component) {
     _inherits(Interface, _Component);
@@ -3957,376 +3802,70 @@ var Interface = function (_Component) {
         var _this = _possibleConstructorReturn(this, (Interface.__proto__ || Object.getPrototypeOf(Interface)).call(this));
 
         _this.state = {
-            allProxy: [],
-            localFileList: [],
-            baseLocalPath: '请填写本地路径前缀',
-            nav: [{ name: '在线代理' }, { name: '设置' }, { name: '设置' }, { name: '设置' }, { name: '设置' }],
-            selectProxy: {
-                req: {},
-                res: {}
-            },
-            infoCls: '',
-            setCls: 'hidden'
+            nav: [{ name: '主页', sort: 'home' }, { name: '已代理', sort: 'proxy' }, { name: '过滤', sort: 'filter' }, { name: '建设中', sort: 'building' }, { name: '设置', sort: 'set' }],
+            curTab: 'set'
         };
-        _this.io = (0, _socket2.default)('http://localhost:3333');
-        _this.showInfo = _this.showInfo.bind(_this);
-        _this.hideAll = _this.hideAll.bind(_this);
-        _this.openLocalFileList = _this.openLocalFileList.bind(_this);
-        _this.openSettingBox = _this.openSettingBox.bind(_this);
-        _this.removeLocalFile = _this.removeLocalFile.bind(_this);
-        _this.updateInfo = _this.updateInfo.bind(_this);
+        _this.switchTab = _this.switchTab.bind(_this);
         return _this;
     }
 
     _createClass(Interface, [{
-        key: 'componentDidMount',
-        value: function componentDidMount() {
-            var _this2 = this;
-
-            //绑定全局事件
-            document.body.addEventListener('keyup', function (event) {
-                var key = event.keyCode || event.charCode || 0;
-                if ([27].indexOf(key) !== -1) {
-                    _this2.hideAll();
-                }
-            });
-        }
-    }, {
-        key: 'componentWillMount',
-        value: function componentWillMount() {
-            var _this3 = this;
-
-            this.io.on('sys-msg', function (res) {
-                _notification2.default.show('系统', res.msg, res.tag);
-            });
-            this.io.on('req&res-Info', function (res) {
-                var allProxy = _this3.state.allProxy;
-
-                _this3.setState({
-                    allProxy: allProxy.concat(res)
-                });
-            });
-            this.io.on('all-local-file-list', function (res) {
-                _this3.setState({
-                    localFileList: res
-                });
-            });
-            this.io.on('base-local-path', function (path) {
-                _this3.setState({
-                    baseLocalPath: path
-                });
-            });
-        }
-    }, {
-        key: 'saveInfo',
-        value: function saveInfo(e, info) {
-            e.stopPropagation();
-            var allProxy = this.state.allProxy;
-
-            allProxy.forEach(function (ele, i) {
-                if (ele.req.path == info.req.path && ele.req.hostname == info.req.hostname) {
-                    ele.where = 'Local';
-                }
-            });
-            this.io.emit('save-info', info);
-        }
-    }, {
-        key: 'showInfo',
-        value: function showInfo(info) {
+        key: 'switchTab',
+        value: function switchTab(sort) {
+            if (this.state.curTab == sort) return false;
             this.setState({
-                infoCls: 'showInfo',
-                selectProxy: info
+                curTab: sort
             });
-        }
-    }, {
-        key: 'hideAll',
-        value: function hideAll(e) {
-            this.setState({
-                infoCls: '',
-                setCls: 'hidden'
-            });
-        }
-    }, {
-        key: 'openLocalFileList',
-        value: function openLocalFileList() {
-            if (this.state.infoCls == 'openFile') {
-                this.setState({
-                    infoCls: ''
-                });
-            } else {
-                this.setState({
-                    infoCls: 'openFile'
-                });
-            }
-        }
-    }, {
-        key: 'openSettingBox',
-        value: function openSettingBox() {
-            if (this.state.setCls == 'hidden') {
-                this.setState({
-                    setCls: ''
-                });
-            } else {
-                this.setState({
-                    setCls: 'hidden'
-                });
-            }
-        }
-    }, {
-        key: 'removeLocalFile',
-        value: function removeLocalFile(info) {
-            var allProxy = this.state.allProxy;
-
-            allProxy.forEach(function (ele, i) {
-                if (ele.req.path == info.path && ele.req.hostname == info.host) {
-                    ele.where = 'Remote';
-                }
-            });
-            this.io.emit('remove-info', info);
-        }
-    }, {
-        key: 'updateInfo',
-        value: function updateInfo(info, i) {
-            if (this.refs['hfp-' + i].innerHTML == info.path && this.refs['lfp-' + i].innerHTML == info.localPath) return false;
-            var _newInfo = {
-                host: info.host,
-                path: this.refs['hfp-' + i].innerHTML || info.path,
-                localPath: this.refs['lfp-' + i].innerHTML || info.localPath
-            };
-            this.io.emit('update-info', {
-                info: info,
-                newInfo: _newInfo
-            });
-        }
-    }, {
-        key: 'updateBaseLocalPath',
-        value: function updateBaseLocalPath(e, info) {
-            e.stopPropagation();
-            this.io.emit('update-base-local-path', { path: e.target.value });
         }
     }, {
         key: 'render',
         value: function render() {
-            var _this4 = this;
-
             var _state = this.state,
-                localFileList = _state.localFileList,
-                baseLocalPath = _state.baseLocalPath,
-                allProxy = _state.allProxy,
-                selectProxy = _state.selectProxy,
-                infoCls = _state.infoCls,
-                setCls = _state.setCls,
+                curTab = _state.curTab,
                 nav = _state.nav;
 
-            var keyForReqHeader = selectProxy.req.headers ? Object.keys(selectProxy.req.headers) : [],
-                keyForResHeader = Object.keys(selectProxy.res);
-            return _react2.default.createElement(
+
+            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
                 { className: 'main' },
-                _react2.default.createElement(_nav2.default, { nav: nav }),
-                _react2.default.createElement(
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__nav_jsx__["a" /* default */], { nav: nav, onSelect: this.switchTab }),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
-                    { className: 'setting-box animated zoomIn ' + setCls },
-                    _react2.default.createElement(
-                        'label',
-                        { htmlFor: 'base-local-path' },
-                        '\u672C\u5730\u5730\u5740:'
-                    ),
-                    _react2.default.createElement('input', { key: baseLocalPath, id: 'base-local-path', onBlur: function onBlur(e) {
-                            return _this4.updateBaseLocalPath(e);
-                        }, defaultValue: baseLocalPath })
-                ),
-                _react2.default.createElement(
-                    'div',
-                    { className: 'ctx-body ' + infoCls },
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'proxy-info' },
-                        allProxy.map(function (info, i) {
-                            return _react2.default.createElement(
-                                'p',
-                                { key: info.type + i, className: 'the-one', onClick: function onClick() {
-                                        return _this4.showInfo(info);
-                                    } },
-                                _react2.default.createElement(
-                                    'span',
-                                    { className: 'type ' + info.type },
-                                    info.type
-                                ),
-                                _react2.default.createElement(
-                                    'span',
-                                    { className: 'method' },
-                                    info.req.method,
-                                    ':'
-                                ),
-                                _react2.default.createElement(
-                                    'span',
-                                    { className: 'url' },
-                                    'http://',
-                                    info.req.headers.host,
-                                    info.req.path
-                                ),
-                                _react2.default.createElement(
-                                    'span',
-                                    { className: 'where ' + info.where },
-                                    info.where
-                                ),
-                                _react2.default.createElement('span', { className: 'fn-btn', onClick: function onClick(e) {
-                                        return _this4.saveInfo(e, info);
-                                    } })
-                            );
-                        })
-                    ),
-                    infoCls == 'openFile' ? _react2.default.createElement(
-                        'div',
-                        { className: 'local-file animated zoomIn' },
-                        _react2.default.createElement('div', { className: 'shadow', onClick: this.hideAll }),
-                        localFileList.map(function (file, i) {
-                            var _host = file.host;
-                            return _react2.default.createElement(
-                                'p',
-                                { key: 'lf-' + i, className: 'one' },
-                                _react2.default.createElement(
-                                    'span',
-                                    null,
-                                    _host
-                                ),
-                                _react2.default.createElement(
-                                    'span',
-                                    { ref: 'hfp-' + i, className: 'http-file-path', contentEditable: 'true', suppressContentEditableWarning: true, onBlur: function onBlur() {
-                                            return _this4.updateInfo(file, i);
-                                        } },
-                                    file.path
-                                ),
-                                _react2.default.createElement(
-                                    'span',
-                                    { ref: 'lfp-' + i, className: 'local-file-path', contentEditable: 'true', suppressContentEditableWarning: true, onBlur: function onBlur() {
-                                            return _this4.updateInfo(file, i);
-                                        } },
-                                    file.localPath
-                                ),
-                                _react2.default.createElement('i', { className: 'remove-info', onClick: function onClick() {
-                                        return _this4.removeLocalFile(file);
-                                    } })
-                            );
-                        })
-                    ) : '',
-                    infoCls == 'showInfo' ? _react2.default.createElement(
-                        'div',
-                        { className: 'detail-info animated bounceInRight' },
-                        _react2.default.createElement('div', { className: 'shadow', onClick: this.hideAll }),
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'center' },
-                            _react2.default.createElement(
-                                'div',
-                                { className: 'req' },
-                                _react2.default.createElement(
-                                    'p',
-                                    { className: 'header' },
-                                    'Request'
-                                ),
-                                _react2.default.createElement(
-                                    'p',
-                                    { className: 'prop' },
-                                    _react2.default.createElement(
-                                        'span',
-                                        null,
-                                        'method:'
-                                    ),
-                                    selectProxy.req.method
-                                ),
-                                _react2.default.createElement(
-                                    'p',
-                                    { className: 'prop' },
-                                    _react2.default.createElement(
-                                        'span',
-                                        null,
-                                        'url:'
-                                    ),
-                                    selectProxy.req.hostname,
-                                    selectProxy.req.path
-                                ),
-                                keyForReqHeader.map(function (key) {
-                                    return _react2.default.createElement(
-                                        'p',
-                                        { className: 'prop' },
-                                        _react2.default.createElement(
-                                            'span',
-                                            null,
-                                            key,
-                                            ':'
-                                        ),
-                                        selectProxy.req.headers[key]
-                                    );
-                                })
-                            ),
-                            _react2.default.createElement(
-                                'div',
-                                { className: 'res' },
-                                _react2.default.createElement(
-                                    'p',
-                                    { className: 'header' },
-                                    'Response'
-                                ),
-                                keyForResHeader.map(function (key) {
-                                    return _react2.default.createElement(
-                                        'p',
-                                        null,
-                                        _react2.default.createElement(
-                                            'span',
-                                            null,
-                                            key,
-                                            ':'
-                                        ),
-                                        selectProxy.res[key]
-                                    );
-                                })
-                            )
-                        )
-                    ) : ''
+                    { className: 'tab-body' },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__home_jsx__["a" /* default */], null),
+                    curTab == 'proxy' ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__proxyList__["a" /* default */], null) : '',
+                    curTab == 'set' ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__set__["a" /* default */], null) : ''
                 )
             );
         }
     }]);
 
     return Interface;
-}(_react.Component);
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
 
-exports.default = Interface;
+/* harmony default export */ exports["a"] = Interface;
 
 /***/ },
 /* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__css_nav__ = __webpack_require__(61);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__css_nav___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__css_nav__);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(6);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _wave = __webpack_require__(30);
-
-var _wave2 = _interopRequireDefault(_wave);
-
-__webpack_require__(61);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
 
 var Nav = function (_Component) {
     _inherits(Nav, _Component);
@@ -4368,8 +3907,11 @@ var Nav = function (_Component) {
         }
     }, {
         key: 'switchTab',
-        value: function switchTab(i) {
+        value: function switchTab(i, sort) {
+            var onSelect = this.props.onSelect;
+
             this.changeCurStyle(i);
+            onSelect(sort);
         }
     }, {
         key: 'render',
@@ -4381,70 +3923,34 @@ var Nav = function (_Component) {
                 curIndex = _state.curIndex,
                 nav = this.props.nav;
 
-            return _react2.default.createElement(
+            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'nav',
                 { className: 'top-nav' },
-                _react2.default.createElement(
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
                     { className: 'nav-box' },
                     nav.map(function (nav, i) {
-                        return _react2.default.createElement(
+                        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                             'span',
                             { className: curIndex == i ? 'cur' : '', onClick: function onClick() {
-                                    return _this2.switchTab(i);
+                                    return _this2.switchTab(i, nav.sort);
                                 } },
                             nav.name
                         );
                     })
                 ),
-                _react2.default.createElement('div', { style: _style })
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { style: _style })
             );
         }
     }]);
 
     return Nav;
-}(_react.Component);
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
 
-exports.default = Nav;
-
-/***/ },
-/* 33 */
-/***/ function(module, exports) {
-
-"use strict";
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Tips = function () {
-    function Tips() {
-        _classCallCheck(this, Tips);
-    }
-
-    _createClass(Tips, [{
-        key: 'show',
-        value: function show(tit, txt, tag, icon) {
-            var _options = {
-                body: txt,
-                tag: tag || ''
-                // icon: icon || './views/css/img/akl.jpg'
-            };
-            // new Notification(tit, _options);
-        }
-    }]);
-
-    return Tips;
-}();
-
-exports.default = new Tips();
+/* harmony default export */ exports["a"] = Nav;
 
 /***/ },
+/* 33 */,
 /* 34 */
 /***/ function(module, exports) {
 
@@ -4712,20 +4218,7 @@ module.exports = (function() {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ },
-/* 37 */
-/***/ function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(3)();
-// imports
-
-
-// module
-exports.push([module.i, ".zwei-wave {\n    position: relative\n}\n.zwei-wave .wave {\n    display: inline-block;\n    width: 10px;\n    height: 10px;\n    opacity: 1;\n    cursor: default;\n    border-radius: 50%;\n    position: absolute;\n    background-color: rgba(155, 255, 255, .2);\n    -webkit-transition: 3s opacity cubic-bezier(0.23, 1, 0.32, 1),\n                    3s -webkit-transform cubic-bezier(0.23, 1, 0.32, 1);\n    transition: 3s opacity cubic-bezier(0.23, 1, 0.32, 1),\n                    3s -webkit-transform cubic-bezier(0.23, 1, 0.32, 1);\n    transition: 3s transform cubic-bezier(0.23, 1, 0.32, 1),\n                    3s opacity cubic-bezier(0.23, 1, 0.32, 1);\n    transition: 3s transform cubic-bezier(0.23, 1, 0.32, 1),\n                    3s opacity cubic-bezier(0.23, 1, 0.32, 1),\n                    3s -webkit-transform cubic-bezier(0.23, 1, 0.32, 1);\n    -webkit-transform-origin: center;\n            transform-origin: center;\n    -webkit-transform: scale(0);\n            transform: scale(0)\n}\n", ""]);
-
-// exports
-
-
-/***/ },
+/* 37 */,
 /* 38 */,
 /* 39 */
 /***/ function(module, exports, __webpack_require__) {
@@ -4735,7 +4228,7 @@ exports = module.exports = __webpack_require__(3)();
 
 
 // module
-exports.push([module.i, "html,\nbody {\n    width: 100%;\n    height: 100%;\n    overflow: hidden;\n}\n\n.interface {\n    height: 100%;\n}\n\n.main {\n    position: relative;\n    padding-top: 63px;\n    height: 100%;\n    background-color: rgb(250, 250, 250);\n}\n\n.setting-box {\n    position: absolute;\n    top: 70px;\n    right: 15px;\n    z-index: 1000;\n    width: 400px;\n    height: 300px;\n    padding: 30px;\n    border-radius: 4px;\n    background-color: #fff;\n    cursor: default;\n    -webkit-animation-duration: 0.3s;\n            animation-duration: 0.3s;\n    -webkit-transform-origin: 93% -10%;\n            transform-origin: 93% -10%;\n    box-shadow: rgba(0, 0, 0, .188235) 1px 0 7px;\n    text-align: center;\n    label {\n        margin-right: 20px;\n    }\n    input {\n        border: none;\n        text-indent: 10px;\n        -webkit-transition: border 100ms;\n        transition: border 100ms\n    }\n    input:focus {\n        border-bottom: 1px solid rgb(157, 42, 172);\n        outline: none;\n    }\n}\n\n.setting-box::before {\n    position: absolute;\n    top: -20px;\n    right: 20px;\n    content: '';\n    display: block;\n    width: 0;\n    height: 0;\n    border-left: 10px solid transparent;\n    border-right: 10px solid transparent;\n    border-bottom: 20px solid #fff;\n    font-size: 0;\n}\n\n.setting-box .local-file-path {\n    display: block;\n    margin: 35px;\n}\n\n.ctx-body {\n    height: 100%\n}\n\n.ctx-body .showInfo .proxy-info {\n    width: 25%;\n}\n\n.ctx-body .showInfo .proxy-info .the-one {\n    height: auto;\n    padding-right: 0;\n}\n\n.ctx-body .showInfo .proxy-info .the-one .url {\n    width: 100%;\n}\n\n.ctx-body .showInfo .proxy-info .the-one .fn-btn,\n            .ctx-body .showInfo .proxy-info .the-one .where {\n    display: none;\n}\n\n.ctx-body>div {\n    float: left;\n}\n\n.proxy-info {\n    display: inline-block;\n    padding: 7px 2px;\n    width: 100%;\n    height: 100%;\n    overflow-y: scroll;\n    -webkit-transition: width 350ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;\n    transition: width 350ms cubic-bezier(0.23, 1, 0.32, 1) 0ms\n}\n\n.proxy-info .the-one {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -ms-flex-wrap: wrap;\n        flex-wrap: wrap;\n    -webkit-box-pack: start;\n        -ms-flex-pack: start;\n            justify-content: flex-start;\n    position: relative;\n    height: 45px;\n    margin: 0;\n    padding: 15px 10px 15px 60px;\n    font-size: 13px;\n    background: none;\n    cursor: pointer;\n\n    span {\n        -ms-flex-item-align: center;\n            -ms-grid-row-align: center;\n            align-self: center;\n    }\n}\n\n.proxy-info .the-one:hover {\n    background-color: rgba(0, 0, 0, .098);\n}\n\n.proxy-info .the-one .method {\n    font-weight: bolder;\n    color: #9C27B0;\n}\n\n.proxy-info .the-one .url {\n    -webkit-box-flex: 1;\n        -ms-flex: 1;\n            flex: 1;\n    word-wrap: break-word;\n}\n\n.proxy-info .the-one .type {\n    position: absolute;\n    left: 15px;\n    width: 35px;\n    height: 35px;\n    line-height: 35px;\n    font-size: 11px;\n    color: #000;\n    text-align: center;\n    border-radius: 50%;\n    font-weight: bolder;\n    box-shadow: rgba(0, 0, 0, .117647) 0px 1px 6px, rgba(0, 0, 0, .117647) 0px 1px 4px;\n}\n\n.proxy-info .the-one .type.js {\n    background-color: #FF9800;\n}\n\n.proxy-info .the-one .type.css {\n    background-color: #AEEA00;\n}\n\n.proxy-info .the-one .type.img {\n    background-color: #82B1FF;\n}\n\n.proxy-info .the-one .type.other {\n    background-color: #9E9E9E;\n}\n\n.proxy-info .the-one .where {\n    font-weight: bolder;\n    margin-right: 10px;\n}\n\n.proxy-info .the-one .where.Local {\n    color: #0091EA;\n}\n\n.proxy-info .the-one .where.Local+.fn-btn {\n    display: none;\n}\n\n.proxy-info .the-one .where.Remote {\n    color: #FF6D00;\n}\n\n.proxy-info .the-one .fn-btn {\n    -ms-flex-item-align: center;\n        -ms-grid-row-align: center;\n        align-self: center;\n    width: 20px;\n    height: 20px;\n    background: url(" + __webpack_require__(64) + ") center no-repeat;\n    background-size: 20px;\n    cursor: pointer;\n}\n\n.detail-info {\n    width: 75%;\n    position: relative;\n    padding: 10px 10px 10px 20px;\n    height: 100%;\n    -webkit-animation-duration: 0.6s;\n            animation-duration: 0.6s;\n    -webkit-animation-delay: 100ms;\n            animation-delay: 100ms\n}\n\n.detail-info .shadow {\n    position: absolute;\n    left: -33%;\n    width: 133%;\n    height: 100%;\n}\n\n.detail-info .center {\n    position: relative;\n    z-index: 10;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    padding: 0 20px;\n    height: 100%;\n    border-radius: 4px;\n    background-color: #fff;\n    box-shadow: 2px 2px 10px rgba(0, 0, 0, .2);\n}\n\n.detail-info .header {\n    font-size: 20px;\n    font-weight: bolder;\n    text-align: center;\n}\n\n.detail-info p {\n    padding: 0 10px;\n    line-height: 20px;\n    font-size: 12px;\n    word-break: break-word;\n}\n\n.detail-info p span {\n    font-size: 14px;\n    font-weight: bolder;\n}\n\n.detail-info .req,\n    .detail-info .res {\n    overflow-y: scroll;\n    -webkit-box-flex: 1;\n        -ms-flex: 1;\n            flex: 1;\n}\n\n.local-file {\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    padding: 0 30px 63px;\n    margin-top: 63px;\n    -webkit-animation-duration: 0.3s;\n            animation-duration: 0.3s;\n    overflow-y: scroll\n}\n\n.local-file .shadow {\n    position: absolute;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    background-color: rgba(255, 255, 255, .9);\n}\n\n.local-file .one {\n    position: relative;\n    color: rgba(0, 0, 0, .87);\n    background-color: rgb(255, 255, 255);\n    -webkit-transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;\n    transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;\n    box-shadow: rgba(0, 0, 0, .1176) 0 1px 6px, rgba(0, 0, 0, .1176) 0 1px 4px;\n    border-radius: 2px;\n    padding: 0 30px 10px;\n    margin-bottom: 32px;\n}\n\n.local-file .one span {\n    display: inline-block;\n    padding: 30px 0px 10px;\n    font-size: 16px;\n    border: none;\n    border-bottom: 1px solid rgb(224, 224, 224);\n}\n\n.local-file .one span:focus {\n    outline: none;\n}\n\n.local-file .one .local-file-path {\n    -webkit-user-modify: read-write-plaintext-only;\n    display: block;\n}\n\n.local-file .one .remove-info {\n    display: inline-block;\n    width: 30px;\n    height: 30px;\n    position: absolute;\n    top: 10px;\n    right: 10px;\n    cursor: pointer;\n    background: url(" + __webpack_require__(63) + ") center no-repeat;\n    background-size: 30px;\n}", ""]);
+exports.push([module.i, "html,\nbody {\n    width: 100%;\n    height: 100%;\n    overflow: hidden;\n}\n\n.interface {\n    height: 100%;\n}\n\n.main {\n    position: relative;\n    padding-top: 63px;\n    height: 100%;\n    background-color: rgb(250, 250, 250);\n}\n\n.tab-body {\n    position: relative;\n    height: 100%;\n}", ""]);
 
 // exports
 
@@ -8393,32 +7886,7 @@ exports.removeBlobs = function(data, callback) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ },
-/* 59 */
-/***/ function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(37);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(5)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!./../../../node_modules/css-loader/index.js?importLoaders=1!./../../../node_modules/postcss-loader/index.js!./wave.css", function() {
-			var newContent = require("!!./../../../node_modules/css-loader/index.js?importLoaders=1!./../../../node_modules/postcss-loader/index.js!./wave.css");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ },
+/* 59 */,
 /* 60 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -8761,6 +8229,554 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAQAAAD4
 
 module.exports = __webpack_require__(25);
 
+
+/***/ },
+/* 70 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_socket_io_client__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_socket_io_client___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_socket_io_client__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__css_home__ = __webpack_require__(72);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__css_home___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__css_home__);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+
+var Home = function (_Component) {
+    _inherits(Home, _Component);
+
+    function Home(props) {
+        _classCallCheck(this, Home);
+
+        var _this = _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).call(this, props));
+
+        _this.state = {
+            reqList: [],
+            reqDetail: {
+                req: {
+                    headers: {}
+                },
+                res: {}
+            },
+            detailCls: 'hidden'
+        };
+        _this.io = __WEBPACK_IMPORTED_MODULE_1_socket_io_client___default()('http://localhost:3333');
+        _this.hideDetail = _this.hideDetail.bind(_this);
+        return _this;
+    }
+
+    _createClass(Home, [{
+        key: 'componentWillMount',
+        value: function componentWillMount() {
+            var _this2 = this;
+
+            this.io.on('sys-msg', function (res) {
+                console.log(res.msg);
+            });
+            this.io.on('req&res-Info', function (res) {
+                var reqList = _this2.state.reqList;
+
+                _this2.setState({
+                    reqList: reqList.concat(res)
+                });
+            });
+        }
+    }, {
+        key: 'saveInfo',
+        value: function saveInfo(e, info) {
+            e.stopPropagation();
+            var reqList = this.state.reqList;
+
+            reqList.forEach(function (ele, i) {
+                if (ele.req.path == info.req.path && ele.req.hostname == info.req.hostname) {
+                    ele.where = 'Local';
+                }
+            });
+            this.io.emit('save-info', info);
+        }
+    }, {
+        key: 'showDetail',
+        value: function showDetail(info) {
+            this.setState({
+                reqDetail: info,
+                detailCls: ''
+            });
+        }
+    }, {
+        key: 'hideDetail',
+        value: function hideDetail() {
+            this.setState({
+                detailCls: 'hidden'
+            });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this3 = this;
+
+            var _state = this.state,
+                reqList = _state.reqList,
+                reqDetail = _state.reqDetail,
+                detailCls = _state.detailCls,
+                keyForReqHeader = Object.keys(reqDetail.req.headers),
+                keyForResHeader = Object.keys(reqDetail.res);
+
+            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                { className: 'home' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    { className: 'proxy-list' },
+                    reqList.map(function (info, i) {
+                        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'p',
+                            { key: info.type + i, className: 'the-one', onClick: function onClick() {
+                                    return _this3.showDetail(info);
+                                } },
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'span',
+                                { className: 'type ' + info.type },
+                                info.type
+                            ),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'span',
+                                { className: 'method' },
+                                info.req.method,
+                                ':'
+                            ),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'span',
+                                { className: 'url' },
+                                'http://',
+                                info.req.headers.host,
+                                info.req.path
+                            ),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { className: 'fn-btn', onClick: function onClick(e) {
+                                    return _this3.saveInfo(e, info);
+                                } })
+                        );
+                    })
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    { className: 'detail-info ' + detailCls },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'shadow animated fadeIn', onClick: this.hideDetail }),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'div',
+                        { className: 'center animated bounceInRight' },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'div',
+                            { className: 'req' },
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'p',
+                                { className: 'header' },
+                                'Request'
+                            ),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'p',
+                                { className: 'prop' },
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'span',
+                                    null,
+                                    'method:'
+                                ),
+                                reqDetail.req.method
+                            ),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'p',
+                                { className: 'prop' },
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'span',
+                                    null,
+                                    'url:'
+                                ),
+                                reqDetail.req.hostname,
+                                reqDetail.req.path
+                            ),
+                            keyForReqHeader.map(function (key) {
+                                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'p',
+                                    { className: 'prop' },
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        'span',
+                                        null,
+                                        key,
+                                        ':'
+                                    ),
+                                    reqDetail.req.headers[key]
+                                );
+                            })
+                        ),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'div',
+                            { className: 'res' },
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'p',
+                                { className: 'header' },
+                                'Response'
+                            ),
+                            keyForResHeader.map(function (key) {
+                                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'p',
+                                    null,
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        'span',
+                                        null,
+                                        key,
+                                        ':'
+                                    ),
+                                    reqDetail.res[key]
+                                );
+                            })
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return Home;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+/* harmony default export */ exports["a"] = Home;
+
+/***/ },
+/* 71 */
+/***/ function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(3)();
+// imports
+
+
+// module
+exports.push([module.i, ".home {\n    position: relative;\n    height: 100%\n}\n.home .proxy-list {\n    display: inline-block;\n    padding: 7px 2px;\n    width: 100%;\n    height: 100%;\n    overflow-y: scroll;\n    -webkit-transition: width 350ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;\n    transition: width 350ms cubic-bezier(0.23, 1, 0.32, 1) 0ms\n}\n.home .proxy-list .the-one {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -ms-flex-wrap: wrap;\n        flex-wrap: wrap;\n    -webkit-box-pack: start;\n        -ms-flex-pack: start;\n            justify-content: flex-start;\n    position: relative;\n    height: 45px;\n    margin: 0;\n    padding: 15px 10px 15px 60px;\n    font-size: 13px;\n    background: none;\n    cursor: pointer;\n    span {\n        -ms-flex-item-align: center;\n            -ms-grid-row-align: center;\n            align-self: center\n    }\n}\n.home .proxy-list .the-one:hover {\n    background-color: rgba(0, 0, 0, .098)\n}\n.home .proxy-list .the-one .method {\n    font-weight: bolder;\n    color: #9C27B0\n}\n.home .proxy-list .the-one .url {\n    -webkit-box-flex: 1;\n        -ms-flex: 1;\n            flex: 1;\n    word-wrap: break-word\n}\n.home .proxy-list .the-one .type {\n    position: absolute;\n    top: 4px;\n    left: 15px;\n    width: 35px;\n    height: 35px;\n    line-height: 35px;\n    font-size: 11px;\n    color: #000;\n    text-align: center;\n    border-radius: 50%;\n    font-weight: bolder;\n    box-shadow: rgba(0, 0, 0, .117647) 0px 1px 6px, rgba(0, 0, 0, .117647) 0px 1px 4px\n}\n.home .proxy-list .the-one .type.js {\n    background-color: #FF9800\n}\n.home .proxy-list .the-one .type.css {\n    background-color: #AEEA00\n}\n.home .proxy-list .the-one .type.img {\n    background-color: #82B1FF\n}\n.home .proxy-list .the-one .type.other {\n    background-color: #9E9E9E\n}\n.home .proxy-list .the-one .where {\n    font-weight: bolder;\n    margin-right: 10px\n}\n.home .proxy-list .the-one .where.Local {\n    color: #0091EA\n}\n.home .proxy-list .the-one .where.Local+.fn-btn {\n    display: none\n}\n.home .proxy-list .the-one .where.Remote {\n    color: #FF6D00\n}\n.home .proxy-list .the-one .fn-btn {\n    -ms-flex-item-align: center;\n        -ms-grid-row-align: center;\n        align-self: center;\n    width: 20px;\n    height: 20px;\n    background: url(" + __webpack_require__(64) + ") center no-repeat;\n    background-size: 20px;\n    cursor: pointer\n}\n.home .detail-info {\n    position: absolute;\n    top: 0;\n    right: 0;\n    width: 100%;\n    height: 100%;\n    padding: 10px 10px 10px 20px\n}\n.home .detail-info .shadow {\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    background: rgba(0, 0, 0, .2)\n}\n.home .detail-info .center {\n    width: 64%;\n    position: absolute;\n    right: 10px;\n    z-index: 10;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    padding: 0 20px;\n    height: 96%;\n    border-radius: 4px;\n    background-color: #fff;\n    box-shadow: 2px 2px 10px rgba(0, 0, 0, .2);\n    -webkit-animation-duration: .6s;\n            animation-duration: .6s;\n    -webkit-animation-delay: 100ms;\n            animation-delay: 100ms\n}\n.home .detail-info .header {\n    font-size: 20px;\n    font-weight: bolder;\n    text-align: center\n}\n.home .detail-info p {\n    padding: 0 10px;\n    line-height: 20px;\n    font-size: 12px;\n    word-break: break-word\n}\n.home .detail-info p span {\n    font-size: 14px;\n    font-weight: bolder\n}\n.home .detail-info .req,\n        .home .detail-info .res {\n    overflow-y: scroll;\n    -webkit-box-flex: 1;\n        -ms-flex: 1;\n            flex: 1\n}", ""]);
+
+// exports
+
+
+/***/ },
+/* 72 */
+/***/ function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(71);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(5)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!./../../node_modules/css-loader/index.js?importLoaders=1!./../../node_modules/postcss-loader/index.js!./home.less", function() {
+			var newContent = require("!!./../../node_modules/css-loader/index.js?importLoaders=1!./../../node_modules/postcss-loader/index.js!./home.less");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ },
+/* 73 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_socket_io_client__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_socket_io_client___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_socket_io_client__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__css_proxyList__ = __webpack_require__(75);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__css_proxyList___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__css_proxyList__);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+
+var ProxyList = function (_Component) {
+    _inherits(ProxyList, _Component);
+
+    function ProxyList(props) {
+        _classCallCheck(this, ProxyList);
+
+        var _this = _possibleConstructorReturn(this, (ProxyList.__proto__ || Object.getPrototypeOf(ProxyList)).call(this, props));
+
+        _this.state = {
+            proxyFile: []
+        };
+        _this.io = __WEBPACK_IMPORTED_MODULE_1_socket_io_client___default()('http://localhost:3333');
+        return _this;
+    }
+
+    _createClass(ProxyList, [{
+        key: 'componentWillMount',
+        value: function componentWillMount() {
+            var _this2 = this;
+
+            this.io.on('all-local-file-list', function (res) {
+                _this2.setState({
+                    proxyFile: res
+                });
+            });
+        }
+    }, {
+        key: 'updateInfo',
+        value: function updateInfo(info, i) {
+            if (this.refs['hfp-' + i].innerHTML == info.path && this.refs['lfp-' + i].innerHTML == info.localPath) return false;
+            var _newInfo = {
+                host: info.host,
+                path: this.refs['hfp-' + i].innerHTML || info.path,
+                localPath: this.refs['lfp-' + i].innerHTML || info.localPath
+            };
+            this.io.emit('update-info', {
+                info: info,
+                newInfo: _newInfo
+            });
+        }
+    }, {
+        key: 'removeLocalFile',
+        value: function removeLocalFile(info) {
+            this.io.emit('remove-info', info);
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this3 = this;
+
+            var proxyFile = this.state.proxyFile;
+
+            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                { className: 'proxy-file animated zoomIn' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'shadow' }),
+                proxyFile.map(function (file, i) {
+                    var _host = file.host;
+                    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'p',
+                        { key: 'lf-' + i, className: 'one' },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'span',
+                            null,
+                            _host
+                        ),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'span',
+                            { ref: 'hfp-' + i, className: 'http-file-path', contentEditable: 'true', suppressContentEditableWarning: true, onBlur: function onBlur() {
+                                    return _this3.updateInfo(file, i);
+                                } },
+                            file.path
+                        ),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'span',
+                            { ref: 'lfp-' + i, className: 'local-file-path', contentEditable: 'true', suppressContentEditableWarning: true, onBlur: function onBlur() {
+                                    return _this3.updateInfo(file, i);
+                                } },
+                            file.localPath
+                        ),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'remove-info', onClick: function onClick() {
+                                return _this3.removeLocalFile(file);
+                            } })
+                    );
+                })
+            );
+        }
+    }]);
+
+    return ProxyList;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+/* harmony default export */ exports["a"] = ProxyList;
+
+/***/ },
+/* 74 */
+/***/ function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(3)();
+// imports
+
+
+// module
+exports.push([module.i, ".proxy-file {\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    padding: 0 30px;\n    -webkit-animation-duration: 0.3s;\n            animation-duration: 0.3s;\n    overflow-y: scroll\n}\n.proxy-file .shadow {\n    position: absolute;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    background-color: rgb(250, 250, 250)\n}\n.proxy-file .one {\n    position: relative;\n    color: rgba(0, 0, 0, .87);\n    background-color: rgb(255, 255, 255);\n    -webkit-transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;\n    transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;\n    box-shadow: rgba(0, 0, 0, .1176) 0 1px 6px, rgba(0, 0, 0, .1176) 0 1px 4px;\n    border-radius: 2px;\n    padding: 0 40px 10px 20px;\n    margin-bottom: 20px\n}\n.proxy-file .one span {\n    display: inline-block;\n    padding: 10px 0px 4px;\n    font-size: 14px;\n    border: none;\n    border-bottom: 1px solid rgb(224, 224, 224)\n}\n.proxy-file .one span:focus {\n    outline: none\n}\n.proxy-file .one .local-file-path {\n    -webkit-user-modify: read-write-plaintext-only\n}\n.proxy-file .one .remove-info {\n    display: inline-block;\n    width: 30px;\n    height: 30px;\n    position: absolute;\n    top: 20px;\n    right: 10px;\n    cursor: pointer;\n    background: url(" + __webpack_require__(63) + ") center no-repeat;\n    background-size: 30px\n}", ""]);
+
+// exports
+
+
+/***/ },
+/* 75 */
+/***/ function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(74);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(5)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!./../../node_modules/css-loader/index.js?importLoaders=1!./../../node_modules/postcss-loader/index.js!./proxyList.less", function() {
+			var newContent = require("!!./../../node_modules/css-loader/index.js?importLoaders=1!./../../node_modules/postcss-loader/index.js!./proxyList.less");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ },
+/* 76 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_socket_io_client__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_socket_io_client___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_socket_io_client__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__css_set__ = __webpack_require__(78);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__css_set___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__css_set__);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+
+var Setting = function (_Component) {
+    _inherits(Setting, _Component);
+
+    function Setting(props) {
+        _classCallCheck(this, Setting);
+
+        var _this = _possibleConstructorReturn(this, (Setting.__proto__ || Object.getPrototypeOf(Setting)).call(this, props));
+
+        _this.state = {
+            baseLocalPath: ''
+        };
+        _this.io = __WEBPACK_IMPORTED_MODULE_1_socket_io_client___default()('http://localhost:3333');
+        return _this;
+    }
+
+    _createClass(Setting, [{
+        key: 'componentWillMount',
+        value: function componentWillMount() {
+            var _this2 = this;
+
+            this.io.on('base-local-path', function (path) {
+                _this2.setState({
+                    baseLocalPath: path
+                });
+            });
+        }
+    }, {
+        key: 'updateBaseLocalPath',
+        value: function updateBaseLocalPath(e, info) {
+            e.stopPropagation();
+            this.io.emit('update-base-local-path', { path: e.target.value });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this3 = this;
+
+            var baseLocalPath = this.state.baseLocalPath;
+
+            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                { className: 'setting-box animated slideInRight' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    { className: 'set-one' },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'label',
+                        { htmlFor: 'base-local-path' },
+                        '\u672C\u5730\u5730\u5740'
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { key: baseLocalPath, id: 'base-local-path', onBlur: function onBlur(e) {
+                            return _this3.updateBaseLocalPath(e);
+                        }, defaultValue: baseLocalPath })
+                )
+            );
+        }
+    }]);
+
+    return Setting;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+/* harmony default export */ exports["a"] = Setting;
+
+/***/ },
+/* 77 */
+/***/ function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(3)();
+// imports
+
+
+// module
+exports.push([module.i, ".setting-box {\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    padding: 30px;\n    background-color: rgb(250, 250, 250);\n    -webkit-animation-duration: 0.6s;\n            animation-duration: 0.6s;\n    -webkit-transform-origin: 93% -10%;\n            transform-origin: 93% -10%\n}\n.setting-box .set-one {\n    height: 55px;\n    border: 1px solid #ddd;\n    border-radius: 4px\n}\n.setting-box .set-one label {\n    display: inline-block;\n    padding: 0 4px;\n    position: relative;\n    top: -8px;\n    left: 20px;\n    font-size: 14px;\n    color: #999;\n    background: rgb(250, 250, 250)\n}\n.setting-box .set-one input {\n    display: block;\n    width: 100%;\n    border: none;\n    text-indent: 12px;\n    background: rgb(250, 250, 250)\n}\n.setting-box .set-one input:focus {\n    outline: none\n}", ""]);
+
+// exports
+
+
+/***/ },
+/* 78 */
+/***/ function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(77);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(5)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!./../../node_modules/css-loader/index.js?importLoaders=1!./../../node_modules/postcss-loader/index.js!./set.less", function() {
+			var newContent = require("!!./../../node_modules/css-loader/index.js?importLoaders=1!./../../node_modules/postcss-loader/index.js!./set.less");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
 
 /***/ }
 /******/ ]);
