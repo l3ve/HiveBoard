@@ -15,6 +15,7 @@ class Home extends Component {
                 },
                 res: {}
             },
+            proxyFile: {},
             detailCls: 'hidden'
         }
         this.io = io('http://localhost:3333');
@@ -25,9 +26,20 @@ class Home extends Component {
             console.log(res.msg);
         })
         this.io.on('req&res-Info', (res) => {
-            let {reqList} = this.state;
+            let {reqList} = this.state,
+                _isBe = false;
+            //去重
+            _isBe = reqList.find((info, i) => {
+                return res.req.path == info.req.path && res.req.hostname == info.req.hostname
+            })
+            if (!!_isBe) return false;
             this.setState({
                 reqList: reqList.concat(res)
+            });
+        })
+        this.io.on('all-local-file-list', (res) => {
+            this.setState({
+                proxyFile: res
             });
         })
     }
@@ -35,7 +47,7 @@ class Home extends Component {
         let {reqList} = this.state;
         reqList.forEach((ele, i) => {
             if (ele.req.path == info.req.path && ele.req.hostname == info.req.hostname) {
-                ele.where = status ? 'Local' : 'Remote';
+                ele.where = status == 'checked' ? 'Local' : 'Remote';
                 this.io.emit('change-info', ele);
             }
         });
@@ -64,7 +76,7 @@ class Home extends Component {
                                 <span className={'type ' + info.type}>{info.type}</span>
                                 <span className='method'>{info.req.method}:</span>
                                 <span className='url'>http://{info.req.headers.host}{info.req.path}</span>
-                                <Switch defaulStatus={info.where=='Local'} onChange={(status) => this.saveInfo(info, status)} />
+                                <Switch defaulStatus={info.where == 'Local'} onChange={(status) => this.saveInfo(info, status)} />
                             </p>
                         )
                     })}

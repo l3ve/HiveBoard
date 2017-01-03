@@ -21,7 +21,6 @@ class ProxyList extends Component {
     }
     updateInfo(info, i, status) {
         let _newInfo = {};
-        // if (this.refs['hfp-' + i].innerHTML == info.path && this.refs['lfp-' + i].innerHTML == info.localPath) return false;
         if (!status) {
             _newInfo = {
                 host: info.host,
