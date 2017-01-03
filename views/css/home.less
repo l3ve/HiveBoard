@@ -32,6 +32,9 @@
             & .url {
                 flex: 1;
                 word-wrap: break-word;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
             }
             & .type {
                 position: absolute;
@@ -59,26 +62,8 @@
                     background-color: #9E9E9E;
                 }
             }
-            & .where {
-                font-weight: bolder;
-                margin-right: 10px;
-                &.Local {
-                    color: #0091EA;
-                    &+.fn-btn {
-                        display: none;
-                    }
-                }
-                &.Remote {
-                    color: #FF6D00;
-                }
-            }
-            & .fn-btn {
+            & .zwei-switch {
                 align-self: center;
-                width: 20px;
-                height: 20px;
-                background: url('img/switch.png') center no-repeat;
-                background-size: 20px;
-                cursor: pointer;
             }
         }
     }
