@@ -3920,6 +3920,7 @@ var Home = function (_Component) {
                 },
                 res: {}
             },
+            proxyFile: {},
             detailCls: 'hidden'
         };
         _this.io = __WEBPACK_IMPORTED_MODULE_1_socket_io_client___default()('http://localhost:3333');
@@ -3936,10 +3937,20 @@ var Home = function (_Component) {
                 console.log(res.msg);
             });
             this.io.on('req&res-Info', function (res) {
-                var reqList = _this2.state.reqList;
-
+                var reqList = _this2.state.reqList,
+                    _isBe = false;
+                //去重
+                _isBe = reqList.find(function (info, i) {
+                    return res.req.path == info.req.path && res.req.hostname == info.req.hostname;
+                });
+                if (!!_isBe) return false;
                 _this2.setState({
                     reqList: reqList.concat(res)
+                });
+            });
+            this.io.on('all-local-file-list', function (res) {
+                _this2.setState({
+                    proxyFile: res
                 });
             });
         }
@@ -3952,7 +3963,7 @@ var Home = function (_Component) {
 
             reqList.forEach(function (ele, i) {
                 if (ele.req.path == info.req.path && ele.req.hostname == info.req.hostname) {
-                    ele.where = status ? 'Local' : 'Remote';
+                    ele.where = status == 'checked' ? 'Local' : 'Remote';
                     _this3.io.emit('change-info', ele);
                 }
             });
@@ -4345,7 +4356,6 @@ var ProxyList = function (_Component) {
         key: 'updateInfo',
         value: function updateInfo(info, i, status) {
             var _newInfo = {};
-            // if (this.refs['hfp-' + i].innerHTML == info.path && this.refs['lfp-' + i].innerHTML == info.localPath) return false;
             if (!status) {
                 _newInfo = {
                     host: info.host,
@@ -4453,7 +4463,7 @@ var Setting = function (_Component) {
         var _this = _possibleConstructorReturn(this, (Setting.__proto__ || Object.getPrototypeOf(Setting)).call(this, props));
 
         _this.state = {
-            baseLocalPath: ''
+            baseLocalPath: [{}]
         };
         _this.io = __WEBPACK_IMPORTED_MODULE_1_socket_io_client___default()('http://localhost:3333');
         return _this;
@@ -4464,9 +4474,9 @@ var Setting = function (_Component) {
         value: function componentWillMount() {
             var _this2 = this;
 
-            this.io.on('base-local-path', function (path) {
+            this.io.on('base-local-path', function (res) {
                 _this2.setState({
-                    baseLocalPath: path
+                    baseLocalPath: res
                 });
             });
         }
@@ -4474,7 +4484,7 @@ var Setting = function (_Component) {
         key: 'updateBaseLocalPath',
         value: function updateBaseLocalPath(e, info) {
             e.stopPropagation();
-            this.io.emit('update-base-local-path', { path: e.target.value });
+            this.io.emit('update-base-local-path', { id: info[0]._id, path: e.target.value });
         }
     }, {
         key: 'render',
@@ -4494,9 +4504,9 @@ var Setting = function (_Component) {
                         { htmlFor: 'base-local-path' },
                         '\u672C\u5730\u5730\u5740'
                     ),
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { key: baseLocalPath, id: 'base-local-path', onBlur: function onBlur(e) {
-                            return _this3.updateBaseLocalPath(e);
-                        }, defaultValue: baseLocalPath })
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { key: baseLocalPath[0].baseLocalPath, id: 'base-local-path', onBlur: function onBlur(e) {
+                            return _this3.updateBaseLocalPath(e, baseLocalPath);
+                        }, defaultValue: baseLocalPath[0].baseLocalPath })
                 )
             );
         }
