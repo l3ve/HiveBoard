@@ -29,7 +29,7 @@ class Io {
     }
     checkProxy(u) {
         return this.proxy.find((ele, i) => {
-            return ele.path == u.path && ele.host == u.hostname;
+            return ele.path == u.path && ele.host == u.hostname && ele.where == 'Local';
         });
     }
     getAllfile() {
@@ -38,22 +38,15 @@ class Io {
             io.emit('all-local-file-list', res);
         })
     }
-    getBaseLocalPath() {
-        db.find({ name: 'baseLocalPath' }, (err, res) => {
-            if (res.length) {
-                this.baseLocalPath = res[0].baseLocalPath;
-                io.emit('base-local-path', res[0].baseLocalPath);
-            }
-        })
-    }
     returnLocalPath(proxy) {
         return this.baseLocalPath + proxy.localPath;
     }
     saveInfo(client) {
-        client.on('save-info', (info) => {
+        client.on('change-info', (info) => {
             let data = {
                 host: info.req.hostname,
                 path: info.req.path,
+                where: info.where,
                 name: 'proxy',
                 localPath: info.req.path
             }
@@ -67,22 +60,7 @@ class Io {
                             }
                         });
                     } else {
-                        this.msg({ msg: '本地代理已存在!', tag: 'add-be' });
-                    }
-                })
-        })
-    }
-    updateBaseLocalPath(client) {
-        client.on('update-base-local-path', (res) => {
-            db.update({
-                name: 'baseLocalPath',
-            }, {
-                    name: 'baseLocalPath',
-                    baseLocalPath: res.path
-                }, { upsert: true }, (err, num) => {
-                    if (num >= 1) {
-                        this.msg({ msg: '更新本地代理地址成功!', tag: 'update-localpath-success' });
-                        this.getBaseLocalPath();
+                        this.msg({ msg: data, tag: 'add-be' });
                     }
                 })
         })
@@ -92,10 +70,11 @@ class Io {
             db.update({
                 _id: res.info._id
             }, {
+                    host: res.newInfo.host || res.info.host,
+                    path: res.newInfo.path || res.info.path,
+                    where: res.newInfo.where || res.info.where,
                     name: 'proxy',
-                    host: res.newInfo.host,
-                    path: res.newInfo.path,
-                    localPath: res.newInfo.localPath
+                    localPath: res.newInfo.localPath || res.info.localPath
                 }, { multi: true, upsert: true }, (err, num) => {
                     if (num >= 1) {
                         this.msg({ msg: '更新本地代理成功!', tag: 'update-success' });
@@ -114,6 +93,29 @@ class Io {
                     this.getAllfile();
                 }
             })
+        })
+    }
+    getBaseLocalPath() {
+        db.find({ name: 'baseLocalPath' }, (err, res) => {
+            if (res.length) {
+                this.baseLocalPath = res[0].baseLocalPath;
+                io.emit('base-local-path', res[0].baseLocalPath);
+            }
+        })
+    }
+    updateBaseLocalPath(client) {
+        client.on('update-base-local-path', (res) => {
+            db.update({
+                name: 'baseLocalPath',
+            }, {
+                    name: 'baseLocalPath',
+                    baseLocalPath: res.path
+                }, { upsert: true }, (err, num) => {
+                    if (num >= 1) {
+                        this.msg({ msg: '更新本地代理地址成功!', tag: 'update-localpath-success' });
+                        this.getBaseLocalPath();
+                    }
+                })
         })
     }
     findInfo(obj) {

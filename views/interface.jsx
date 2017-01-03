@@ -26,6 +26,7 @@ class Interface extends Component {
         this.setState({
             curTab: sort
         });
+        this.refs.home.hideDetail();
     }
     render() {
         let {curTab, nav} = this.state;
@@ -34,7 +35,7 @@ class Interface extends Component {
             <div className='main'>
                 <Nav nav={nav} onSelect={this.switchTab} />
                 <div className='tab-body'>
-                    <Home />
+                    <Home ref='home' />
                     {curTab=='proxy'?<ProxyList />:''}
                     {curTab=='set'?<Setting />:''}
                 </div>

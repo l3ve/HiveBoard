@@ -3887,8 +3887,9 @@ module.exports = function(arraybuffer, start, end) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_socket_io_client__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_socket_io_client___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_socket_io_client__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__css_home__ = __webpack_require__(62);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__css_home___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__css_home__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__component_switch__ = __webpack_require__(75);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__css_home__ = __webpack_require__(62);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__css_home___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__css_home__);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -3896,6 +3897,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 
 
 
@@ -3943,16 +3945,17 @@ var Home = function (_Component) {
         }
     }, {
         key: 'saveInfo',
-        value: function saveInfo(e, info) {
-            e.stopPropagation();
+        value: function saveInfo(info, status) {
+            var _this3 = this;
+
             var reqList = this.state.reqList;
 
             reqList.forEach(function (ele, i) {
                 if (ele.req.path == info.req.path && ele.req.hostname == info.req.hostname) {
-                    ele.where = 'Local';
+                    ele.where = status ? 'Local' : 'Remote';
+                    _this3.io.emit('change-info', ele);
                 }
             });
-            this.io.emit('save-info', info);
         }
     }, {
         key: 'showDetail',
@@ -3972,7 +3975,7 @@ var Home = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
-            var _this3 = this;
+            var _this4 = this;
 
             var _state = this.state,
                 reqList = _state.reqList,
@@ -3991,7 +3994,7 @@ var Home = function (_Component) {
                         return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                             'p',
                             { key: info.type + i, className: 'the-one', onClick: function onClick() {
-                                    return _this3.showDetail(info);
+                                    return _this4.showDetail(info);
                                 } },
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 'span',
@@ -4011,8 +4014,8 @@ var Home = function (_Component) {
                                 info.req.headers.host,
                                 info.req.path
                             ),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { className: 'fn-btn', onClick: function onClick(e) {
-                                    return _this3.saveInfo(e, info);
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__component_switch__["a" /* default */], { defaulStatus: info.where == 'Local', onChange: function onChange(status) {
+                                    return _this4.saveInfo(info, status);
                                 } })
                         );
                     })
@@ -4152,6 +4155,7 @@ var Interface = function (_Component) {
             this.setState({
                 curTab: sort
             });
+            this.refs.home.hideDetail();
         }
     }, {
         key: 'render',
@@ -4168,7 +4172,7 @@ var Interface = function (_Component) {
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
                     { className: 'tab-body' },
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__home_jsx__["a" /* default */], null),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__home_jsx__["a" /* default */], { ref: 'home' }),
                     curTab == 'proxy' ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__proxyList__["a" /* default */], null) : '',
                     curTab == 'set' ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__set__["a" /* default */], null) : ''
                 )
@@ -4294,8 +4298,9 @@ var Nav = function (_Component) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_socket_io_client__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_socket_io_client___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_socket_io_client__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__css_proxyList__ = __webpack_require__(65);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__css_proxyList___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__css_proxyList__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__component_switch__ = __webpack_require__(75);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__css_proxyList__ = __webpack_require__(65);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__css_proxyList___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__css_proxyList__);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -4303,6 +4308,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 
 
 
@@ -4337,13 +4343,20 @@ var ProxyList = function (_Component) {
         }
     }, {
         key: 'updateInfo',
-        value: function updateInfo(info, i) {
-            if (this.refs['hfp-' + i].innerHTML == info.path && this.refs['lfp-' + i].innerHTML == info.localPath) return false;
-            var _newInfo = {
-                host: info.host,
-                path: this.refs['hfp-' + i].innerHTML || info.path,
-                localPath: this.refs['lfp-' + i].innerHTML || info.localPath
-            };
+        value: function updateInfo(info, i, status) {
+            var _newInfo = {};
+            // if (this.refs['hfp-' + i].innerHTML == info.path && this.refs['lfp-' + i].innerHTML == info.localPath) return false;
+            if (!status) {
+                _newInfo = {
+                    host: info.host,
+                    path: this.refs['hfp-' + i].innerHTML || info.path,
+                    localPath: this.refs['lfp-' + i].innerHTML || info.localPath
+                };
+            } else {
+                _newInfo = {
+                    where: status == 'checked' ? 'Local' : 'Remote'
+                };
+            }
             this.io.emit('update-info', {
                 info: info,
                 newInfo: _newInfo
@@ -4392,6 +4405,9 @@ var ProxyList = function (_Component) {
                         ),
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'remove-info', onClick: function onClick() {
                                 return _this3.removeLocalFile(file);
+                            } }),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__component_switch__["a" /* default */], { defaulStatus: file.where == 'Local', onChange: function onChange(status) {
+                                return _this3.updateInfo(file, i, status);
                             } })
                     );
                 })
@@ -4768,7 +4784,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, ".home {\n    position: relative;\n    height: 100%\n}\n.home .proxy-list {\n    display: inline-block;\n    padding: 7px 2px;\n    width: 100%;\n    height: 100%;\n    overflow-y: scroll;\n    -webkit-transition: width 350ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;\n    transition: width 350ms cubic-bezier(0.23, 1, 0.32, 1) 0ms\n}\n.home .proxy-list .the-one {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -ms-flex-wrap: wrap;\n        flex-wrap: wrap;\n    -webkit-box-pack: start;\n        -ms-flex-pack: start;\n            justify-content: flex-start;\n    position: relative;\n    height: 45px;\n    margin: 0;\n    padding: 15px 10px 15px 60px;\n    font-size: 13px;\n    background: none;\n    cursor: pointer;\n    span {\n        -ms-flex-item-align: center;\n            -ms-grid-row-align: center;\n            align-self: center\n    }\n}\n.home .proxy-list .the-one:hover {\n    background-color: rgba(0, 0, 0, .098)\n}\n.home .proxy-list .the-one .method {\n    font-weight: bolder;\n    color: #9C27B0\n}\n.home .proxy-list .the-one .url {\n    -webkit-box-flex: 1;\n        -ms-flex: 1;\n            flex: 1;\n    word-wrap: break-word\n}\n.home .proxy-list .the-one .type {\n    position: absolute;\n    top: 4px;\n    left: 15px;\n    width: 35px;\n    height: 35px;\n    line-height: 35px;\n    font-size: 11px;\n    color: #000;\n    text-align: center;\n    border-radius: 50%;\n    font-weight: bolder;\n    box-shadow: rgba(0, 0, 0, .117647) 0px 1px 6px, rgba(0, 0, 0, .117647) 0px 1px 4px\n}\n.home .proxy-list .the-one .type.js {\n    background-color: #FF9800\n}\n.home .proxy-list .the-one .type.css {\n    background-color: #AEEA00\n}\n.home .proxy-list .the-one .type.img {\n    background-color: #82B1FF\n}\n.home .proxy-list .the-one .type.other {\n    background-color: #9E9E9E\n}\n.home .proxy-list .the-one .where {\n    font-weight: bolder;\n    margin-right: 10px\n}\n.home .proxy-list .the-one .where.Local {\n    color: #0091EA\n}\n.home .proxy-list .the-one .where.Local+.fn-btn {\n    display: none\n}\n.home .proxy-list .the-one .where.Remote {\n    color: #FF6D00\n}\n.home .proxy-list .the-one .fn-btn {\n    -ms-flex-item-align: center;\n        -ms-grid-row-align: center;\n        align-self: center;\n    width: 20px;\n    height: 20px;\n    background: url(" + __webpack_require__(69) + ") center no-repeat;\n    background-size: 20px;\n    cursor: pointer\n}\n.home .detail-info {\n    position: absolute;\n    top: 0;\n    right: 0;\n    width: 100%;\n    height: 100%;\n    padding: 10px 10px 10px 20px\n}\n.home .detail-info .shadow {\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    background: rgba(0, 0, 0, .2)\n}\n.home .detail-info .center {\n    width: 64%;\n    position: absolute;\n    right: 10px;\n    z-index: 10;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    padding: 0 20px;\n    height: 96%;\n    border-radius: 4px;\n    background-color: #fff;\n    box-shadow: 2px 2px 10px rgba(0, 0, 0, .2);\n    -webkit-animation-duration: .6s;\n            animation-duration: .6s;\n    -webkit-animation-delay: 100ms;\n            animation-delay: 100ms\n}\n.home .detail-info .header {\n    position: absolute;\n    top: 6px;\n    font-size: 20px;\n    font-weight: bolder;\n    text-align: center\n}\n.home .detail-info p {\n    padding: 0 10px;\n    line-height: 20px;\n    font-size: 12px;\n    word-break: break-word\n}\n.home .detail-info p span {\n    font-size: 14px;\n    font-weight: bolder\n}\n.home .detail-info .req,\n        .home .detail-info .res {\n    margin-top: 60px;\n    overflow-y: scroll;\n    -webkit-box-flex: 1;\n        -ms-flex: 1;\n            flex: 1\n}", ""]);
+exports.push([module.i, ".home {\n    position: relative;\n    height: 100%\n}\n.home .proxy-list {\n    display: inline-block;\n    padding: 7px 2px;\n    width: 100%;\n    height: 100%;\n    overflow-y: scroll;\n    -webkit-transition: width 350ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;\n    transition: width 350ms cubic-bezier(0.23, 1, 0.32, 1) 0ms\n}\n.home .proxy-list .the-one {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -ms-flex-wrap: wrap;\n        flex-wrap: wrap;\n    -webkit-box-pack: start;\n        -ms-flex-pack: start;\n            justify-content: flex-start;\n    position: relative;\n    height: 45px;\n    margin: 0;\n    padding: 15px 10px 15px 60px;\n    font-size: 13px;\n    background: none;\n    cursor: pointer;\n    span {\n        -ms-flex-item-align: center;\n            -ms-grid-row-align: center;\n            align-self: center\n    }\n}\n.home .proxy-list .the-one:hover {\n    background-color: rgba(0, 0, 0, .098)\n}\n.home .proxy-list .the-one .method {\n    font-weight: bolder;\n    color: #9C27B0\n}\n.home .proxy-list .the-one .url {\n    -webkit-box-flex: 1;\n        -ms-flex: 1;\n            flex: 1;\n    word-wrap: break-word;\n    overflow: hidden;\n    text-overflow: ellipsis;\n    white-space: nowrap\n}\n.home .proxy-list .the-one .type {\n    position: absolute;\n    top: 4px;\n    left: 15px;\n    width: 35px;\n    height: 35px;\n    line-height: 35px;\n    font-size: 11px;\n    color: #000;\n    text-align: center;\n    border-radius: 50%;\n    font-weight: bolder;\n    box-shadow: rgba(0, 0, 0, .117647) 0px 1px 6px, rgba(0, 0, 0, .117647) 0px 1px 4px\n}\n.home .proxy-list .the-one .type.js {\n    background-color: #FF9800\n}\n.home .proxy-list .the-one .type.css {\n    background-color: #AEEA00\n}\n.home .proxy-list .the-one .type.img {\n    background-color: #82B1FF\n}\n.home .proxy-list .the-one .type.other {\n    background-color: #9E9E9E\n}\n.home .proxy-list .the-one .zwei-switch {\n    -ms-flex-item-align: center;\n        -ms-grid-row-align: center;\n        align-self: center\n}\n.home .detail-info {\n    position: absolute;\n    top: 0;\n    right: 0;\n    width: 100%;\n    height: 100%;\n    padding: 10px 10px 10px 20px\n}\n.home .detail-info .shadow {\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    background: rgba(0, 0, 0, .2)\n}\n.home .detail-info .center {\n    width: 64%;\n    position: absolute;\n    right: 10px;\n    z-index: 10;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    padding: 0 20px;\n    height: 96%;\n    border-radius: 4px;\n    background-color: #fff;\n    box-shadow: 2px 2px 10px rgba(0, 0, 0, .2);\n    -webkit-animation-duration: .6s;\n            animation-duration: .6s;\n    -webkit-animation-delay: 100ms;\n            animation-delay: 100ms\n}\n.home .detail-info .header {\n    position: absolute;\n    top: 6px;\n    font-size: 20px;\n    font-weight: bolder;\n    text-align: center\n}\n.home .detail-info p {\n    padding: 0 10px;\n    line-height: 20px;\n    font-size: 12px;\n    word-break: break-word\n}\n.home .detail-info p span {\n    font-size: 14px;\n    font-weight: bolder\n}\n.home .detail-info .req,\n        .home .detail-info .res {\n    margin-top: 60px;\n    overflow-y: scroll;\n    -webkit-box-flex: 1;\n        -ms-flex: 1;\n            flex: 1\n}", ""]);
 
 // exports
 
@@ -4811,7 +4827,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, ".proxy-file {\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    padding: 0 30px;\n    -webkit-animation-duration: 0.3s;\n            animation-duration: 0.3s;\n    overflow-y: scroll\n}\n.proxy-file .shadow {\n    position: absolute;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    background-color: rgb(250, 250, 250)\n}\n.proxy-file .one {\n    position: relative;\n    color: rgba(0, 0, 0, .87);\n    background-color: rgb(255, 255, 255);\n    -webkit-transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;\n    transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;\n    box-shadow: rgba(0, 0, 0, .1176) 0 1px 6px, rgba(0, 0, 0, .1176) 0 1px 4px;\n    border-radius: 2px;\n    padding: 0 40px 10px 20px;\n    margin-bottom: 20px\n}\n.proxy-file .one span {\n    display: inline-block;\n    padding: 10px 0px 4px;\n    font-size: 14px;\n    border: none;\n    border-bottom: 1px solid rgb(224, 224, 224)\n}\n.proxy-file .one span:focus {\n    outline: none\n}\n.proxy-file .one .local-file-path {\n    -webkit-user-modify: read-write-plaintext-only\n}\n.proxy-file .one .remove-info {\n    display: inline-block;\n    width: 30px;\n    height: 30px;\n    position: absolute;\n    top: 20px;\n    right: 10px;\n    cursor: pointer;\n    background: url(" + __webpack_require__(68) + ") center no-repeat;\n    background-size: 30px\n}", ""]);
+exports.push([module.i, ".proxy-file {\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    padding: 0 30px;\n    -webkit-animation-duration: 0.3s;\n            animation-duration: 0.3s;\n    overflow-y: scroll\n}\n.proxy-file .shadow {\n    position: absolute;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    background-color: rgb(250, 250, 250)\n}\n.proxy-file .one {\n    position: relative;\n    color: rgba(0, 0, 0, .87);\n    background-color: rgb(255, 255, 255);\n    -webkit-transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;\n    transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;\n    box-shadow: rgba(0, 0, 0, .1176) 0 1px 6px, rgba(0, 0, 0, .1176) 0 1px 4px;\n    border-radius: 2px;\n    padding: 0 40px 10px 20px;\n    margin-bottom: 20px\n}\n.proxy-file .one span {\n    display: inline-block;\n    padding: 10px 0px 4px;\n    font-size: 14px;\n    border: none;\n    border-bottom: 1px solid rgb(224, 224, 224)\n}\n.proxy-file .one span:focus {\n    outline: none\n}\n.proxy-file .one .local-file-path {\n    -webkit-user-modify: read-write-plaintext-only\n}\n.proxy-file .one .remove-info {\n    display: inline-block;\n    width: 30px;\n    height: 30px;\n    position: absolute;\n    top: 6px;\n    right: 20px;\n    cursor: pointer;\n    background: url(" + __webpack_require__(68) + ") center no-repeat;\n    background-size: 30px\n}\n.proxy-file .one .zwei-switch {\n    position: absolute;\n    top: 42px;\n    right: 12px\n}", ""]);
 
 // exports
 
@@ -8508,12 +8524,7 @@ function toArray(list, index) {
 module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAQAAAD41aSMAAABuUlEQVR4Ae3XwU0CQRzG0e+GBi0C8KzVYCyHE4lWAMF+SLwYbYJsvOJhvWATE7P/8f2mg+9tNjORJEmSJEmSJEmSJEmSpD9qk0vjs4kazF+AwPwNCMxficD8BQjM34DA/AUIzI/g0vkJAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAECSJEmSPLwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAECDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPyUnn9M+b5KAwwp31tpgGPKdygNsEv5nkoDrFO+23yXnf+ceTrotSzAPl10V/QqOmaZTnopCbBNN13ns9z875mlo1YZSs1/yiKd9VCI4JT7dNgqH0V+Pot02lWeJ34jGrPNLF23yiHniT679lnmX3STx+xyzJBxAt/8kGN2WWceSZIkSZIkSZIkSZIkSWrQL8m34j3WejPxAAAAAElFTkSuQmCC"
 
 /***/ },
-/* 69 */
-/***/ function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAQAAAD41aSMAAADIklEQVR4AezBgQAAAACAoP2pF6kCAAAAAAAAAAAAAABm386RmwqiKAyf1M9iQ+D1OHLK4FlAQMhuMMXgScAqKLwHewGXjE5cXPGqm9NS/+fGL/n+QKrS06Nje7rQQn1tqWhyXfI/KLQaJEGn/DFMgm75R0nQMf8YCbrmHyFB1/wDJOiMf8AEPfEPmaAf/kET9MI/bAL7LhSKgRPYt9Bq6ATmkcA8EphHgiojwaQ7XwASTLpUzA1AAid/SCRw8odEAid/SCRw8odEAid/SCRw8odEAid/aMZIMOlK4QpAgpr8IZGgJf/PPAAJ2vFfa1fP8wAkaMcvSS/yACRoxp8mEAna8Ze9zAOQoAV/2as8AAnq8+cJ0pFg0nUFfkk6zAOQoAV/2VEegAQt+MuO8wAkqMefJxAJavPnO8kDkKAFf9lpCUCCFvz5zqwBDAn2tf52m/OXBBojwTsPf7JzhTRAAid/sqW0BQms/KwkMPKTwM5PAjs/Cez8JJjNf1OJnwR2fhK4+Umw34z/Zi4/gx9+Bj/8DH744b9tz8/gh5/BDz+DH362gH8AfgY//Ax++Bn88MO/gn87+Q+0ELPxv1folgRO/iBBPf7bGfzlSWbgJ4Gd3//dCX4S+Pn9r6rDT4LC/83CXxJMhj9qw18pwVIB/+M7UKx9V5pm8wf8ySdLkwSFP+Cvk+DyHxO8/vMk/IYEhT/gr5fgq6Z1+Tc5wJP5/I4ECX/AXzvBjv62N4okAPx1EyT8AX/jBAl/wN8iwZeSIOEP+P9PgreKJAD8lRN81k7Or4C/aYKUPzaB/3sdfkOCT9pJ+AP+tgl+KZKDv2mC/OA3J9ga/oWSdZoAfnMC+M0J4DcngN+cAH5zgs74f3j5DQng9yaAv1aCO18A+KVDhS8A/EcKfwD4LQHgP1ZsdoCPQ/OH7Huq+43lP1G0CGBIMCx/SP0n6JP/dLt+D3im+yH5Q+o/QX/8Z4r2ARwJHobjD6nvBP3xnysMAQwJxuAPqd8E/fEvFdsfQNrTwzD8IfWZ4MMg/KHh97s9OBAAAAAAAPJ/bQRVVVVVVVVVVVVVVRVRFTSBWnQ//gAAAABJRU5ErkJggg=="
-
-/***/ },
+/* 69 */,
 /* 70 */
 /***/ function(module, exports) {
 
@@ -8773,6 +8784,112 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAQAAAD4
 
 module.exports = __webpack_require__(26);
 
+
+/***/ },
+/* 75 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__css_switch_css__ = __webpack_require__(77);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__css_switch_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__css_switch_css__);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+var Switch = function (_Component) {
+    _inherits(Switch, _Component);
+
+    function Switch(props) {
+        _classCallCheck(this, Switch);
+
+        var _this = _possibleConstructorReturn(this, (Switch.__proto__ || Object.getPrototypeOf(Switch)).call(this, props));
+
+        _this.state = {
+            _cls: props.defaulStatus ? 'checked' : 'uncheck'
+        };
+        return _this;
+    }
+
+    _createClass(Switch, [{
+        key: 'onSwitch',
+        value: function onSwitch(e) {
+            e.stopPropagation();
+            var _cls = this.state._cls,
+                onChange = this.props.onChange,
+                __cls = _cls == 'checked' ? 'uncheck' : 'checked';
+
+
+            this.setState({
+                _cls: __cls
+            });
+            onChange(__cls);
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this2 = this;
+
+            var _cls = this.state._cls;
+
+            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'zwei-switch ' + _cls, onClick: function onClick(e) {
+                    _this2.onSwitch(e);
+                } });
+        }
+    }]);
+
+    return Switch;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+/* harmony default export */ exports["a"] = Switch;
+
+/***/ },
+/* 76 */
+/***/ function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)();
+// imports
+
+
+// module
+exports.push([module.i, ".zwei-switch {\n    position: relative;\n    display: inline-block;\n    height: 22px;\n    min-width: 44px;\n    line-height: 20px;\n    vertical-align: middle;\n    border-radius: 20px;\n    border: 1px solid #ccc;\n    background-color: #ccc;\n    cursor: pointer;\n    -webkit-transition: all .3s;\n    transition: all .3s;\n    -webkit-user-select: none;\n       -moz-user-select: none;\n        -ms-user-select: none;\n            user-select: none\n}\n.zwei-switch.checked {\n    border-color: #108ee9;\n    background-color: #108ee9\n}\n.zwei-switch.checked:after {\n    left: 100%;\n    margin-left: -19px\n}\n.zwei-switch:after {\n    position: absolute;\n    width: 18px;\n    height: 18px;\n    left: 1px;\n    top: 1px;\n    border-radius: 50%;\n    background-color: #fff;\n    content: '';\n    cursor: pointer;\n    -webkit-transition: all .3s ,width .3s;\n    transition: all .3s ,width .3s\n}", ""]);
+
+// exports
+
+
+/***/ },
+/* 77 */
+/***/ function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(76);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(3)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!./../../../node_modules/css-loader/index.js?importLoaders=1!./../../../node_modules/postcss-loader/index.js!./switch.css", function() {
+			var newContent = require("!!./../../../node_modules/css-loader/index.js?importLoaders=1!./../../../node_modules/postcss-loader/index.js!./switch.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
 
 /***/ }
 /******/ ]);

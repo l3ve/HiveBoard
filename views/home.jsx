@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import io from 'socket.io-client';
+import Switch from './component/switch';
 
 import './css/home';
 
@@ -9,10 +10,10 @@ class Home extends Component {
         this.state = {
             reqList: [],
             reqDetail: {
-                req:{
-                    headers:{}
+                req: {
+                    headers: {}
                 },
-                res:{}
+                res: {}
             },
             detailCls: 'hidden'
         }
@@ -30,15 +31,14 @@ class Home extends Component {
             });
         })
     }
-    saveInfo(e, info) {
-        e.stopPropagation();
+    saveInfo(info, status) {
         let {reqList} = this.state;
         reqList.forEach((ele, i) => {
             if (ele.req.path == info.req.path && ele.req.hostname == info.req.hostname) {
-                ele.where = 'Local';
+                ele.where = status ? 'Local' : 'Remote';
+                this.io.emit('change-info', ele);
             }
         });
-        this.io.emit('save-info', info);
     }
     showDetail(info) {
         this.setState({
@@ -64,7 +64,7 @@ class Home extends Component {
                                 <span className={'type ' + info.type}>{info.type}</span>
                                 <span className='method'>{info.req.method}:</span>
                                 <span className='url'>http://{info.req.headers.host}{info.req.path}</span>
-                                <span className='fn-btn' onClick={(e) => this.saveInfo(e, info)}></span>
+                                <Switch defaulStatus={info.where=='Local'} onChange={(status) => this.saveInfo(info, status)} />
                             </p>
                         )
                     })}
