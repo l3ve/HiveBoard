@@ -51,14 +51,19 @@ class Io {
             this.db.isBe({ name: 'proxy', host: info.req.hostname, path: info.req.path })
                 .then((count) => {
                     if (count <= 0) {
-                        this.db.insert(data).thne((newDoc) => {
+                        this.db.insert(data).then((newDoc) => {
                             if (newDoc) {
                                 this.msg({ msg: '添加本地代理成功!', tag: 'add-success' });
                                 this.getAllfile();
                             }
                         });
                     } else {
-                        this.msg({ msg: data, tag: 'add-be' });
+                        // this.db.updateById(info._id, data).then((res) => {
+                        //     if (res >= 1) {
+                        //         this.msg({ msg: '更新本地代理成功!', tag: 'update-success' });
+                        //         this.getAllfile();
+                        //     }
+                        // })
                     }
                 })
         })
