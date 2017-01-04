@@ -38,9 +38,30 @@ class Home extends Component {
             });
         })
         this.io.on('all-local-file-list', (res) => {
+            const _reqMix = this.mixis(res);
             this.setState({
-                proxyFile: res
+                reqList: _reqMix
             });
+        })
+    }
+    mixis(proxyFile) {
+        let {reqList} = this.state;
+        return reqList.map((req) => {
+            let _temp = {
+                ...req,
+                where: 'Remote'
+            };
+            proxyFile.forEach((pxy) => {
+                if (req.req.hostname == pxy.host && req.req.path == pxy.path) {
+                    _temp = {
+                        ...req,
+                        _id: pxy._id,
+                        where: pxy.where,
+                        localPath: pxy.localPath
+                    }
+                }
+            })
+            return _temp;
         })
     }
     saveInfo(info, status) {

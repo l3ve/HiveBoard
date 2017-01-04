@@ -7,6 +7,11 @@ class Switch extends Component {
             _cls: props.defaulStatus ? 'checked' : 'uncheck'
         }
     }
+    componentWillReceiveProps(nextProps) {
+        this.state = {
+            _cls: nextProps.defaulStatus ? 'checked' : 'uncheck'
+        }
+    }
     onSwitch(e) {
         e.stopPropagation();
         const {_cls} = this.state,

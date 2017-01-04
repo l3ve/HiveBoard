@@ -46,7 +46,7 @@ class Io {
                 path: info.req.path,
                 where: info.where,
                 name: 'proxy',
-                localPath: info.req.path
+                localPath: info.localPath || info.req.path
             }
             this.db.isBe({ name: 'proxy', host: info.req.hostname, path: info.req.path })
                 .then((count) => {
@@ -58,12 +58,12 @@ class Io {
                             }
                         });
                     } else {
-                        // this.db.updateById(info._id, data).then((res) => {
-                        //     if (res >= 1) {
-                        //         this.msg({ msg: '更新本地代理成功!', tag: 'update-success' });
-                        //         this.getAllfile();
-                        //     }
-                        // })
+                        this.db.updateById(info._id, data).then((res) => {
+                            if (res >= 1) {
+                                this.msg({ msg: '更新本地代理成功!', tag: 'update-success' });
+                                this.getAllfile();
+                            }
+                        })
                     }
                 })
         })
