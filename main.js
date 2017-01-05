@@ -132,15 +132,15 @@ app.on('activate', () => {
 function createWindow() {
   Menu.setApplicationMenu(menu);
   global.mainWindow = new BrowserWindow({
-    width: 960,
+    width: 800,
     height: 600,
     icon: './favicon.ico',
-    type: 'textured'
-    // titleBarStyle: 'hidden'
+    type: 'textured',
+    titleBarStyle: 'hidden'
   });
   global.mainWindow.loadURL(`file://${__dirname}/dist/index.html`);
   // 启用开发工具。
-  mainWindow.openDevTools();
+  // mainWindow.openDevTools();
   // 开启代理
   require('./server/proxy.js');
   console.log(`当前node版本 : ${process.version}`);
