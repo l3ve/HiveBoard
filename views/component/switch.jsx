@@ -8,9 +8,9 @@ class Switch extends Component {
         }
     }
     componentWillReceiveProps(nextProps) {
-        this.state = {
+        this.setState({
             _cls: nextProps.defaulStatus ? 'checked' : 'uncheck'
-        }
+        });
     }
     onSwitch(e) {
         e.stopPropagation();
