@@ -25,7 +25,11 @@ class Home extends Component {
     componentWillMount() {
         this.io.on('sys-msg', (res) => {
             console.log(res.msg);
-            notification.success(res.msg);
+            const msg = {
+                message: res.msg,
+                description: 'fuck'
+            }
+            notification.open(msg);
         })
         this.io.on('req&res-Info', (res) => {
             let {reqList} = this.state,
