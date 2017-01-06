@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import io from 'socket.io-client';
 import Switch from './component/switch';
+import notification from './component/notification';
 
 import './css/home';
 
@@ -24,6 +25,7 @@ class Home extends Component {
     componentWillMount() {
         this.io.on('sys-msg', (res) => {
             console.log(res.msg);
+            notification.success(res.msg);
         })
         this.io.on('req&res-Info', (res) => {
             let {reqList} = this.state,

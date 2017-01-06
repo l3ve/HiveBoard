@@ -140,7 +140,7 @@ function createWindow() {
   });
   global.mainWindow.loadURL(`file://${__dirname}/dist/index.html`);
   // 启用开发工具。
-  // mainWindow.openDevTools();
+  mainWindow.openDevTools();
   // 开启代理
   require('./server/proxy.js');
   console.log(`当前node版本 : ${process.version}`);
