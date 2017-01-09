@@ -26,10 +26,10 @@ class Home extends Component {
         this.io.on('sys-msg', (res) => {
             console.log(res.msg);
             const msg = {
-                message: res.msg,
-                description: 'fuck'
+                message: '系统消息',
+                description: res.msg
             }
-            notification.open(msg);
+            notification.success(msg);
         })
         this.io.on('req&res-Info', (res) => {
             let {reqList} = this.state,

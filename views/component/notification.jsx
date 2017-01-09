@@ -8,11 +8,6 @@ let notificationInstance;
 let defaultDuration = 4.5;
 let seed = 0;
 
-function getUuid() {
-    const now = Date.now();
-    return `rcNotification_${now}_${seed++}`;
-}
-
 class Notice extends Component {
     componentDidMount() {
         const {duration} = this.props;
@@ -45,7 +40,7 @@ class Notice extends Component {
     }
 }
 
-Notice.propTypes = {
+Notice.defaultProps = {
     onEnd: () => { },
     onClose: () => { },
     duration: 1.5,
@@ -86,7 +81,10 @@ class Notification extends Component {
                 <Notice
                     {...notice}
                     >
-                    {notice.content}
+                    <div className={notice.type}>
+                        <div className='message' >{notice.message}</div>
+                        <div className='description' >{notice.description}</div>
+                    </div>
                 </Notice>
             );
         });
@@ -98,21 +96,43 @@ class Notification extends Component {
     }
 }
 
-Notification.propTypes = {
+Notification.defaultProps = {
     style: {
         top: 65,
-        left: '50%'
+        right: 0
     }
 };
 
-function newInstance(properties) {
-    const props = properties || {};
+
+const api = {
+    success(props) {
+        Singleton().notice(props, 'suc');
+    },
+    error() {
+        Singleton().notice(props, 'err');
+    }
+}
+
+export default api;
+
+
+
+
+function getUuid() {
+    const now = Date.now();
+    return `rcNotification_${now}_${seed++}`;
+}
+
+function Singleton() {
+    if (notificationInstance) {
+        return notificationInstance;
+    }
     const div = document.createElement('div');
     document.body.appendChild(div);
-    const notification = ReactDOM.render(<Notification {...props} />, div);
-    return {
-        notice(noticeProps) {
-            notification.add(noticeProps);
+    const notification = ReactDOM.render(<Notification />, div);
+    notificationInstance = {
+        notice(...noticeProps) {
+            notification.add(...noticeProps);
         },
         removeNotice(key) {
             notification.remove(key);
@@ -121,42 +141,7 @@ function newInstance(properties) {
         destroy() {
             ReactDOM.unmountComponentAtNode(div);
             document.body.removeChild(div);
-        },
+        }
     };
-}
-
-function getNotificationInstance() {
-    if (notificationInstance) {
-        return notificationInstance;
-    }
-    notificationInstance = newInstance({
-        style: {
-            top: defaultTop,
-            right: 0,
-        },
-    });
     return notificationInstance;
 }
-
-function notice(args) {
-    const duration = args.duration ? args.duration : defaultDuration;
-    getNotificationInstance().notice({
-        content: (
-            <div className='fuck'>
-                <div className='message' >{args.message}</div>
-                <div className='description' >{args.description}</div>
-            </div>
-        ),
-        duration,
-        style: {}
-    })
-}
-
-const api = {
-    open(props) {
-        notice(props);
-    }
-}
-
-export default api;
-
