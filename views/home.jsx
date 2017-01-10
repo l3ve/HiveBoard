@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import io from 'socket.io-client';
 import Switch from './component/switch';
-import notification from './component/notification';
+import message from './component/message';
 
 import './css/home';
 
@@ -25,11 +25,9 @@ class Home extends Component {
     componentWillMount() {
         this.io.on('sys-msg', (res) => {
             console.log(res.msg);
-            const msg = {
-                message: '系统消息',
-                description: res.msg
-            }
-            notification.success(msg);
+            message.success({
+                message: res.msg
+            });
         })
         this.io.on('req&res-Info', (res) => {
             let {reqList} = this.state,
