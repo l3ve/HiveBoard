@@ -13,6 +13,7 @@ class Message extends Component {
         }
         this.end = this.end.bind(this);
         this.beginListen = this.beginListen.bind(this);
+        console.log('new',props.uuid);
     }
     componentDidMount() {
         const {duration, uuid} = this.props;
@@ -21,7 +22,7 @@ class Message extends Component {
                 this.close();
             }, duration * 1000);
         }
-        this.refs[uuid].addEventListener('webkitAnimationEnd', this.beginListen)
+        this.refs[uuid].addEventListener('webkitAnimationEnd', this.beginListen);
     }
     componentWillUnmount() {
         this.clearCloseTimer();
@@ -41,19 +42,16 @@ class Message extends Component {
     }
     beginListen() {
         const {uuid} = this.props;
-        console.log(uuid,'change');
         this.refs[uuid].removeEventListener('webkitAnimationEnd', this.beginListen)
         this.refs[uuid].addEventListener('webkitAnimationEnd', this.end)
     }
     end() {
-        const {uuid} = this.props;
-        console.log(uuid,'remove');
-        this.props.onClose(uuid);
+        console.log('remove');
+        this.props.onClose();
     }
     render() {
         const {message, type, uuid} = this.props,
             {animCls} = this.state;
-            console.log(uuid,animCls,'add');
         return (
             <div className={'animated ' + animCls} ref={uuid} >
                 <p className={type}>
@@ -75,10 +73,9 @@ class MessageBox extends Component {
         this.state = {
             messages: []
         }
-        this.remove = this.remove.bind(this);
     }
     add(message, type) {
-        const uuid = message.uuid = message.uuid || getUuid();
+        const uuid = message.uuid = getUuid();
         message.type = type;
         this.setState(previousState => {
             const messages = previousState.messages;
@@ -100,7 +97,7 @@ class MessageBox extends Component {
         const message = this.state.messages.map((msg) => {
             return (
                 <div className='message'>
-                    <Message key={msg.uuid} onClose={this.remove} {...msg} />
+                    <Message onClose={()=>this.remove(msg.uuid)} {...msg} />
                 </div>
             );
         });
