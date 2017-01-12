@@ -17,7 +17,6 @@ class Message extends Component {
         anim(this.refs[uuid], 'slideInDown');
         if (duration) {
             this.closeTimer = setTimeout(() => {
-                // this.close();
                 anim(this.refs[uuid], 'zoomOut', this.close);
             }, duration * 1000);
         }
@@ -40,10 +39,8 @@ class Message extends Component {
         const {message, type, uuid} = this.props;
         return (
             <div className='message'>
-                <div className='animated' ref={uuid}>
-                    <p className={type}>
-                        <span className='detail' >{message}</span>
-                    </p>
+                <div className={'animated ' + type} ref={uuid}>
+                    <span className='detail' >{message}</span>
                 </div>
             </div>
         );
