@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import io from 'socket.io-client';
 import Switch from './component/switch';
 import message from './component/message';
+import io from './js/socket_client';
 
 import './css/home';
 
@@ -19,17 +19,16 @@ class Home extends Component {
             proxyFile: {},
             detailCls: 'hidden'
         }
-        this.io = io('http://localhost:3333');
         this.hideDetail = this.hideDetail.bind(this);
     }
     componentWillMount() {
-        this.io.on('sys-msg', (res) => {
-            console.log(res.msg);
+        io.on('sys-msg', (res) => {
             message.success({
-                message: res.msg
+                message: res.msg,
+                duration: 2
             });
         })
-        this.io.on('req&res-Info', (res) => {
+        io.on('req&res-Info', (res) => {
             let {reqList} = this.state,
                 _isBe = false;
             //去重
@@ -41,12 +40,13 @@ class Home extends Component {
                 reqList: reqList.concat(res)
             });
         })
-        this.io.on('all-local-file-list', (res) => {
+        io.on('all-local-file-list', (res) => {
             const _reqMix = this.mixis(res);
             this.setState({
                 reqList: _reqMix
             });
         })
+        io.emit('init');
     }
     mixis(proxyFile) {
         let {reqList} = this.state;
@@ -73,7 +73,7 @@ class Home extends Component {
         reqList.forEach((ele, i) => {
             if (ele.req.path == info.req.path && ele.req.hostname == info.req.hostname) {
                 ele.where = status == 'checked' ? 'Local' : 'Remote';
-                this.io.emit('change-info', ele);
+                io.emit('change-info', ele);
             }
         });
     }

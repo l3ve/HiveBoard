@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import io from 'socket.io-client';
+import io from './js/socket_client';
 
 import './css/set';
 
@@ -11,18 +11,18 @@ class Setting extends Component {
                 {}
             ]
         }
-        this.io = io('http://localhost:3333');
     }
     componentWillMount() {
-        this.io.on('base-local-path', (res) => {
+        io.on('base-local-path', (res) => {
             this.setState({
                 baseLocalPath: res
             });
         })
+        io.emit('init');
     }
     updateBaseLocalPath(e, info) {
         e.stopPropagation();
-        this.io.emit('update-base-local-path', { id: info[0]._id, path: e.target.value });
+        io.emit('update-base-local-path', { id: info[0]._id, path: e.target.value });
     }
     render() {
         const {baseLocalPath} = this.state;

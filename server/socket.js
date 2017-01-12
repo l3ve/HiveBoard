@@ -14,12 +14,17 @@ class Io {
     start() {
         io.on('connection', (client) => {
             this.msg({ msg: '已经连接上代理服务器', tag: 'connection-success' })
-            this.getAllfile();
-            this.getBaseLocalPath();
             this.saveInfo(client);
             this.removeInfo(client);
             this.updateInfo(client);
-            this.updateBaseLocalPath(client);
+            this.updateBaseLocalPath(client)
+            this.init(client);
+        })
+    }
+    init(client) {
+        client.on('init',()=>{
+            this.getAllfile();
+            this.getBaseLocalPath();
         })
     }
     msg(nt) {

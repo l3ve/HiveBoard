@@ -4028,7 +4028,6 @@ var Message = function (_Component) {
             __WEBPACK_IMPORTED_MODULE_3_css_animation___default()(this.refs[uuid], 'slideInDown');
             if (duration) {
                 this.closeTimer = setTimeout(function () {
-                    // this.close();
                     __WEBPACK_IMPORTED_MODULE_3_css_animation___default()(_this2.refs[uuid], 'zoomOut', _this2.close);
                 }, duration * 1000);
             }
@@ -4067,15 +4066,11 @@ var Message = function (_Component) {
                 { className: 'message' },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
-                    { className: 'animated', ref: uuid },
+                    { className: 'animated ' + type, ref: uuid },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        'p',
-                        { className: type },
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'span',
-                            { className: 'detail' },
-                            message
-                        )
+                        'span',
+                        { className: 'detail' },
+                        message
                     )
                 )
             );
@@ -4174,10 +4169,9 @@ var api = {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_socket_io_client__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_socket_io_client___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_socket_io_client__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__component_switch__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__component_message__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__component_switch__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__component_message__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__js_socket_client__ = __webpack_require__(90);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__css_home__ = __webpack_require__(69);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__css_home___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__css_home__);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -4216,7 +4210,6 @@ var Home = function (_Component) {
             proxyFile: {},
             detailCls: 'hidden'
         };
-        _this.io = __WEBPACK_IMPORTED_MODULE_1_socket_io_client___default()('http://localhost:3333');
         _this.hideDetail = _this.hideDetail.bind(_this);
         return _this;
     }
@@ -4226,13 +4219,13 @@ var Home = function (_Component) {
         value: function componentWillMount() {
             var _this2 = this;
 
-            this.io.on('sys-msg', function (res) {
-                console.log(res.msg);
-                __WEBPACK_IMPORTED_MODULE_3__component_message__["a" /* default */].success({
-                    message: res.msg
+            __WEBPACK_IMPORTED_MODULE_3__js_socket_client__["a" /* default */].on('sys-msg', function (res) {
+                __WEBPACK_IMPORTED_MODULE_2__component_message__["a" /* default */].success({
+                    message: res.msg,
+                    duration: 2
                 });
             });
-            this.io.on('req&res-Info', function (res) {
+            __WEBPACK_IMPORTED_MODULE_3__js_socket_client__["a" /* default */].on('req&res-Info', function (res) {
                 var reqList = _this2.state.reqList,
                     _isBe = false;
                 //去重
@@ -4244,12 +4237,13 @@ var Home = function (_Component) {
                     reqList: reqList.concat(res)
                 });
             });
-            this.io.on('all-local-file-list', function (res) {
+            __WEBPACK_IMPORTED_MODULE_3__js_socket_client__["a" /* default */].on('all-local-file-list', function (res) {
                 var _reqMix = _this2.mixis(res);
                 _this2.setState({
                     reqList: _reqMix
                 });
             });
+            __WEBPACK_IMPORTED_MODULE_3__js_socket_client__["a" /* default */].emit('init');
         }
     }, {
         key: 'mixis',
@@ -4275,14 +4269,12 @@ var Home = function (_Component) {
     }, {
         key: 'saveInfo',
         value: function saveInfo(info, status) {
-            var _this3 = this;
-
             var reqList = this.state.reqList;
 
             reqList.forEach(function (ele, i) {
                 if (ele.req.path == info.req.path && ele.req.hostname == info.req.hostname) {
                     ele.where = status == 'checked' ? 'Local' : 'Remote';
-                    _this3.io.emit('change-info', ele);
+                    __WEBPACK_IMPORTED_MODULE_3__js_socket_client__["a" /* default */].emit('change-info', ele);
                 }
             });
         }
@@ -4304,7 +4296,7 @@ var Home = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
-            var _this4 = this;
+            var _this3 = this;
 
             var _state = this.state,
                 reqList = _state.reqList,
@@ -4323,7 +4315,7 @@ var Home = function (_Component) {
                         return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                             'p',
                             { key: info.type + i, className: 'the-one', onClick: function onClick() {
-                                    return _this4.showDetail(info);
+                                    return _this3.showDetail(info);
                                 } },
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 'span',
@@ -4343,8 +4335,8 @@ var Home = function (_Component) {
                                 info.req.headers.host,
                                 info.req.path
                             ),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__component_switch__["a" /* default */], { defaulStatus: info.where == 'Local', onChange: function onChange(status) {
-                                    return _this4.saveInfo(info, status);
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__component_switch__["a" /* default */], { defaulStatus: info.where == 'Local', onChange: function onChange(status) {
+                                    return _this3.saveInfo(info, status);
                                 } })
                         );
                     })
@@ -4664,8 +4656,7 @@ var Nav = function (_Component) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_socket_io_client__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_socket_io_client___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_socket_io_client__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__js_socket_client__ = __webpack_require__(90);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__component_switch__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__css_proxyList__ = __webpack_require__(72);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__css_proxyList___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__css_proxyList__);
@@ -4694,7 +4685,6 @@ var ProxyList = function (_Component) {
         _this.state = {
             proxyFile: []
         };
-        _this.io = __WEBPACK_IMPORTED_MODULE_1_socket_io_client___default()('http://localhost:3333');
         return _this;
     }
 
@@ -4703,11 +4693,12 @@ var ProxyList = function (_Component) {
         value: function componentWillMount() {
             var _this2 = this;
 
-            this.io.on('all-local-file-list', function (res) {
+            __WEBPACK_IMPORTED_MODULE_1__js_socket_client__["a" /* default */].on('all-local-file-list', function (res) {
                 _this2.setState({
                     proxyFile: res
                 });
             });
+            __WEBPACK_IMPORTED_MODULE_1__js_socket_client__["a" /* default */].emit('init');
         }
     }, {
         key: 'updateInfo',
@@ -4724,7 +4715,7 @@ var ProxyList = function (_Component) {
                     where: status == 'checked' ? 'Local' : 'Remote'
                 };
             }
-            this.io.emit('update-info', {
+            __WEBPACK_IMPORTED_MODULE_1__js_socket_client__["a" /* default */].emit('update-info', {
                 info: info,
                 newInfo: _newInfo
             });
@@ -4732,7 +4723,7 @@ var ProxyList = function (_Component) {
     }, {
         key: 'removeLocalFile',
         value: function removeLocalFile(info) {
-            this.io.emit('remove-info', info);
+            __WEBPACK_IMPORTED_MODULE_1__js_socket_client__["a" /* default */].emit('remove-info', info);
         }
     }, {
         key: 'render',
@@ -4794,8 +4785,7 @@ var ProxyList = function (_Component) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_socket_io_client__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_socket_io_client___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_socket_io_client__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__js_socket_client__ = __webpack_require__(90);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__css_set__ = __webpack_require__(73);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__css_set___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__css_set__);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -4822,7 +4812,6 @@ var Setting = function (_Component) {
         _this.state = {
             baseLocalPath: [{}]
         };
-        _this.io = __WEBPACK_IMPORTED_MODULE_1_socket_io_client___default()('http://localhost:3333');
         return _this;
     }
 
@@ -4831,17 +4820,18 @@ var Setting = function (_Component) {
         value: function componentWillMount() {
             var _this2 = this;
 
-            this.io.on('base-local-path', function (res) {
+            __WEBPACK_IMPORTED_MODULE_1__js_socket_client__["a" /* default */].on('base-local-path', function (res) {
                 _this2.setState({
                     baseLocalPath: res
                 });
             });
+            __WEBPACK_IMPORTED_MODULE_1__js_socket_client__["a" /* default */].emit('init');
         }
     }, {
         key: 'updateBaseLocalPath',
         value: function updateBaseLocalPath(e, info) {
             e.stopPropagation();
-            this.io.emit('update-base-local-path', { id: info[0]._id, path: e.target.value });
+            __WEBPACK_IMPORTED_MODULE_1__js_socket_client__["a" /* default */].emit('update-base-local-path', { id: info[0]._id, path: e.target.value });
         }
     }, {
         key: 'render',
@@ -5150,7 +5140,7 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, ".message-box {\n    position: fixed;\n    width: 100%;\n    top: 80px;\n    z-index: 1000000\n}\n.message-box .message {\n    position: absolute;\n    left: 50%\n}\n.message-box .message .animated {\n    position: relative;\n    right: 50%;\n    padding: 10px 20px;\n    background: #fff;\n    box-shadow: 0 2px 8px rgba(0, 0, 0, .2)\n}\n.message-box .message p {\n    margin: 0\n}", ""]);
+exports.push([module.i, ".message-box {\n    position: fixed;\n    width: 100%;\n    top: 80px;\n    z-index: 1000000\n}\n.message-box .message {\n    position: absolute;\n    left: 50%\n}\n.message-box .message .animated {\n    position: relative;\n    right: 50%;\n    padding: 0px 20px 0px 50px;\n    height: 50px;\n    line-height: 50px;\n    background: #fff;\n    border-radius: 38px 10px 10px 38px;\n    box-shadow: 0 2px 8px rgba(0, 0, 0, .2)\n}\n.message-box .message .animated::before {\n    content: 'OK';\n    display: block;\n    width: 50px;\n    height: 50px;\n    line-height: 50px;\n    border-radius: 50%;\n    position: absolute;\n    bottom: 0px;\n    left: -10px;\n    font-size: 20px;\n    text-align: center;\n    color: #fff;\n    background-color: #00bcd4;\n    box-shadow: 0 2px 8px rgba(0, 0, 0, .2)\n}\n.message-box .message .animated.err::before {\n    content: 'F*K';\n    background-color: #bf2a5c\n}\n.message-box .message .animated span {\n    display: inline-block\n}", ""]);
 
 // exports
 
@@ -9709,6 +9699,32 @@ cssAnimation.isCssAnimationSupported = isCssAnimationSupported;
 
 exports["default"] = cssAnimation;
 module.exports = exports['default'];
+
+/***/ },
+/* 85 */,
+/* 86 */,
+/* 87 */,
+/* 88 */,
+/* 89 */,
+/* 90 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_socket_io_client__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_socket_io_client___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_socket_io_client__);
+
+var instance = void 0;
+
+var api = Singleton();
+/* harmony default export */ exports["a"] = api;
+
+function Singleton() {
+    if (instance) {
+        return instance;
+    }
+    instance = __WEBPACK_IMPORTED_MODULE_0_socket_io_client___default()('http://localhost:3333');
+    return instance;
+}
 
 /***/ }
 /******/ ]);

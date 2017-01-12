@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import io from 'socket.io-client';
+import io from './js/socket_client';
 import Switch from './component/switch';
 
 import './css/proxyList';
@@ -10,14 +10,14 @@ class ProxyList extends Component {
         this.state = {
             proxyFile: []
         };
-        this.io = io('http://localhost:3333');
     }
     componentWillMount() {
-        this.io.on('all-local-file-list', (res) => {
+        io.on('all-local-file-list', (res) => {
             this.setState({
                 proxyFile: res
             });
         })
+        io.emit('init');
     }
     updateInfo(info, i, status) {
         let _newInfo = {};
@@ -32,13 +32,13 @@ class ProxyList extends Component {
                 where: status == 'checked' ? 'Local' : 'Remote'
             }
         }
-        this.io.emit('update-info', {
+        io.emit('update-info', {
             info: info,
             newInfo: _newInfo
         });
     }
     removeLocalFile(info) {
-        this.io.emit('remove-info', info);
+        io.emit('remove-info', info);
     }
     render() {
         const {proxyFile} = this.state;
