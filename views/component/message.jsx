@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { getUuid, Singleton } from '../js/tool';
+import anim from 'css-animation';
+
 import './css/message.css';
 
 let instance;
@@ -8,21 +10,17 @@ let instance;
 class Message extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            animCls: 'slideInDown'
-        }
-        this.end = this.end.bind(this);
-        this.beginListen = this.beginListen.bind(this);
-        console.log('new',props.uuid);
+        this.close = this.close.bind(this);
     }
     componentDidMount() {
         const {duration, uuid} = this.props;
+        anim(this.refs[uuid], 'slideInDown');
         if (duration) {
             this.closeTimer = setTimeout(() => {
-                this.close();
+                // this.close();
+                anim(this.refs[uuid], 'zoomOut', this.close);
             }, duration * 1000);
         }
-        this.refs[uuid].addEventListener('webkitAnimationEnd', this.beginListen);
     }
     componentWillUnmount() {
         this.clearCloseTimer();
@@ -36,27 +34,17 @@ class Message extends Component {
     close() {
         const {uuid} = this.props;
         this.clearCloseTimer();
-        this.setState({
-            animCls: 'zoomOut'
-        });
-    }
-    beginListen() {
-        const {uuid} = this.props;
-        this.refs[uuid].removeEventListener('webkitAnimationEnd', this.beginListen)
-        this.refs[uuid].addEventListener('webkitAnimationEnd', this.end)
-    }
-    end() {
-        console.log('remove');
         this.props.onClose();
     }
     render() {
-        const {message, type, uuid} = this.props,
-            {animCls} = this.state;
+        const {message, type, uuid} = this.props;
         return (
-            <div className={'animated ' + animCls} ref={uuid} >
-                <p className={type}>
-                    <span className='detail' >{message}</span>
-                </p>
+            <div className='message'>
+                <div className='animated' ref={uuid}>
+                    <p className={type}>
+                        <span className='detail' >{message}</span>
+                    </p>
+                </div>
             </div>
         );
     }
@@ -96,9 +84,7 @@ class MessageBox extends Component {
     render() {
         const message = this.state.messages.map((msg) => {
             return (
-                <div className='message'>
-                    <Message onClose={()=>this.remove(msg.uuid)} {...msg} />
-                </div>
+                <Message key={msg.uuid} onClose={() => this.remove(msg.uuid)} {...msg} />
             );
         });
         return (
