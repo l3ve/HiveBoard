@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './css/switch.css';
+import './css/switch';
 class Switch extends Component {
     constructor(props) {
         super(props);

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { getUuid, Singleton } from '../js/tool';
 import anim from 'css-animation';
 
-import './css/message.css';
+import './css/message';
 
 let instance;
 
