@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Nav from './nav.jsx';
 import Home from './home.jsx';
 import ProxyList from './proxyList';
+import Filter from './filter';
 import Setting from './set';
 
 import './css/interface';
@@ -17,7 +18,7 @@ class Interface extends Component {
                 { name: '建设中', sort: 'building' },
                 { name: '设置', sort: 'set' }
             ],
-            curTab: 'home'
+            curTab: 'filter'
         }
         this.switchTab = this.switchTab.bind(this);
     }
@@ -36,8 +37,9 @@ class Interface extends Component {
                 <Nav nav={nav} onSelect={this.switchTab} />
                 <div className='tab-body'>
                     <Home ref='home' />
-                    {curTab=='proxy'?<ProxyList />:''}
-                    {curTab=='set'?<Setting />:''}
+                    {curTab == 'proxy' ? <ProxyList /> : ''}
+                    {curTab == 'filter' ? <Filter /> : ''}
+                    {curTab == 'set' ? <Setting /> : ''}
                 </div>
             </div>
         );
