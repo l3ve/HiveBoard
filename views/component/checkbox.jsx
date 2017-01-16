@@ -4,25 +4,36 @@ import './css/checkbox';
 class Checkbox extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            switchStatus: 'off'
+        }
+        this.click = this.click.bind(this);
+    }
+    click() {
+        this.setState((preState) => {
+            if (preState.switchStatus == 'off') {
+                return {
+                    switchStatus: 'on'
+                }
+            } else {
+                return {
+                    switchStatus: 'off'
+                }
+            }
+        });
     }
     render() {
-        const {label, target} = this.props;
-        const _css = {
-            strokeDasharray:' 126.37, 126.37',
-            strokeDashoffset: 0,
-            transition: 'stroke-dashoffset 0.2s ease-in-out 0s'
-        }
+        const {label, target} = this.props,
+            {switchStatus} = this.state;
         return (
-            <div className='checkbox-box'>
-                <input type="checkbox" id={target} />
-                <label htmlFor={target}><i></i>{label}</label>
+            <div className={'checkbox-box ' + switchStatus} onClick={this.click}>
+                <span>{label}</span>
             </div>
         );
     }
 }
 Checkbox.defaultProps = {
-    label: 'HTML',
-    target: 'id-' + Date.now()
+    label: 'HTML'
 }
 
 export default Checkbox;
