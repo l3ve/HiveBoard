@@ -1387,18 +1387,6 @@ exports.decodePayloadAsBinary = function (data, binaryType, callback) {
 
 /***/ },
 /* 7 */
-/***/ function(module, exports) {
-
-
-module.exports = function(a, b){
-  var fn = function(){};
-  fn.prototype = b.prototype;
-  a.prototype = new fn;
-  a.prototype.constructor = a;
-};
-
-/***/ },
-/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1417,6 +1405,18 @@ function Singleton() {
     instance = __WEBPACK_IMPORTED_MODULE_0_socket_io_client___default()('http://localhost:3333');
     return instance;
 }
+
+/***/ },
+/* 8 */
+/***/ function(module, exports) {
+
+
+module.exports = function(a, b){
+  var fn = function(){};
+  fn.prototype = b.prototype;
+  a.prototype = new fn;
+  a.prototype.constructor = a;
+};
 
 /***/ },
 /* 9 */
@@ -2283,7 +2283,7 @@ function polling (opts) {
 var Transport = __webpack_require__(9);
 var parseqs = __webpack_require__(11);
 var parser = __webpack_require__(6);
-var inherit = __webpack_require__(7);
+var inherit = __webpack_require__(8);
 var yeast = __webpack_require__(28);
 var debug = __webpack_require__(4)('engine.io-client:polling');
 
@@ -3918,21 +3918,36 @@ var Checkbox = function (_Component) {
         var _this = _possibleConstructorReturn(this, (Checkbox.__proto__ || Object.getPrototypeOf(Checkbox)).call(this, props));
 
         _this.state = {
-            switchStatus: 'off'
+            switchStatus: props.status || 'on'
         };
         _this.click = _this.click.bind(_this);
         return _this;
     }
 
     _createClass(Checkbox, [{
+        key: 'componentWillReceiveProps',
+        value: function componentWillReceiveProps(nextProps) {
+            if (nextProps.status != this.props.status) {
+                this.setState({
+                    switchStatus: nextProps.status
+                });
+            }
+        }
+    }, {
         key: 'click',
         value: function click() {
+            var _props = this.props,
+                click = _props.click,
+                label = _props.label;
+
             this.setState(function (preState) {
                 if (preState.switchStatus == 'off') {
+                    click(label, 'on');
                     return {
                         switchStatus: 'on'
                     };
                 } else {
+                    click(label, 'off');
                     return {
                         switchStatus: 'off'
                     };
@@ -3942,9 +3957,9 @@ var Checkbox = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
-            var _props = this.props,
-                label = _props.label,
-                target = _props.target,
+            var _props2 = this.props,
+                label = _props2.label,
+                target = _props2.target,
                 switchStatus = this.state.switchStatus;
 
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -4167,9 +4182,14 @@ var api = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__component_checkbox__ = __webpack_require__(34);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__css_filter__ = __webpack_require__(79);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__css_filter___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__css_filter__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__js_socket_client__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__css_filter__ = __webpack_require__(79);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__css_filter___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__css_filter__);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -4182,25 +4202,61 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 
+
 var Filter = function (_Component) {
     _inherits(Filter, _Component);
 
-    function Filter() {
+    function Filter(props) {
         _classCallCheck(this, Filter);
 
-        return _possibleConstructorReturn(this, (Filter.__proto__ || Object.getPrototypeOf(Filter)).apply(this, arguments));
+        var _this = _possibleConstructorReturn(this, (Filter.__proto__ || Object.getPrototypeOf(Filter)).call(this, props));
+
+        _this.state = {
+            filter: {
+                filterStatus: {
+                    js: 'on',
+                    css: 'on',
+                    img: 'on',
+                    other: 'on'
+                }
+            }
+        };
+        _this.switchStatus = _this.switchStatus.bind(_this);
+        return _this;
     }
 
     _createClass(Filter, [{
+        key: 'componentWillMount',
+        value: function componentWillMount() {
+            var _this2 = this;
+
+            __WEBPACK_IMPORTED_MODULE_2__js_socket_client__["a" /* default */].on('filter-status', function (res) {
+                _this2.setState({
+                    filter: res
+                });
+            });
+            __WEBPACK_IMPORTED_MODULE_2__js_socket_client__["a" /* default */].emit('init');
+        }
+    }, {
+        key: 'switchStatus',
+        value: function switchStatus(type, status) {
+            var filter = this.state.filter;
+
+            filter = _extends({}, filter.filterStatus, _defineProperty({}, type, status));
+            __WEBPACK_IMPORTED_MODULE_2__js_socket_client__["a" /* default */].emit('update-filter-type', { id: filter._id, filter: filter });
+        }
+    }, {
         key: 'render',
         value: function render() {
+            var filterStatus = this.state.filter.filterStatus;
+
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
                 { className: 'filter animated fadeInDown' },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__component_checkbox__["a" /* default */], { label: 'JS' }),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__component_checkbox__["a" /* default */], { label: 'CSS' }),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__component_checkbox__["a" /* default */], { label: 'Img' }),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__component_checkbox__["a" /* default */], { label: 'Other' })
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__component_checkbox__["a" /* default */], { label: 'js', status: filterStatus.js, click: this.switchStatus }),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__component_checkbox__["a" /* default */], { label: 'css', status: filterStatus.css, click: this.switchStatus }),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__component_checkbox__["a" /* default */], { label: 'img', status: filterStatus.img, click: this.switchStatus }),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__component_checkbox__["a" /* default */], { label: 'other', status: filterStatus.other, click: this.switchStatus })
             );
         }
     }]);
@@ -4219,7 +4275,7 @@ var Filter = function (_Component) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__component_switch__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__component_message__ = __webpack_require__(35);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__js_socket_client__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__js_socket_client__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__css_home__ = __webpack_require__(80);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__css_home___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__css_home__);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -4256,6 +4312,12 @@ var Home = function (_Component) {
                 res: {}
             },
             proxyFile: {},
+            filterStatus: {
+                js: 'on',
+                css: 'on',
+                img: 'on',
+                other: 'on'
+            },
             detailCls: 'hidden'
         };
         _this.hideDetail = _this.hideDetail.bind(_this);
@@ -4289,6 +4351,11 @@ var Home = function (_Component) {
                 var _reqMix = _this2.mixis(res);
                 _this2.setState({
                     reqList: _reqMix
+                });
+            });
+            __WEBPACK_IMPORTED_MODULE_3__js_socket_client__["a" /* default */].on('filter-status', function (res) {
+                _this2.setState({
+                    filterStatus: res.filterStatus
                 });
             });
             __WEBPACK_IMPORTED_MODULE_3__js_socket_client__["a" /* default */].emit('init');
@@ -4350,6 +4417,7 @@ var Home = function (_Component) {
                 reqList = _state.reqList,
                 reqDetail = _state.reqDetail,
                 detailCls = _state.detailCls,
+                filterStatus = _state.filterStatus,
                 keyForReqHeader = Object.keys(reqDetail.req.headers),
                 keyForResHeader = Object.keys(reqDetail.res);
 
@@ -4360,6 +4428,7 @@ var Home = function (_Component) {
                     'div',
                     { className: 'proxy-list' },
                     reqList.map(function (info, i) {
+                        if (filterStatus[info.type] == 'off') return false;
                         return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                             'p',
                             { key: info.type + i, className: 'the-one', onClick: function onClick() {
@@ -4513,7 +4582,7 @@ var Interface = function (_Component) {
 
         _this.state = {
             nav: [{ name: '主页', sort: 'home' }, { name: '已代理', sort: 'proxy' }, { name: '过滤', sort: 'filter' }, { name: '建设中', sort: 'building' }, { name: '设置', sort: 'set' }],
-            curTab: 'filter'
+            curTab: 'home'
         };
         _this.switchTab = _this.switchTab.bind(_this);
         return _this;
@@ -4707,7 +4776,7 @@ var Nav = function (_Component) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__js_socket_client__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__js_socket_client__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__component_switch__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__css_proxyList__ = __webpack_require__(83);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__css_proxyList___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__css_proxyList__);
@@ -4836,7 +4905,7 @@ var ProxyList = function (_Component) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__js_socket_client__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__js_socket_client__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__css_set__ = __webpack_require__(84);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__css_set___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__css_set__);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -5678,7 +5747,7 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, ".checkbox-box {\n    position: relative;\n    display: inline-block;\n    width: 90px;\n    height: 50px;\n    margin: 30px 10px;\n    cursor: pointer\n}\n.checkbox-box span {\n    position: absolute;\n    top: 0;\n    left: 0;\n    display: inline-block;\n    width: 100%;\n    height: 50px;\n    line-height: 50px;\n    font-size: 24px;\n    text-align: center\n}\n.checkbox-box::before,\n    .checkbox-box::after {\n    content: '';\n    width: 100%;\n    height: 2px;\n    position: absolute;\n    top: 50%;\n    left: 0;\n    margin-top: -1px;\n    background: #AA00FF;\n    -webkit-transition: all .4s;\n    transition: all .4s\n}\n.checkbox-box::before {\n    -webkit-transform: translateY(20px);\n            transform: translateY(20px)\n}\n.checkbox-box::after {\n    -webkit-transform: translateY(-20px);\n            transform: translateY(-20px)\n}\n.checkbox-box.on {}\n.checkbox-box.on::before {\n    left: 50%;\n    width: 50%;\n    background: red;\n    -webkit-transform: translateX(-50%) rotate(45deg);\n            transform: translateX(-50%) rotate(45deg)\n}\n.checkbox-box.on::after {\n    left: 50%;\n    width: 50%;\n    background: red;\n    -webkit-transform: translateX(-50%) rotate(-45deg);\n            transform: translateX(-50%) rotate(-45deg)\n}", ""]);
+exports.push([module.i, ".checkbox-box {\n    position: relative;\n    display: inline-block;\n    width: 90px;\n    height: 50px;\n    margin: 30px 10px;\n    cursor: pointer\n}\n.checkbox-box span {\n    position: absolute;\n    top: 0;\n    left: 0;\n    display: inline-block;\n    width: 100%;\n    height: 50px;\n    line-height: 50px;\n    font-size: 24px;\n    text-align: center\n}\n.checkbox-box::before,\n    .checkbox-box::after {\n    content: '';\n    width: 100%;\n    height: 2px;\n    position: absolute;\n    top: 50%;\n    left: 0;\n    margin-top: -1px;\n    background: #AA00FF;\n    -webkit-transition: all .4s;\n    transition: all .4s\n}\n.checkbox-box::before {\n    -webkit-transform: translateY(20px);\n            transform: translateY(20px)\n}\n.checkbox-box::after {\n    -webkit-transform: translateY(-20px);\n            transform: translateY(-20px)\n}\n.checkbox-box.off {}\n.checkbox-box.off::before {\n    left: 50%;\n    width: 50%;\n    background: red;\n    -webkit-transform: translateX(-50%) rotate(45deg);\n            transform: translateX(-50%) rotate(45deg)\n}\n.checkbox-box.off::after {\n    left: 50%;\n    width: 50%;\n    background: red;\n    -webkit-transform: translateX(-50%) rotate(-45deg);\n            transform: translateX(-50%) rotate(-45deg)\n}", ""]);
 
 // exports
 
@@ -5721,7 +5790,7 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, ".filter {\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    padding: 0 30px;\n    -webkit-animation-duration: 0.3s;\n            animation-duration: 0.3s;\n    overflow-y: scroll;\n}", ""]);
+exports.push([module.i, ".filter {\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    padding: 0 30px;\n    background: rgba(250, 250, 250, .96);\n    -webkit-animation-duration: 0.3s;\n            animation-duration: 0.3s;\n    overflow-y: scroll;\n}", ""]);
 
 // exports
 
@@ -5778,7 +5847,7 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, ".proxy-file {\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    padding: 0 30px;\n    -webkit-animation-duration: 0.3s;\n            animation-duration: 0.3s;\n    overflow-y: scroll\n}\n.proxy-file .shadow {\n    position: absolute;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    background-color: rgb(250, 250, 250)\n}\n.proxy-file .one {\n    position: relative;\n    color: rgba(0, 0, 0, .87);\n    background-color: rgb(255, 255, 255);\n    -webkit-transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;\n    transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;\n    box-shadow: rgba(0, 0, 0, .1176) 0 1px 6px, rgba(0, 0, 0, .1176) 0 1px 4px;\n    border-radius: 2px;\n    padding: 0 40px 10px 20px;\n    margin-bottom: 20px\n}\n.proxy-file .one span {\n    display: inline-block;\n    padding: 10px 0px 4px;\n    font-size: 14px;\n    border: none;\n    border-bottom: 1px solid rgb(224, 224, 224)\n}\n.proxy-file .one span:focus {\n    outline: none\n}\n.proxy-file .one .local-file-path {\n    -webkit-user-modify: read-write-plaintext-only\n}\n.proxy-file .one .remove-info {\n    display: inline-block;\n    width: 30px;\n    height: 30px;\n    position: absolute;\n    top: 6px;\n    right: 20px;\n    cursor: pointer;\n    background: url(" + __webpack_require__(86) + ") center no-repeat;\n    background-size: 30px\n}\n.proxy-file .one .zwei-switch {\n    position: absolute;\n    top: 42px;\n    right: 12px\n}", ""]);
+exports.push([module.i, ".proxy-file {\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    padding: 0 30px;\n    -webkit-animation-duration: 0.3s;\n            animation-duration: 0.3s;\n    overflow-y: scroll\n}\n.proxy-file .shadow {\n    position: absolute;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    background-color: rgba(250, 250, 250, .96)\n}\n.proxy-file .one {\n    position: relative;\n    color: rgba(0, 0, 0, .87);\n    background-color: rgb(255, 255, 255);\n    -webkit-transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;\n    transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;\n    box-shadow: rgba(0, 0, 0, .1176) 0 1px 6px, rgba(0, 0, 0, .1176) 0 1px 4px;\n    border-radius: 2px;\n    padding: 0 40px 10px 20px;\n    margin-bottom: 20px\n}\n.proxy-file .one span {\n    display: inline-block;\n    padding: 10px 0px 4px;\n    font-size: 14px;\n    border: none;\n    border-bottom: 1px solid rgb(224, 224, 224)\n}\n.proxy-file .one span:focus {\n    outline: none\n}\n.proxy-file .one .local-file-path {\n    -webkit-user-modify: read-write-plaintext-only\n}\n.proxy-file .one .remove-info {\n    display: inline-block;\n    width: 30px;\n    height: 30px;\n    position: absolute;\n    top: 6px;\n    right: 20px;\n    cursor: pointer;\n    background: url(" + __webpack_require__(86) + ") center no-repeat;\n    background-size: 30px\n}\n.proxy-file .one .zwei-switch {\n    position: absolute;\n    top: 42px;\n    right: 12px\n}", ""]);
 
 // exports
 
@@ -5792,7 +5861,7 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, ".setting-box {\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    padding: 30px;\n    background-color: rgb(250, 250, 250);\n    -webkit-animation-duration: 0.6s;\n            animation-duration: 0.6s;\n    -webkit-transform-origin: 93% -10%;\n            transform-origin: 93% -10%\n}\n.setting-box .set-one {\n    height: 55px;\n    border: 1px solid #ddd;\n    border-radius: 4px\n}\n.setting-box .set-one label {\n    display: inline-block;\n    padding: 0 4px;\n    position: relative;\n    top: -8px;\n    left: 20px;\n    font-size: 14px;\n    color: #999;\n    background: rgb(250, 250, 250)\n}\n.setting-box .set-one input {\n    display: block;\n    width: 100%;\n    border: none;\n    text-indent: 12px;\n    background: rgb(250, 250, 250)\n}\n.setting-box .set-one input:focus {\n    outline: none\n}", ""]);
+exports.push([module.i, ".setting-box {\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    padding: 30px;\n    background-color: rgba(250, 250, 250, .96);\n    -webkit-animation-duration: 0.6s;\n            animation-duration: 0.6s;\n    -webkit-transform-origin: 93% -10%;\n            transform-origin: 93% -10%\n}\n.setting-box .set-one {\n    height: 55px;\n    border: 1px solid #ddd;\n    border-radius: 4px\n}\n.setting-box .set-one label {\n    display: inline-block;\n    padding: 0 4px;\n    position: relative;\n    top: -8px;\n    left: 20px;\n    font-size: 14px;\n    color: #999;\n    background: rgb(250, 250, 250)\n}\n.setting-box .set-one input {\n    display: block;\n    width: 100%;\n    border: none;\n    text-indent: 12px;\n    background: rgb(250, 250, 250)\n}\n.setting-box .set-one input:focus {\n    outline: none\n}", ""]);
 
 // exports
 
@@ -6782,7 +6851,7 @@ Socket.prototype.filterUpgrades = function (upgrades) {
  */
 
 var Polling = __webpack_require__(18);
-var inherit = __webpack_require__(7);
+var inherit = __webpack_require__(8);
 
 /**
  * Module exports.
@@ -7021,7 +7090,7 @@ JSONPPolling.prototype.doWrite = function (data, fn) {
 var XMLHttpRequest = __webpack_require__(10);
 var Polling = __webpack_require__(18);
 var Emitter = __webpack_require__(5);
-var inherit = __webpack_require__(7);
+var inherit = __webpack_require__(8);
 var debug = __webpack_require__(4)('engine.io-client:polling-xhr');
 
 /**
@@ -7452,7 +7521,7 @@ function unloadHandler () {
 var Transport = __webpack_require__(9);
 var parser = __webpack_require__(6);
 var parseqs = __webpack_require__(11);
-var inherit = __webpack_require__(7);
+var inherit = __webpack_require__(8);
 var yeast = __webpack_require__(28);
 var debug = __webpack_require__(4)('engine.io-client:websocket');
 var BrowserWebSocket = global.WebSocket || global.MozWebSocket;

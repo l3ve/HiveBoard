@@ -17,6 +17,12 @@ class Home extends Component {
                 res: {}
             },
             proxyFile: {},
+            filterStatus: {
+                js: 'on',
+                css: 'on',
+                img: 'on',
+                other: 'on'
+            },
             detailCls: 'hidden'
         }
         this.hideDetail = this.hideDetail.bind(this);
@@ -44,6 +50,11 @@ class Home extends Component {
             const _reqMix = this.mixis(res);
             this.setState({
                 reqList: _reqMix
+            });
+        })
+        io.on('filter-status', (res) => {
+            this.setState({
+                filterStatus: res.filterStatus
             });
         })
         io.emit('init');
@@ -89,13 +100,14 @@ class Home extends Component {
         });
     }
     render() {
-        const {reqList, reqDetail, detailCls} = this.state,
+        const {reqList, reqDetail, detailCls, filterStatus} = this.state,
             keyForReqHeader = Object.keys(reqDetail.req.headers),
             keyForResHeader = Object.keys(reqDetail.res);
         return (
             <div className='home'>
                 <div className='proxy-list'>
                     {reqList.map((info, i) => {
+                        if (filterStatus[info.type]=='off') return false;
                         return (
                             <p key={info.type + i} className='the-one' onClick={() => this.showDetail(info)}>
                                 <span className={'type ' + info.type}>{info.type}</span>

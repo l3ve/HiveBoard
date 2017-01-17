@@ -17,14 +17,15 @@ class Io {
             this.saveInfo(client);
             this.removeInfo(client);
             this.updateInfo(client);
-            this.updateBaseLocalPath(client)
+            this.updateSetting(client)
             this.init(client);
         })
     }
     init(client) {
-        client.on('init',()=>{
+        client.on('init', () => {
             this.getAllfile();
             this.getBaseLocalPath();
+            this.getFilterStatus();
         })
     }
     msg(nt) {
@@ -106,7 +107,13 @@ class Io {
             io.emit('base-local-path', res);
         })
     }
-    updateBaseLocalPath(client) {
+    getFilterStatus() {
+        this.db.findAll('filterStatus').then((res) => {
+            this.filterStatus = res[0].filterStatus;
+            io.emit('filter-status', res[0]);
+        })
+    }
+    updateSetting(client) {
         client.on('update-base-local-path', (res) => {
             this.db.updateById(res.id, {
                 name: 'baseLocalPath',
@@ -115,6 +122,17 @@ class Io {
                 if (res >= 1) {
                     this.msg({ msg: '更新本地代理地址成功!', tag: 'update-localpath-success' });
                     this.getBaseLocalPath();
+                }
+            })
+        })
+        client.on('update-filter-type', (res) => {
+            this.db.updateById(res.id, {
+                name: 'filterStatus',
+                filterStatus: res.filter
+            }).then((res) => {
+                if (res >= 1) {
+                    this.msg({ msg: '更新过滤设置!', tag: 'update-filter-success' });
+                    this.getFilterStatus();
                 }
             })
         })
