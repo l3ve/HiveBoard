@@ -4040,7 +4040,7 @@ var Message = function (_Component) {
             __WEBPACK_IMPORTED_MODULE_3_css_animation___default()(this.refs[uuid], 'slideInDown');
             if (duration) {
                 this.closeTimer = setTimeout(function () {
-                    __WEBPACK_IMPORTED_MODULE_3_css_animation___default()(_this2.refs[uuid], 'zoomOut', _this2.close);
+                    __WEBPACK_IMPORTED_MODULE_3_css_animation___default()(_this2.refs[uuid], 'bounceOutRight', _this2.close);
                 }, duration * 1000);
             }
         }
@@ -4582,7 +4582,7 @@ var Interface = function (_Component) {
 
         _this.state = {
             nav: [{ name: '主页', sort: 'home' }, { name: '已代理', sort: 'proxy' }, { name: '过滤', sort: 'filter' }, { name: '建设中', sort: 'building' }, { name: '设置', sort: 'set' }],
-            curTab: 'set'
+            curTab: 'home'
         };
         _this.switchTab = _this.switchTab.bind(_this);
         return _this;

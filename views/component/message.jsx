@@ -17,7 +17,7 @@ class Message extends Component {
         anim(this.refs[uuid], 'slideInDown');
         if (duration) {
             this.closeTimer = setTimeout(() => {
-                anim(this.refs[uuid], 'zoomOut', this.close);
+                anim(this.refs[uuid], 'bounceOutRight', this.close);
             }, duration * 1000);
         }
     }
