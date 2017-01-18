@@ -27,6 +27,9 @@ class Setting extends Component {
     addSet() {
         io.emit('update-base-local-path', { path: '/' });
     }
+    removeSet(path) {
+        io.emit('remove-base-local-path', path);
+    }
     render() {
         const {baseLocalPath} = this.state;
         return (
@@ -37,6 +40,7 @@ class Setting extends Component {
                             <div className='set-one'>
                                 <label htmlFor='base-local-path'>本地地址</label>
                                 <input key={path.baseLocalPath} id='base-local-path' onBlur={(e) => this.updateBaseLocalPath(e, path)} defaultValue={path.baseLocalPath} />
+                                <i className='remove-btn' onClick={() => this.removeSet(path)}></i>
                             </div>
                         )
                     })

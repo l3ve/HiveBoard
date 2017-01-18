@@ -18,7 +18,7 @@ class Interface extends Component {
                 { name: '建设中', sort: 'building' },
                 { name: '设置', sort: 'set' }
             ],
-            curTab: 'home'
+            curTab: 'set'
         }
         this.switchTab = this.switchTab.bind(this);
     }

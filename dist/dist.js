@@ -4582,7 +4582,7 @@ var Interface = function (_Component) {
 
         _this.state = {
             nav: [{ name: '主页', sort: 'home' }, { name: '已代理', sort: 'proxy' }, { name: '过滤', sort: 'filter' }, { name: '建设中', sort: 'building' }, { name: '设置', sort: 'set' }],
-            curTab: 'home'
+            curTab: 'set'
         };
         _this.switchTab = _this.switchTab.bind(_this);
         return _this;
@@ -4959,6 +4959,11 @@ var Setting = function (_Component) {
             __WEBPACK_IMPORTED_MODULE_1__js_socket_client__["a" /* default */].emit('update-base-local-path', { path: '/' });
         }
     }, {
+        key: 'removeSet',
+        value: function removeSet(path) {
+            __WEBPACK_IMPORTED_MODULE_1__js_socket_client__["a" /* default */].emit('remove-base-local-path', path);
+        }
+    }, {
         key: 'render',
         value: function render() {
             var _this3 = this;
@@ -4979,7 +4984,10 @@ var Setting = function (_Component) {
                         ),
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { key: path.baseLocalPath, id: 'base-local-path', onBlur: function onBlur(e) {
                                 return _this3.updateBaseLocalPath(e, path);
-                            }, defaultValue: path.baseLocalPath })
+                            }, defaultValue: path.baseLocalPath }),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'remove-btn', onClick: function onClick() {
+                                return _this3.removeSet(path);
+                            } })
                     );
                 }),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -5877,7 +5885,7 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, ".setting-box {\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    padding: 30px;\n    background-color: rgba(250, 250, 250, .96);\n    -webkit-animation-duration: 0.6s;\n            animation-duration: 0.6s;\n    -webkit-transform-origin: 93% -10%;\n            transform-origin: 93% -10%\n}\n.setting-box .set-one,\n    .setting-box .set-add {\n    height: 55px;\n    border: 1px solid #ccc;\n    border-radius: 4px;\n    margin: 0 0 30px 0\n}\n.setting-box .set-one label, .setting-box .set-add label {\n    display: inline-block;\n    padding: 0 4px;\n    position: relative;\n    top: -8px;\n    left: 20px;\n    font-size: 14px;\n    color: #999;\n    background: rgb(250, 250, 250)\n}\n.setting-box .set-one input, .setting-box .set-add input {\n    display: block;\n    width: 100%;\n    border: none;\n    text-indent: 12px;\n    background: rgb(250, 250, 250)\n}\n.setting-box .set-one input:focus, .setting-box .set-add input:focus {\n    outline: none\n}\n.setting-box .set-add {\n    position: relative;\n    border: 1px solid #ddd\n}\n.setting-box .set-add::before,\n        .setting-box .set-add::after {\n    position: absolute;\n    top: 12px;\n    left: 50%;\n    content: '';\n    display: inline-block;\n    width: 2px;\n    height: 30px;\n    background: #ddd\n}\n.setting-box .set-add::after {\n    -webkit-transform: rotate(90deg);\n            transform: rotate(90deg)\n}", ""]);
+exports.push([module.i, ".setting-box {\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    padding: 30px;\n    background-color: rgba(250, 250, 250, .96);\n    -webkit-animation-duration: 0.6s;\n            animation-duration: 0.6s;\n    -webkit-transform-origin: 93% -10%;\n            transform-origin: 93% -10%\n}\n.setting-box .set-one,\n    .setting-box .set-add {\n    position: relative;\n    height: 55px;\n    border: 1px solid #ccc;\n    border-radius: 4px;\n    margin: 0 0 30px 0\n}\n.setting-box .set-one label, .setting-box .set-add label {\n    display: inline-block;\n    padding: 0 4px;\n    position: relative;\n    top: -8px;\n    left: 20px;\n    font-size: 14px;\n    color: #999;\n    background: rgb(250, 250, 250)\n}\n.setting-box .set-one input, .setting-box .set-add input {\n    display: block;\n    width: 100%;\n    border: none;\n    text-indent: 12px;\n    background: rgb(250, 250, 250)\n}\n.setting-box .set-one input:focus, .setting-box .set-add input:focus {\n    outline: none\n}\n.setting-box .set-one {}\n.setting-box .set-one .remove-btn {\n    display: inline-block;\n    width: 30px;\n    height: 30px;\n    position: absolute;\n    top: 12px;\n    right: 20px;\n    cursor: pointer;\n    background: url(" + __webpack_require__(86) + ") center no-repeat;\n    background-size: 30px\n}\n.setting-box .set-add {\n    position: relative;\n    border: 1px solid #ddd\n}\n.setting-box .set-add::before,\n        .setting-box .set-add::after {\n    position: absolute;\n    top: 12px;\n    left: 50%;\n    content: '';\n    display: inline-block;\n    width: 2px;\n    height: 30px;\n    background: #ddd\n}\n.setting-box .set-add::after {\n    -webkit-transform: rotate(90deg);\n            transform: rotate(90deg)\n}", ""]);
 
 // exports
 

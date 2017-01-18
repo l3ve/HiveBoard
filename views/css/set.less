@@ -10,6 +10,7 @@
     transform-origin: 93% -10%;
     & .set-one,
     & .set-add {
+        position: relative;
         height: 55px;
         border: 1px solid #ccc;
         border-radius: 4px;
@@ -33,6 +34,19 @@
             &:focus {
                 outline: none;
             }
+        }
+    }
+    & .set-one {
+        & .remove-btn {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            top: 12px;
+            right: 20px;
+            cursor: pointer;
+            background: url('img/delete.png') center no-repeat;
+            background-size: 30px;
         }
     }
     & .set-add {

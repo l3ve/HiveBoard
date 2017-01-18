@@ -17,7 +17,8 @@ class Io {
             this.saveInfo(client);
             this.removeInfo(client);
             this.updateInfo(client);
-            this.updateSetting(client)
+            this.updateSetting(client);
+            this.removeSetting(client);
             this.init(client);
         })
     }
@@ -135,6 +136,16 @@ class Io {
                 if (res >= 1) {
                     this.msg({ msg: '更新过滤设置!', tag: 'update-filter-success' });
                     this.getFilterStatus();
+                }
+            })
+        })
+    }
+    removeSetting(client) {
+        client.on('remove-base-local-path', (info) => {
+            this.db.remove(info._id).then((num) => {
+                if (num >= 1) {
+                    this.msg({ msg: '删除本地代理成功!', tag: 'remove-success' });
+                    this.getBaseLocalPath();
                 }
             })
         })
