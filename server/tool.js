@@ -1,4 +1,6 @@
-module.exports = function classify(req, res) {
+var fs = require('fs');
+
+exports.classify = function (req, res) {
     let type = '',
         ctxType = res['content-type'],
         url = req.path,
@@ -15,4 +17,36 @@ module.exports = function classify(req, res) {
         type = 'other';
     }
     return type
+}
+exports.loopFsStat = function (pathArr, cb) {
+    let prmArr = pathArr.map((path) => {
+        return PromiseFsStat(path)
+    });
+    prmArr.push(delayPromise(1000));
+    Promise.race(prmArr).then((para) => {
+        if (para) {
+            cb(para)
+        } else {
+            cb({
+                stats: false,
+                localPath:''
+            })
+        }
+    })
+}
+
+function PromiseFsStat(localPath) {
+    return new Promise((resolve) => {
+        fs.stat(localPath, (err, stats) => {
+            if (stats) {
+                resolve({stats, localPath})
+            }
+        })
+    })
+}
+
+function delayPromise(ms) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, ms);
+    })
 }

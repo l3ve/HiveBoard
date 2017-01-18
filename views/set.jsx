@@ -22,15 +22,27 @@ class Setting extends Component {
     }
     updateBaseLocalPath(e, info) {
         e.stopPropagation();
-        io.emit('update-base-local-path', { id: info[0]._id, path: e.target.value });
+        io.emit('update-base-local-path', { id: info._id, path: e.target.value });
+    }
+    addSet() {
+        io.emit('update-base-local-path', { path: '/' });
     }
     render() {
         const {baseLocalPath} = this.state;
         return (
             <div className='setting-box animated slideInRight'>
-                <div className='set-one'>
-                    <label htmlFor='base-local-path'>本地地址</label>
-                    <input key={baseLocalPath[0].baseLocalPath} id='base-local-path' onBlur={(e) => this.updateBaseLocalPath(e, baseLocalPath)} defaultValue={baseLocalPath[0].baseLocalPath} />
+                {
+                    baseLocalPath.map((path, i) => {
+                        return (
+                            <div className='set-one'>
+                                <label htmlFor='base-local-path'>本地地址</label>
+                                <input key={path.baseLocalPath} id='base-local-path' onBlur={(e) => this.updateBaseLocalPath(e, path)} defaultValue={path.baseLocalPath} />
+                            </div>
+                        )
+                    })
+                }
+                <div className='set-add' onClick={this.addSet}>
+                    <label>新增地址</label>
                 </div>
             </div>
         );

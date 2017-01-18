@@ -4,10 +4,9 @@ var net = require('net');
 var url = require('url');
 var zlib = require('zlib');
 var Io = require('./socket.js');
-var classify = require('./tool.js');
+var {classify, loopFsStat} = require('./tool.js');
 
 const socket = new Io();
-
 //HTTP代理
 function request(cReq, cRes) {
     var u = url.parse(cReq.url);
@@ -22,7 +21,7 @@ function request(cReq, cRes) {
         const proxy = socket.checkProxy(u),
             localPath = proxy ? socket.returnLocalPath(proxy) : '';
         if (proxy) {
-            fs.stat(localPath, (err, stats) => {
+            loopFsStat(localPath, ({stats, localPath}) => {
                 if (stats) {
                     cRes.writeHead(200, pRes.headers);
                     let file = fs.createReadStream(localPath),

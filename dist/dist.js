@@ -4582,7 +4582,7 @@ var Interface = function (_Component) {
 
         _this.state = {
             nav: [{ name: '主页', sort: 'home' }, { name: '已代理', sort: 'proxy' }, { name: '过滤', sort: 'filter' }, { name: '建设中', sort: 'building' }, { name: '设置', sort: 'set' }],
-            curTab: 'home'
+            curTab: 'set'
         };
         _this.switchTab = _this.switchTab.bind(_this);
         return _this;
@@ -4951,7 +4951,12 @@ var Setting = function (_Component) {
         key: 'updateBaseLocalPath',
         value: function updateBaseLocalPath(e, info) {
             e.stopPropagation();
-            __WEBPACK_IMPORTED_MODULE_1__js_socket_client__["a" /* default */].emit('update-base-local-path', { id: info[0]._id, path: e.target.value });
+            __WEBPACK_IMPORTED_MODULE_1__js_socket_client__["a" /* default */].emit('update-base-local-path', { id: info._id, path: e.target.value });
+        }
+    }, {
+        key: 'addSet',
+        value: function addSet() {
+            __WEBPACK_IMPORTED_MODULE_1__js_socket_client__["a" /* default */].emit('update-base-local-path', { path: '/' });
         }
     }, {
         key: 'render',
@@ -4963,17 +4968,28 @@ var Setting = function (_Component) {
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
                 { className: 'setting-box animated slideInRight' },
+                baseLocalPath.map(function (path, i) {
+                    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'div',
+                        { className: 'set-one' },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'label',
+                            { htmlFor: 'base-local-path' },
+                            '\u672C\u5730\u5730\u5740'
+                        ),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { key: path.baseLocalPath, id: 'base-local-path', onBlur: function onBlur(e) {
+                                return _this3.updateBaseLocalPath(e, path);
+                            }, defaultValue: path.baseLocalPath })
+                    );
+                }),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
-                    { className: 'set-one' },
+                    { className: 'set-add', onClick: this.addSet },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'label',
-                        { htmlFor: 'base-local-path' },
-                        '\u672C\u5730\u5730\u5740'
-                    ),
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { key: baseLocalPath[0].baseLocalPath, id: 'base-local-path', onBlur: function onBlur(e) {
-                            return _this3.updateBaseLocalPath(e, baseLocalPath);
-                        }, defaultValue: baseLocalPath[0].baseLocalPath })
+                        null,
+                        '\u65B0\u589E\u5730\u5740'
+                    )
                 )
             );
         }
@@ -5861,7 +5877,7 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, ".setting-box {\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    padding: 30px;\n    background-color: rgba(250, 250, 250, .96);\n    -webkit-animation-duration: 0.6s;\n            animation-duration: 0.6s;\n    -webkit-transform-origin: 93% -10%;\n            transform-origin: 93% -10%\n}\n.setting-box .set-one {\n    height: 55px;\n    border: 1px solid #ddd;\n    border-radius: 4px\n}\n.setting-box .set-one label {\n    display: inline-block;\n    padding: 0 4px;\n    position: relative;\n    top: -8px;\n    left: 20px;\n    font-size: 14px;\n    color: #999;\n    background: rgb(250, 250, 250)\n}\n.setting-box .set-one input {\n    display: block;\n    width: 100%;\n    border: none;\n    text-indent: 12px;\n    background: rgb(250, 250, 250)\n}\n.setting-box .set-one input:focus {\n    outline: none\n}", ""]);
+exports.push([module.i, ".setting-box {\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    padding: 30px;\n    background-color: rgba(250, 250, 250, .96);\n    -webkit-animation-duration: 0.6s;\n            animation-duration: 0.6s;\n    -webkit-transform-origin: 93% -10%;\n            transform-origin: 93% -10%\n}\n.setting-box .set-one,\n    .setting-box .set-add {\n    height: 55px;\n    border: 1px solid #ccc;\n    border-radius: 4px;\n    margin: 0 0 30px 0\n}\n.setting-box .set-one label, .setting-box .set-add label {\n    display: inline-block;\n    padding: 0 4px;\n    position: relative;\n    top: -8px;\n    left: 20px;\n    font-size: 14px;\n    color: #999;\n    background: rgb(250, 250, 250)\n}\n.setting-box .set-one input, .setting-box .set-add input {\n    display: block;\n    width: 100%;\n    border: none;\n    text-indent: 12px;\n    background: rgb(250, 250, 250)\n}\n.setting-box .set-one input:focus, .setting-box .set-add input:focus {\n    outline: none\n}\n.setting-box .set-add {\n    position: relative;\n    border: 1px solid #ddd\n}\n.setting-box .set-add::before,\n        .setting-box .set-add::after {\n    position: absolute;\n    top: 12px;\n    left: 50%;\n    content: '';\n    display: inline-block;\n    width: 2px;\n    height: 30px;\n    background: #ddd\n}\n.setting-box .set-add::after {\n    -webkit-transform: rotate(90deg);\n            transform: rotate(90deg)\n}", ""]);
 
 // exports
 

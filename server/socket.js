@@ -43,7 +43,9 @@ class Io {
         })
     }
     returnLocalPath(proxy) {
-        return this.baseLocalPath + proxy.localPath;
+        return this.baseLocalPath.map((path) => {
+            return path.baseLocalPath + proxy.localPath
+        });
     }
     saveInfo(client) {
         client.on('change-info', (info) => {
@@ -103,7 +105,7 @@ class Io {
     }
     getBaseLocalPath() {
         this.db.findAll('baseLocalPath').then((res) => {
-            this.baseLocalPath = res[0].baseLocalPath;
+            this.baseLocalPath = res;
             io.emit('base-local-path', res);
         })
     }
