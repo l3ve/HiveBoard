@@ -18,8 +18,17 @@
 
 `npm run app 启动Electron`
 
+##FUNCTION
+
+1. 抓包,查看http
+2. 筛选过滤请求类型(js,css,img,ohter)
+3. 代理本地文件
+4. ...
+
+##How to use
+
 ##TODO:
 
-1. 过滤文件
-2. 多个本地代理地址前缀
+1. 查找当前请求
+2. 模拟接口返回数据
 
