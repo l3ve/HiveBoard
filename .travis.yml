@@ -9,6 +9,7 @@ notifications:       # 每次构建的时候是否通知，如果不想收到通
 sudo: false          # 开启基于容器的Travis CI任务，让编译效率更高。
 
 before_install:
+    - npm install
     - npm run start  # 编译前端JavaScript文件
 
 script:              # 执行:下面的命令
