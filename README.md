@@ -4,7 +4,9 @@
 
 下载地址:[百度网盘](https://pan.baidu.com/s/1kUXMJ59)
 
+[![Build Status](https://travis-ci.org/l3ve/Switch.svg?branch=master)](https://travis-ci.org/l3ve/Switch)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/l3ve/Switch/master/LICENSE.md)
+
 
 ##Stack:
 1. Electron
