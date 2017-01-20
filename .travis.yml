@@ -15,5 +15,4 @@ before_install:
     - npm install
 
 script:              # 执行:下面的命令
-    - npm run start  # 编译前端JavaScript文件
     - npm run app
