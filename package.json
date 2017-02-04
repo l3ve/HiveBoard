@@ -11,13 +11,16 @@
   "scripts": {
     "dev": "webpack --config webpack.config.js -w",
     "pro": "rm -r ./node_modules | yarn install --production",
-    "test": "electron-mocha --renderer ./main.js",
+    "test": "node ./script/test.js",
     "app": "./node_modules/.bin/electron  .",
+    "build-test": "webpack --config webpack.config.js -p",
     "build": "./node_modules/.bin/electron-rebuild"
   },
   "dependencies": {
+    "chai": "^3.5.0",
     "css-animation": "^1.3.1",
     "fetch": "^1.1.0",
+    "mocha": "^3.2.0",
     "nedb": "^1.8.0",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
@@ -33,7 +36,6 @@
     "css-loader": "^0.26.1",
     "csswring": "^5.1.0",
     "electron": "^1.4.13",
-    "electron-mocha": "^3.3.0",
     "electron-prebuilt": "^1.4.13",
     "electron-rebuild": "^1.4.0",
     "eslint": "^3.12.2",
