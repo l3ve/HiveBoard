@@ -13,7 +13,7 @@ notifications:       # 每次构建的时候是否通知，如果不想收到通
     email: false
 
 before_script:
-  - npm install electron-mocha
+  - npm install electron-mocha electron
   - export DISPLAY=':99.0'
   - Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
 
