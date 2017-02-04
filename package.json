@@ -11,7 +11,7 @@
   "scripts": {
     "dev": "webpack --config webpack.config.js -w",
     "pro": "rm -r ./node_modules | yarn install --production",
-    "build-test": "webpack --config webpack.config.js",
+    "test": "electron-mocha --renderer ./main.js",
     "app": "./node_modules/.bin/electron  .",
     "build": "./node_modules/.bin/electron-rebuild"
   },
@@ -33,6 +33,7 @@
     "css-loader": "^0.26.1",
     "csswring": "^5.1.0",
     "electron": "^1.4.13",
+    "electron-mocha": "^3.3.0",
     "electron-prebuilt": "^1.4.13",
     "electron-rebuild": "^1.4.0",
     "eslint": "^3.12.2",
