@@ -2,14 +2,15 @@
   "name": "Switch",
   "description": "Debug online with Front-end",
   "author": "L3've",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "main": "main.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/l3ve/httpDebug"
   },
   "scripts": {
-    "start": "webpack --config webpack.config.js -w",
+    "dev": "webpack --config webpack.config.js -w",
+    "build-test": "webpack --config webpack.config.js",
     "app": "./node_modules/.bin/electron  .",
     "build": "./node_modules/.bin/electron-rebuild"
   },
