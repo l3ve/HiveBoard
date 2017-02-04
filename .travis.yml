@@ -9,11 +9,11 @@ install: true
 os:
   - osx
 
-notifications:       # 每次构建的时候是否通知，如果不想收到通知邮箱（个人感觉邮件贼烦），那就设置false吧
+notifications:       # 每次构建的时候是否接收邮箱通知
     email: false
 
 before_script:
-  - npm install electron-mocha electron
+  - npm install -g electron-mocha electron
   - export DISPLAY=':99.0'
   - Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
 
