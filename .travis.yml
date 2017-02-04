@@ -9,20 +9,19 @@ os:
 notifications:       # 每次构建的时候是否通知，如果不想收到通知邮箱（个人感觉邮件贼烦），那就设置false吧
     email: false
 
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - gcc-4.9
-      - g++-4.9
-      - gcc-4.9-multilib
-      - g++-4.9-multilib
-      - zip
-      - libgtk2.0-0
-
 before_install:
-    - npm install
+    -
+
+install:
+  - export DISPLAY=':99.0'
+  - Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+
 
 script:              # 执行:下面的命令
-    - npm run app
+    - bash ./script/test.sh
+
+
+addons:
+  apt:
+    packages:
+      - xvfb
