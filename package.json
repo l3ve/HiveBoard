@@ -10,6 +10,7 @@
   },
   "scripts": {
     "dev": "webpack --config webpack.config.js -w",
+    "pro": "rm -r ./node_modules | yarn install --production",
     "build-test": "webpack --config webpack.config.js",
     "app": "./node_modules/.bin/electron  .",
     "build": "./node_modules/.bin/electron-rebuild"

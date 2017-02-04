@@ -2,7 +2,7 @@
 
 用惯了livepool,但这家伙不更新了,烦躁不安下,决定自己撸一个
 
-下载地址:[百度网盘](https://pan.baidu.com/s/1kUXMJ59)
+beta版下载地址:[百度网盘](https://pan.baidu.com/s/1dEBFbOl)
 
 [![Build Status](https://travis-ci.org/l3ve/Switch.svg?branch=master)](https://travis-ci.org/l3ve/Switch)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/l3ve/Switch/master/LICENSE.md)
@@ -25,8 +25,8 @@
 
 ##How to use
 
-#### Step 1: 
-* 生成模式 : `下载并执行文件`  
+#### Step 1:
+* 生成模式 : `下载并执行文件`
 * 开发模式 : ` npm install && npm run app //安装所有依赖并启动Electron`
 
 #### Step 2:
@@ -38,6 +38,6 @@
 
 ##TODO:
 1. 查找当前请求
-2. 可配置socket端口 
+2. 可配置socket端口
 3. 模拟接口返回数据
 
