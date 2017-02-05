@@ -19,8 +19,10 @@ class ProxyList extends Component {
         })
         io.emit('init');
     }
-    updateInfo(info, i, status) {
-        let _newInfo = {};
+    updateInfo({info, i, status}) {
+        let _newInfo = {},
+            {proxyFile} = this.state;
+        if (this.refs['hfp-' + i].innerHTML  == proxyFile[i].path && this.refs['lfp-' + i].innerHTML == proxyFile[i].localPath) return false;
         if (!status) {
             _newInfo = {
                 host: info.host,
@@ -46,15 +48,14 @@ class ProxyList extends Component {
             <div className='proxy-file animated zoomIn'>
                 <div className='shadow'></div>
                 {
-                    proxyFile.map((file, i) => {
-                        const _host = file.host;
+                    proxyFile.map((info, i) => {
                         return (
                             <p key={'lf-' + i} className='one'>
-                                <span>{_host}</span>
-                                <span ref={'hfp-' + i} className='http-file-path' contentEditable="true" suppressContentEditableWarning={true} onBlur={() => this.updateInfo(file, i)} >{file.path}</span><br />
-                                <span ref={'lfp-' + i} className='local-file-path' contentEditable="true" suppressContentEditableWarning={true} onBlur={() => this.updateInfo(file, i)} >{file.localPath}</span>
-                                <i className='remove-info' onClick={() => this.removeLocalFile(file)}></i>
-                                <Switch defaulStatus={file.where == 'Local'} onChange={(status) => this.updateInfo(file, i, status)} />
+                                <span>{info.host}</span>
+                                <span ref={'hfp-' + i} className='http-file-path' contentEditable="true" suppressContentEditableWarning={true} onBlur={() => this.updateInfo({info, i})} >{info.path}</span><br />
+                                <span ref={'lfp-' + i} className='local-file-path' contentEditable="true" suppressContentEditableWarning={true} onBlur={() => this.updateInfo({info, i})} >{info.localPath}</span>
+                                <i className='remove-info' onClick={() => this.removeLocalFile(info)}></i>
+                                <Switch defaulStatus={info.where == 'Local'} onChange={(status) => this.updateInfo({info, i, status})} />
                             </p>
                         )
                     })

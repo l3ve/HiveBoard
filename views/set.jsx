@@ -21,6 +21,7 @@ class Setting extends Component {
         io.emit('init');
     }
     updateBaseLocalPath(e, info) {
+        if (e.target.value == info.baseLocalPath) return false;
         e.stopPropagation();
         io.emit('update-base-local-path', { id: info._id, path: e.target.value });
     }
