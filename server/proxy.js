@@ -19,7 +19,9 @@ function request(cReq, cRes) {
     };
     var pReq = http.request(options, function (pRes) {
         const proxy = socket.checkProxy(u),
-            localPath = proxy ? socket.returnLocalPath(proxy) : '';
+            localPath = proxy ? socket.returnLocalPath(proxy) : '',
+            _type = classify(options);
+        let _data = '';
         if (proxy) {
             loopFsStat(localPath, ({stats, localPath}) => {
                 if (stats) {
@@ -46,12 +48,18 @@ function request(cReq, cRes) {
             cRes.writeHead(pRes.statusCode, pRes.headers);
             pRes.pipe(cRes);
         }
-        //回传请求的信息
-        socket.sendReqAndRes({
-            type: classify(options, pRes.headers),
-            where: proxy ? 'Local' : 'Remote',
-            req: options,
-            res: pRes.headers
+        pRes.on('data', (chunk) => {
+            _data += chunk;
+        });
+        pRes.on('end', () => {
+            //回传请求的信息
+            socket.sendReqAndRes({
+                type: _type,
+                where: proxy ? 'Local' : 'Remote',
+                req: options,
+                res: pRes.headers,
+                body: _data
+            });
         });
     }).on('error', (e) => {
         cRes.end();

@@ -1,8 +1,7 @@
 var fs = require('fs');
 
-exports.classify = function (req, res) {
+exports.classify = function (req) {
     let type = '',
-        ctxType = res['content-type'],
         url = req.path,
         reJs = /\.(js$|js\?)/,
         reCss = /\.(css$|css\?)/,
