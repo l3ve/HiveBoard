@@ -127,7 +127,7 @@ app.on('activate', () => {
     createWindow();
   }
 });
-
+app.dock.setIcon(`file://${__dirname}/js.png`)
 
 function createWindow() {
   Menu.setApplicationMenu(menu);
@@ -135,8 +135,8 @@ function createWindow() {
     width: 800,
     height: 600,
     icon: './favicon.ico',
-    type: 'textured',
-    titleBarStyle: 'hidden'
+    // type: 'desktop',
+    // titleBarStyle: 'hidden'
   });
   global.mainWindow.loadURL(`file://${__dirname}/dist/index.html`);
   // 启用开发工具。
