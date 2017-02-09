@@ -4,6 +4,7 @@ import Home from './home.jsx';
 import ProxyList from './proxyList';
 import Filter from './filter';
 import Setting from './set';
+import Akl from './akl';
 
 import './css/interface';
 
@@ -31,7 +32,6 @@ class Interface extends Component {
     }
     render() {
         let {curTab, nav} = this.state;
-
         return (
             <div className='main'>
                 <Nav nav={nav} onSelect={this.switchTab} />
@@ -39,6 +39,7 @@ class Interface extends Component {
                     <Home ref='home' />
                     {curTab == 'proxy' ? <ProxyList /> : ''}
                     {curTab == 'filter' ? <Filter /> : ''}
+                    {curTab == 'building' ? <Akl /> : ''}
                     {curTab == 'set' ? <Setting /> : ''}
                 </div>
             </div>
