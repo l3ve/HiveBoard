@@ -127,16 +127,20 @@ app.on('activate', () => {
     createWindow();
   }
 });
-app.dock.setIcon(`file://${__dirname}/js.png`)
+
+app.dock.setIcon(`${__dirname}/switch.png`)
+// app.setBadgeCount(10)//提示新消息
+app.dock.bounce();
+
 
 function createWindow() {
   Menu.setApplicationMenu(menu);
   global.mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
-    icon: './favicon.ico',
+    icon: `${__dirname}/js.png`,
     // type: 'desktop',
-    // titleBarStyle: 'hidden'
+    titleBarStyle: 'hidden'
   });
   global.mainWindow.loadURL(`file://${__dirname}/dist/index.html`);
   // 启用开发工具。

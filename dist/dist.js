@@ -4559,8 +4559,9 @@ var Home = function (_Component) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__proxyList__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__filter__ = __webpack_require__(37);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__set__ = __webpack_require__(43);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__css_interface__ = __webpack_require__(82);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__css_interface___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__css_interface__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__akl__ = __webpack_require__(92);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__css_interface__ = __webpack_require__(82);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__css_interface___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__css_interface__);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -4568,6 +4569,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 
 
 
@@ -4610,7 +4612,6 @@ var Interface = function (_Component) {
                 curTab = _state.curTab,
                 nav = _state.nav;
 
-
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
                 { className: 'main' },
@@ -4621,6 +4622,7 @@ var Interface = function (_Component) {
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__home_jsx__["a" /* default */], { ref: 'home' }),
                     curTab == 'proxy' ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__proxyList__["a" /* default */], null) : '',
                     curTab == 'filter' ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__filter__["a" /* default */], null) : '',
+                    curTab == 'building' ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__akl__["a" /* default */], null) : '',
                     curTab == 'set' ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__set__["a" /* default */], null) : ''
                 )
             );
@@ -5854,7 +5856,7 @@ exports = module.exports = __webpack_require__(1)();
 
 
 // module
-exports.push([module.i, "html,\nbody {\n    width: 100%;\n    height: 100%;\n    overflow: hidden;\n}\n\n.interface {\n    height: 100%;\n}\n\n.main {\n    position: relative;\n    padding-top: 63px;\n    height: 100%;\n    background-color: rgb(250, 250, 250);\n}\n\n.tab-body {\n    position: relative;\n    height: 100%;\n}\n\n\n@-webkit-keyframes animation {\n  from {\n    letter-spacing: 32px;\n  }\n  to {\n    letter-spacing: 0;\n  }\n}\n\n\n@keyframes animation {\n  from {\n    letter-spacing: 32px;\n  }\n  to {\n    letter-spacing: 0;\n  }\n}\n\n.animated {\n  // animation: animation 5s ease infinite;\n}\n\nh2 {\n  text-transform: uppercase;\n  white-space: nowrap;\n}", ""]);
+exports.push([module.i, "html,\nbody {\n    width: 100%;\n    height: 100%;\n    overflow: hidden;\n}\n\n.interface {\n    height: 100%;\n}\n\n.main {\n    position: relative;\n    padding-top: 63px;\n    height: 100%;\n    background-color: rgb(250, 250, 250);\n}\n\n.tab-body {\n    position: relative;\n    height: 100%;\n    -webkit-app-region: no-drag;\n}", ""]);
 
 // exports
 
@@ -10008,6 +10010,98 @@ function toArray(list, index) {
 
 module.exports = __webpack_require__(30);
 
+
+/***/ },
+/* 92 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__css_akl__ = __webpack_require__(95);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__css_akl___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__css_akl__);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+var Akl = function (_Component) {
+    _inherits(Akl, _Component);
+
+    function Akl() {
+        _classCallCheck(this, Akl);
+
+        return _possibleConstructorReturn(this, (Akl.__proto__ || Object.getPrototypeOf(Akl)).apply(this, arguments));
+    }
+
+    _createClass(Akl, [{
+        key: 'render',
+        value: function render() {
+            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                { className: 'akl' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { src: __webpack_require__(96), alt: '' })
+            );
+        }
+    }]);
+
+    return Akl;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+/* harmony default export */ exports["a"] = Akl;
+
+/***/ },
+/* 93 */,
+/* 94 */
+/***/ function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)();
+// imports
+
+
+// module
+exports.push([module.i, ".akl {\n    position: fixed;\n    top: 65px;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    background: rgba(255, 255, 255, .7)\n}\n.akl img {\n    display: block;\n    margin: auto\n}", ""]);
+
+// exports
+
+
+/***/ },
+/* 95 */
+/***/ function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(94);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(3)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!./../../node_modules/css-loader/index.js?importLoaders=1!./../../node_modules/postcss-loader/index.js!./akl.less", function() {
+			var newContent = require("!!./../../node_modules/css-loader/index.js?importLoaders=1!./../../node_modules/postcss-loader/index.js!./akl.less");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ },
+/* 96 */
+/***/ function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "dd92fd8d360d2626b56e264cfa282a9c.png";
 
 /***/ }
 /******/ ]);
