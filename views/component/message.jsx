@@ -13,7 +13,7 @@ class Message extends Component {
         this.close = this.close.bind(this);
     }
     componentDidMount() {
-        const {duration, uuid} = this.props;
+        const {duration = 2, uuid} = this.props;
         anim(this.refs[uuid], 'slideInDown');
         if (duration) {
             this.closeTimer = setTimeout(() => {
