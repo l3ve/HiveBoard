@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Switch from './component/switch';
 import message from './component/message';
 import io from './js/socket_client';
+const {ipcRenderer} = require('electron')
+console.log(ipcRenderer);
 
 import './css/home';
 
@@ -27,11 +29,18 @@ class Home extends Component {
         }
         this.hideDetail = this.hideDetail.bind(this);
     }
+    componentDidMount() {
+        console.log(ipcRenderer.sendSync('send',{
+            a:2,
+            name: 'l3ve'
+        }));
+        ipcRenderer.send('ipc','GO');
+    }
     componentWillMount() {
         io.on('sys-msg', (res) => {
             message.success({
-                message: res.msg,
-                duration: 2
+                message: res.msg
+                // duration: 2
             });
         })
         io.on('req&res-Info', (res) => {

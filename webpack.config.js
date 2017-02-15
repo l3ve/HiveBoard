@@ -26,7 +26,8 @@ module.exports = {
     module: {
         //减少依赖的查找
         noParse: [
-            /react\.min/
+            /react\.min/,
+            /electron/
         ],
         rules: [
             {

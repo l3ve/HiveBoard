@@ -1,5 +1,6 @@
 var io = require('socket.io')(),
-    DB = require('./db.js');
+    DB = require('./db.js'),
+    ipcMain = require('electron').ipcMain;
 
 class Io {
     constructor(props) {
@@ -10,6 +11,10 @@ class Io {
         // 代理界面
         io.listen(3333);
         this.start();
+        ipcMain.on('ipc',(e,a)=>{
+            console.log(e,a);
+            e.returnValue = a;
+        })
     }
     start() {
         io.on('connection', (client) => {
