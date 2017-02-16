@@ -30,8 +30,7 @@
     "fetch": "^1.1.0",
     "nedb": "^1.8.0",
     "react": "^15.4.1",
-    "react-dom": "^15.4.1",
-    "socket.io": "^1.7.2"
+    "react-dom": "^15.4.1"
   },
   "devDependencies": {
     "babel-core": "^6.20.0",
