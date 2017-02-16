@@ -1,6 +1,16 @@
 const webpack = require('webpack'),
-    path = require('path');
+    path = require('path'),
+    fs = require('fs');
 var plugins = [];
+var nodeModules = {};
+fs.readdirSync('node_modules')
+    .filter(function (x) {
+        return ['.bin'].indexOf(x) === -1;
+    })
+    .forEach(function (mod) {
+        nodeModules[mod] = 'commonjs ' + mod;
+    });
+
 module.exports = {
     entry: {
         'dist': ['build'],
@@ -23,11 +33,11 @@ module.exports = {
         //自动补全后缀
         extensions: [".js", ".jsx", ".css", ".less", ".png", ".jpg"]
     },
+    externals: { electron: 'commonjs electron'},
     module: {
         //减少依赖的查找
         noParse: [
-            /react\.min/,
-            /electron/
+            /react\.min/
         ],
         rules: [
             {

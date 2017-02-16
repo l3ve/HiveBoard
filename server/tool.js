@@ -28,7 +28,7 @@ exports.loopFsStat = function (pathArr, cb) {
         } else {
             cb({
                 stats: false,
-                localPath:''
+                localPath: ''
             })
         }
     })

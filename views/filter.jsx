@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Checkbox from './component/checkbox';
-import io from './js/socket_client';
+const {ipcRenderer} = require('electron')
 
 
 import './css/filter';
@@ -21,17 +21,17 @@ class Filter extends Component {
         this.switchStatus = this.switchStatus.bind(this);
     }
     componentWillMount() {
-        io.on('filter-status', (res) => {
+        ipcRenderer.on('filter-status', (e,res) => {
             this.setState({
                 filter: res
             });
         })
-        io.emit('init');
+        ipcRenderer.send('init');
     }
     switchStatus(type, status) {
         let {filter} = this.state;
         filter = { ...filter.filterStatus, [type]: status };
-        io.emit('update-filter-type', { id: filter._id, filter: filter });
+        ipcRenderer.send('update-filter-type', { id: filter._id, filter: filter });
     }
     render() {
         const {filterStatus} = this.state.filter;

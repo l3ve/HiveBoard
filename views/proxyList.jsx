@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import io from './js/socket_client';
+const {ipcRenderer} = require('electron')
 import Switch from './component/switch';
 
 import './css/proxyList';
@@ -12,17 +12,17 @@ class ProxyList extends Component {
         };
     }
     componentWillMount() {
-        io.on('all-local-file-list', (res) => {
+        ipcRenderer.on('all-local-file-list', (e,res) => {
             this.setState({
                 proxyFile: res
             });
         })
-        io.emit('init');
+        ipcRenderer.send('init');
     }
     updateInfo({info, i, status}) {
         let _newInfo = {},
             {proxyFile} = this.state;
-        if (this.refs['hfp-' + i].innerHTML  == proxyFile[i].path && this.refs['lfp-' + i].innerHTML == proxyFile[i].localPath) return false;
+        if (this.refs['hfp-' + i].innerHTML == proxyFile[i].path && this.refs['lfp-' + i].innerHTML == proxyFile[i].localPath && !status) return false;
         if (!status) {
             _newInfo = {
                 host: info.host,
@@ -34,13 +34,13 @@ class ProxyList extends Component {
                 where: status == 'checked' ? 'Local' : 'Remote'
             }
         }
-        io.emit('update-info', {
+        ipcRenderer.send('update-info', {
             info: info,
             newInfo: _newInfo
         });
     }
     removeLocalFile(info) {
-        io.emit('remove-info', info);
+        ipcRenderer.send('remove-info', info);
     }
     render() {
         const {proxyFile} = this.state;

@@ -6,7 +6,16 @@
   "main": "main.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/l3ve/httpDebug"
+    "url": "https://github.com/l3ve/Switch"
+  },
+  "keywords": [
+    "Electron",
+    "Switch",
+    "debug",
+    "font-end"
+  ],
+  "bugs": {
+    "url": "https://github.com/l3ve/Switch/issues"
   },
   "scripts": {
     "dev": "webpack --config webpack.config.js -w",

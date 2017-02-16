@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import io from './js/socket_client';
+const {ipcRenderer} = require('electron')
 
 import './css/set';
 
@@ -13,23 +13,23 @@ class Setting extends Component {
         }
     }
     componentWillMount() {
-        io.on('base-local-path', (res) => {
+        ipcRenderer.on('base-local-path', (e,res) => {
             this.setState({
                 baseLocalPath: res
             });
         })
-        io.emit('init');
+        ipcRenderer.send('init');
     }
     updateBaseLocalPath(e, info) {
         if (e.target.value == info.baseLocalPath) return false;
         e.stopPropagation();
-        io.emit('update-base-local-path', { id: info._id, path: e.target.value });
+        ipcRenderer.send('update-base-local-path', { id: info._id, path: e.target.value });
     }
     addSet() {
-        io.emit('update-base-local-path', { path: '/' });
+        ipcRenderer.send('update-base-local-path', { path: '/' });
     }
     removeSet(path) {
-        io.emit('remove-base-local-path', path);
+        ipcRenderer.send('remove-base-local-path', path);
     }
     render() {
         const {baseLocalPath} = this.state;

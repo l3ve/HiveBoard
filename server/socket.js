@@ -1,5 +1,4 @@
-var io = require('socket.io')(),
-    DB = require('./db.js'),
+var DB = require('./db.js'),
     ipcMain = require('electron').ipcMain;
 
 class Io {
@@ -9,43 +8,35 @@ class Io {
         //数据库
         this.db = new DB();
         // 代理界面
-        io.listen(3333);
         this.start();
-        ipcMain.on('ipc',(e,a)=>{
-            console.log(e,a);
-            e.returnValue = a;
-        })
     }
     start() {
-        io.on('connection', (client) => {
-            this.msg({ msg: '已经连接上代理服务器', tag: 'connection-success' })
-            this.saveInfo(client);
-            this.removeInfo(client);
-            this.updateInfo(client);
-            this.updateSetting(client);
-            this.removeSetting(client);
-            this.init(client);
-        })
+        this.saveInfo();
+        this.removeInfo();
+        this.updateInfo();
+        this.updateSetting();
+        this.removeSetting();
+        this.init();
     }
     init(client) {
-        client.on('init', () => {
-            this.getAllfile();
-            this.getBaseLocalPath();
-            this.getFilterStatus();
+        ipcMain.on('init', (e) => {
+            this.getAllfile(e);
+            this.getBaseLocalPath(e);
+            this.getFilterStatus(e);
         })
     }
-    msg(nt) {
-        io.emit('sys-msg', { msg: nt.msg, tag: nt.tag });
+    msg(e,nt) {
+        e.sender.send('sys-msg', { msg: nt.msg, tag: nt.tag });
     }
     checkProxy(u) {
         return this.proxy.find((ele, i) => {
             return ele.path == u.path && ele.host == u.hostname && ele.where == 'Local';
         });
     }
-    getAllfile() {
+    getAllfile(e) {
         this.db.findAll('proxy').then((res) => {
             this.proxy = res;
-            io.emit('all-local-file-list', res);
+            e.sender.send('all-local-file-list', res);
         })
     }
     returnLocalPath(proxy) {
@@ -53,8 +44,8 @@ class Io {
             return path.baseLocalPath + proxy.localPath
         });
     }
-    saveInfo(client) {
-        client.on('change-info', (info) => {
+    saveInfo() {
+        ipcMain.on('change-info', (e,info) => {
             let data = {
                 host: info.req.hostname,
                 path: info.req.path,
@@ -67,23 +58,23 @@ class Io {
                     if (count <= 0) {
                         this.db.insert(data).then((newDoc) => {
                             if (newDoc) {
-                                this.msg({ msg: '添加本地代理成功!', tag: 'add-success' });
-                                this.getAllfile();
+                                this.msg(e,{ msg: '添加本地代理成功!', tag: 'add-success' });
+                                this.getAllfile(e);
                             }
                         });
                     } else {
                         this.db.updateById(info._id, data).then((res) => {
                             if (res >= 1) {
-                                this.msg({ msg: '更新本地代理成功!', tag: 'update-success' });
-                                this.getAllfile();
+                                this.msg(e,{ msg: '更新本地代理成功!', tag: 'update-success' });
+                                this.getAllfile(e);
                             }
                         })
                     }
                 })
         })
     }
-    updateInfo(client) {
-        client.on('update-info', (res) => {
+    updateInfo() {
+        ipcMain.on('update-info', (e,res) => {
             let newDate = {
                 host: res.newInfo.host || res.info.host,
                 path: res.newInfo.path || res.info.path,
@@ -93,70 +84,67 @@ class Io {
             }
             this.db.updateById(res.info._id, newDate).then((res) => {
                 if (res >= 1) {
-                    this.msg({ msg: '更新本地代理成功!', tag: 'update-success' });
-                    this.getAllfile();
+                    this.msg(e,{ msg: '更新本地代理成功!', tag: 'update-success' });
+                    this.getAllfile(e);
                 }
             })
         })
     }
-    removeInfo(client) {
-        client.on('remove-info', (info) => {
+    removeInfo() {
+        ipcMain.on('remove-info', (e,info) => {
             this.db.remove(info._id).then((num) => {
                 if (num >= 1) {
-                    this.msg({ msg: '删除本地代理成功!', tag: 'remove-success' });
-                    this.getAllfile();
+                    this.msg(e,{ msg: '删除本地代理成功!', tag: 'remove-success' });
+                    this.getAllfile(e);
                 }
             })
         })
     }
-    getBaseLocalPath() {
+    getBaseLocalPath(e) {
         this.db.findAll('baseLocalPath').then((res) => {
             this.baseLocalPath = res;
-            io.emit('base-local-path', res);
+            e.sender.send('base-local-path', res);
         })
     }
-    getFilterStatus() {
+    getFilterStatus(e) {
         this.db.findAll('filterStatus').then((res) => {
             this.filterStatus = res[0].filterStatus;
-            io.emit('filter-status', res[0]);
+            e.sender.send('filter-status', res[0]);
         })
     }
-    updateSetting(client) {
-        client.on('update-base-local-path', (res) => {
+    updateSetting() {
+        ipcMain.on('update-base-local-path', (e,res) => {
             this.db.updateById(res.id, {
                 name: 'baseLocalPath',
                 baseLocalPath: res.path
             }).then((res) => {
                 if (res >= 1) {
-                    this.msg({ msg: '更新本地代理地址成功!', tag: 'update-localpath-success' });
-                    this.getBaseLocalPath();
+                    this.msg(e,{ msg: '更新本地代理地址成功!', tag: 'update-localpath-success' });
+                    this.getBaseLocalPath(e);
                 }
             })
         })
-        client.on('update-filter-type', (res) => {
+        ipcMain.on('update-filter-type', (e,res) => {
             this.db.updateById(res.id, {
                 name: 'filterStatus',
                 filterStatus: res.filter
             }).then((res) => {
                 if (res >= 1) {
-                    this.msg({ msg: '更新过滤设置!', tag: 'update-filter-success' });
-                    this.getFilterStatus();
+                    this.msg(e,{ msg: '更新过滤设置!', tag: 'update-filter-success' });
+                    this.getFilterStatus(e);
                 }
             })
         })
     }
-    removeSetting(client) {
-        client.on('remove-base-local-path', (info) => {
+    removeSetting() {
+        ipcMain.on('remove-base-local-path', (e,info) => {
             this.db.remove(info._id).then((num) => {
                 if (num >= 1) {
-                    this.msg({ msg: '删除本地代理成功!', tag: 'remove-success' });
-                    this.getBaseLocalPath();
+                    this.msg(e,{ msg: '删除本地代理成功!', tag: 'remove-success' });
+                    this.getBaseLocalPath(e);
                 }
             })
         })
-    }
-    sendReqAndRes(info) {
-        io.emit('req&res-Info', info);
     }
 }
 
