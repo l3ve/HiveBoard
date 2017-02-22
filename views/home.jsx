@@ -28,13 +28,13 @@ class Home extends Component {
         this.hideDetail = this.hideDetail.bind(this);
     }
     componentWillMount() {
-        ipcRenderer.on('sys-msg', (e,res) => {
+        ipcRenderer.on('sys-msg', (e, res) => {
             message.success({
                 message: res.msg
                 // duration: 2
             });
         })
-        ipcRenderer.on('req&res-Info', (e,res) => {
+        ipcRenderer.on('req&res-Info', (e, res) => {
             let {reqList} = this.state,
                 _isBe = false;
             //去重
@@ -46,13 +46,13 @@ class Home extends Component {
                 reqList: reqList.concat(res)
             });
         })
-        ipcRenderer.on('all-local-file-list', (e,res) => {
+        ipcRenderer.on('all-local-file-list', (e, res) => {
             const _reqMix = this.mixis(res);
             this.setState({
                 reqList: _reqMix
             });
         })
-        ipcRenderer.on('filter-status', (e,res) => {
+        ipcRenderer.on('filter-status', (e, res) => {
             this.setState({
                 filterStatus: res.filterStatus
             });
@@ -107,7 +107,7 @@ class Home extends Component {
             <div className='home'>
                 <div className='proxy-list'>
                     {reqList.map((info, i) => {
-                        if (filterStatus[info.type]=='off') return false;
+                        if (filterStatus[info.type] == 'off') return false;
                         return (
                             <p key={info.type + i} className='the-one' onClick={() => this.showDetail(info)}>
                                 <span className={'type ' + info.type}>{info.type}</span>
@@ -138,6 +138,7 @@ class Home extends Component {
                                     return <p><span>{key} : </span>{reqDetail.res[key]}</p>
                                 })
                             }
+                            <p><span>body : </span>{reqDetail.body}</p>
                         </div>
                     </div>
                 </div>
