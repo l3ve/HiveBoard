@@ -41,7 +41,7 @@ function request(cReq, cRes) {
                     cRes.writeHead(404, { 'Content-Type': 'text/plain' });
                     cRes.end();
                     //与客户端通讯
-                    global.mainWindow.webContents.send('sys-msg',{ msg: `${localPath}找不到文件`, tag: 'unfind' });
+                    global.mainWindow.webContents.send('sys-msg', { msg: `${localPath}找不到文件`, tag: 'unfind' });
                 }
             })
         } else {
@@ -53,7 +53,7 @@ function request(cReq, cRes) {
         });
         pRes.on('end', () => {
             //回传请求的信息
-            global.mainWindow.webContents.send('req&res-Info',{
+            global.mainWindow.webContents.send('req&res-Info', {
                 type: _type,
                 where: proxy ? 'Local' : 'Remote',
                 req: options,
