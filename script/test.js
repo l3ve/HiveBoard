@@ -2,7 +2,7 @@
 
 'use strict';
 
-var electron = require('electron-prebuilt');
+var electron = require('electron');
 var spawnSync = require('child_process').spawnSync;
 var join = require('path').join;
 
