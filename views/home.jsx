@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Switch from './component/switch';
 import message from './component/message';
-const {ipcRenderer} = require('electron')
+const { ipcRenderer } = require('electron')
 
 import './css/home';
 
@@ -35,7 +35,7 @@ class Home extends Component {
             });
         })
         ipcRenderer.on('req&res-Info', (e, res) => {
-            let {reqList} = this.state,
+            let { reqList } = this.state,
                 _isBe = false;
             //去重
             _isBe = reqList.find((info, i) => {
@@ -60,7 +60,7 @@ class Home extends Component {
         ipcRenderer.send('init');
     }
     mixis(proxyFile) {
-        let {reqList} = this.state;
+        let { reqList } = this.state;
         return reqList.map((req) => {
             let _temp = {
                 ...req,
@@ -80,7 +80,7 @@ class Home extends Component {
         })
     }
     saveInfo(info, status) {
-        let {reqList} = this.state;
+        let { reqList } = this.state;
         reqList.forEach((ele, i) => {
             if (ele.req.path == info.req.path && ele.req.hostname == info.req.hostname) {
                 ele.where = status == 'checked' ? 'Local' : 'Remote';
@@ -100,7 +100,7 @@ class Home extends Component {
         });
     }
     render() {
-        const {reqList, reqDetail, detailCls, filterStatus} = this.state,
+        const { reqList, reqDetail, detailCls, filterStatus } = this.state,
             keyForReqHeader = Object.keys(reqDetail.req.headers),
             keyForResHeader = Object.keys(reqDetail.res);
         return (

@@ -31,7 +31,7 @@ class Interface extends Component {
         this.refs.home.hideDetail();
     }
     render() {
-        let {curTab, nav} = this.state;
+        let { curTab, nav } = this.state;
         return (
             <div className='main'>
                 <Nav nav={nav} onSelect={this.switchTab} />
