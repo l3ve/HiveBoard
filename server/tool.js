@@ -5,7 +5,7 @@ exports.classify = function (req) {
         url = req.path,
         reJs = /\.(js$|js\?)/,
         reCss = /\.(css$|css\?)/,
-        reImg = /\.((png|jpg|jpeg|gif)$|(png|jpg|jpeg|gif)\?)/;
+        reImg = /\.((png|jpg|jpeg|gif|ico)$|(png|jpg|jpeg|gif|ico)\?)/;
     if (reJs.test(url)) {
         type = 'js';
     } else if (reCss.test(url)) {
@@ -38,7 +38,7 @@ function PromiseFsStat(localPath) {
     return new Promise((resolve) => {
         fs.stat(localPath, (err, stats) => {
             if (stats) {
-                resolve({stats, localPath})
+                resolve({ stats, localPath })
             }
         })
     })
