@@ -1,9 +1,10 @@
 var fs = require('fs');
 
-exports.classify = function (req) {
+exports.classify = function (req, res) {
     let type = '',
         url = req.path,
-        reJs = /\.(js$|js\?)/,
+        reJson = /application\/json/
+    reJs = /\.(js$|js\?)/,
         reCss = /\.(css$|css\?)/,
         reImg = /\.((png|jpg|jpeg|gif|ico)$|(png|jpg|jpeg|gif|ico)\?)/;
     if (reJs.test(url)) {
@@ -12,6 +13,8 @@ exports.classify = function (req) {
         type = 'css';
     } else if (reImg.test(url)) {
         type = 'img';
+    } else if (reJson.test(res['content-type'])) {
+        type = 'json'
     } else {
         type = 'other';
     }

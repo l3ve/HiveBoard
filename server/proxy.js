@@ -4,7 +4,9 @@ var net = require('net');
 var url = require('url');
 var zlib = require('zlib');
 var Io = require('./socket.js');
-var {classify, loopFsStat} = require('./tool.js');
+var BufferHelper = require('bufferhelper');
+var { classify, loopFsStat } = require('./tool.js');
+var { PORT } = require('../config.json');
 
 const socket = new Io();
 //HTTP代理
@@ -20,10 +22,10 @@ function request(cReq, cRes) {
     var pReq = http.request(options, function (pRes) {
         const proxy = socket.checkProxy(u),
             localPath = proxy ? socket.returnLocalPath(proxy) : '',
-            _type = classify(options);
-        let _data = '';
+            _type = classify(options, pRes.headers);
+        let bufferHelper = new BufferHelper();
         if (proxy) {
-            loopFsStat(localPath, ({stats, localPath}) => {
+            loopFsStat(localPath, ({ stats, localPath }) => {
                 if (stats) {
                     cRes.writeHead(200, pRes.headers);
                     let file = fs.createReadStream(localPath),
@@ -49,16 +51,18 @@ function request(cReq, cRes) {
             pRes.pipe(cRes);
         }
         pRes.on('data', (chunk) => {
-            _data += chunk;
+            bufferHelper.concat(chunk);
         });
         pRes.on('end', () => {
+            let _data = bufferHelper.toBuffer().toString();
+            // console.log(_data.read().toString());
             //回传请求的信息
             global.mainWindow.webContents.send('req&res-Info', {
                 type: _type,
                 where: proxy ? 'Local' : 'Remote',
                 req: options,
                 res: pRes.headers,
-                body: _data
+                body: _type === 'json' ? _data : '非接口对象'
             });
         });
     }).on('error', (e) => {
@@ -96,5 +100,5 @@ function connect(cReq, cSock) {
 http.createServer()
     .on('request', request)
     .on('connect', connect)
-    .listen(3344, '0.0.0.0');
+    .listen(PORT, '0.0.0.0');
 console.log(`Server up and running! On port 3344!`);
