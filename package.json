@@ -19,10 +19,9 @@
   },
   "scripts": {
     "dev": "webpack --config webpack.config.js -w",
-    "pro": "rm -r ./node_modules | yarn install --production",
+    "pro": "bash ./script/build.sh",
     "test": "node ./script/test.js",
     "app": "./node_modules/.bin/electron  .",
-    "build-test": "webpack --config webpack.config.js -p",
     "build": "./node_modules/.bin/electron-rebuild"
   },
   "dependencies": {

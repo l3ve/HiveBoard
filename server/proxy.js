@@ -5,11 +5,11 @@ var url = require('url');
 var zlib = require('zlib');
 var Io = require('./socket.js');
 var BufferHelper = require('bufferhelper');
-var { classify, loopFsStat } = require('./tool.js');
+var { classify, loopFsStat, unzip } = require('./tool.js');
 var { PORT } = require('../config.json');
 
 const socket = new Io();
-//HTTP代理
+// HTTP代理
 function request(cReq, cRes) {
     var u = url.parse(cReq.url);
     var options = {
@@ -30,7 +30,7 @@ function request(cReq, cRes) {
                     cRes.writeHead(200, pRes.headers);
                     let file = fs.createReadStream(localPath),
                         acceptEncoding = pRes.headers['content-encoding'];
-                    //判断是否需要压缩
+                    // 判断是否需要压缩
                     if (acceptEncoding && acceptEncoding.indexOf('gzip') != -1) {
                         var gzipStream = zlib.createGzip();
                         // 设置返回头content-encoding为gzip
@@ -42,7 +42,7 @@ function request(cReq, cRes) {
                 } else {
                     cRes.writeHead(404, { 'Content-Type': 'text/plain' });
                     cRes.end();
-                    //与客户端通讯
+                    // 与客户端通讯
                     global.mainWindow.webContents.send('sys-msg', { msg: `${localPath}找不到文件`, tag: 'unfind' });
                 }
             })
@@ -54,15 +54,13 @@ function request(cReq, cRes) {
             bufferHelper.concat(chunk);
         });
         pRes.on('end', () => {
-            let _data = bufferHelper.toBuffer().toString();
-            // console.log(_data.read().toString());
-            //回传请求的信息
+            // 回传请求的信息
             global.mainWindow.webContents.send('req&res-Info', {
                 type: _type,
                 where: proxy ? 'Local' : 'Remote',
                 req: options,
                 res: pRes.headers,
-                body: _type === 'json' ? _data : '非接口对象'
+                body: _type === 'json' ? unzip(bufferHelper.toBuffer()) : '非接口对象'// 解压response
             });
         });
     }).on('error', (e) => {
@@ -71,7 +69,7 @@ function request(cReq, cRes) {
     cReq.pipe(pReq);
 }
 
-//TCP代理
+// TCP代理
 function connect(cReq, cSock) {
     var _u = url.parse(cReq.url);
     var options = {

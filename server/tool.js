@@ -1,9 +1,10 @@
 var fs = require('fs');
+var zlib = require('zlib');
 
 exports.classify = function (req, res) {
     let type = '',
         url = req.path,
-        reJson = /application\/json/
+        reJson = /application\/json|text\/javascript/
     reJs = /\.(js$|js\?)/,
         reCss = /\.(css$|css\?)/,
         reImg = /\.((png|jpg|jpeg|gif|ico)$|(png|jpg|jpeg|gif|ico)\?)/;
@@ -35,6 +36,14 @@ exports.loopFsStat = function (pathArr, cb) {
             })
         }
     })
+}
+
+exports.unzip = function (chunk) {
+    if (chunk.length > 0) {
+        return zlib.unzipSync(chunk).toString('utf8')
+    } else {
+        return '接口数据为空'
+    }
 }
 
 function PromiseFsStat(localPath) {
