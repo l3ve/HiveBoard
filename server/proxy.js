@@ -60,7 +60,7 @@ function request(cReq, cRes) {
                 where: proxy ? 'Local' : 'Remote',
                 req: options,
                 res: pRes.headers,
-                body: _type === 'json' ? unzip(bufferHelper.toBuffer()) : '非接口对象'// 解压response
+                body: _type === 'json' ? unzip(bufferHelper.toBuffer(), pRes.headers['content-encoding'] === 'gzip' ? true : false) : '非接口对象'// 解压response
             });
         });
     }).on('error', (e) => {

@@ -38,9 +38,11 @@ exports.loopFsStat = function (pathArr, cb) {
     })
 }
 
-exports.unzip = function (chunk) {
-    if (chunk.length > 0) {
+exports.unzip = function (chunk, needGzip) {
+    if (needGzip) {
         return zlib.unzipSync(chunk).toString('utf8')
+    } else if (chunk.length > 0) {
+        return chunk.toString('utf8')
     } else {
         return '接口数据为空'
     }
