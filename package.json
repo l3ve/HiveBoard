@@ -2,7 +2,7 @@
   "name": "Switch",
   "description": "Debug online with Front-end",
   "author": "L3've",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "main": "main.js",
   "repository": {
     "type": "git",

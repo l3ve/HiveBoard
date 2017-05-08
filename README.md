@@ -2,7 +2,7 @@
 
 用惯了livepool,但这家伙不更新了,烦躁不安下,决定自己撸一个
 
-beta版下载地址:[百度网盘](https://pan.baidu.com/s/1c2DZPSW)
+<del>beta版下载地址:[百度网盘](https://pan.baidu.com/s/1c2DZPSW)</del>
 
 [![Build Status](https://travis-ci.org/l3ve/Switch.svg?branch=master)](https://travis-ci.org/l3ve/Switch)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/l3ve/Switch/master/LICENSE.md)
@@ -20,7 +20,7 @@ beta版下载地址:[百度网盘](https://pan.baidu.com/s/1c2DZPSW)
 ##Function
 1. 抓包
 2. 代理本地文件
-3. ...
+3. 查看接口数据
 
 ##How to use
 
@@ -38,7 +38,7 @@ beta版下载地址:[百度网盘](https://pan.baidu.com/s/1c2DZPSW)
 ##TODO:
 
 0. <del>去掉socket.io 改用 自带的ipc</del>
-1. 查看接口数据 ing...
+1. <del>查看接口数据 ing...</del>
 2. <del>可配置socket端口</del>
-3. 查找当前请求
+3. 查找请求
 4. 模拟接口返回数据
